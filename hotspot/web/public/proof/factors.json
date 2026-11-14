@@ -1,0 +1,92 @@
+[
+ {
+  "name": "F1 Terra + Aqua",
+  "season": "fire season",
+  "daynight": "D",
+  "numerator": 10935,
+  "denominator": 4156,
+  "factor": 2.6311,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra + Aqua",
+  "season": "fire season",
+  "daynight": "N",
+  "numerator": 7426,
+  "denominator": 1498,
+  "factor": 4.9573,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra + Aqua",
+  "season": "rest",
+  "daynight": "D",
+  "numerator": 17417,
+  "denominator": 5179,
+  "factor": 3.363,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra + Aqua",
+  "season": "rest",
+  "daynight": "N",
+  "numerator": 1670,
+  "denominator": 145,
+  "factor": 11.5172,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra only",
+  "season": "fire season",
+  "daynight": "D",
+  "numerator": 10935,
+  "denominator": 1877,
+  "factor": 5.8258,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra only",
+  "season": "fire season",
+  "daynight": "N",
+  "numerator": 7426,
+  "denominator": 913,
+  "factor": 8.1336,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra only",
+  "season": "rest",
+  "daynight": "D",
+  "numerator": 17417,
+  "denominator": 1893,
+  "factor": 9.2007,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F1 Terra only",
+  "season": "rest",
+  "daynight": "N",
+  "numerator": 1670,
+  "denominator": 83,
+  "factor": 20.1205,
+  "start": "2012-02-01",
+  "end": "2019-12-31"
+ },
+ {
+  "name": "F2",
+  "season": "all",
+  "daynight": "all",
+  "numerator": 37673,
+  "denominator": 36168,
+  "factor": 1.0416,
+  "start": "2019-01-01",
+  "end": "2025-12-31"
+ }
+]

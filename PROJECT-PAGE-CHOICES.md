@@ -54,11 +54,11 @@ Each row quotes the part of the challenge text it answers.
 
 | # | What we chose to do | What it gains | Result to fill in | On page |
 |---|---|---|---|---|
-| 22 | Before/after chart: naive merge against harmonized | Shows the fake jump in 2012 and that we remove it | Jump in the naive merge: ____ times | [ ] |
-| 23 | Blind test: fit on 2012 to 2016, predict 2017 to 2019 | Shows the method works on years it never saw | Error, all Greece: ____ % ; 1° squares: ____ % | [ ] |
+| 22 | Before/after chart: naive merge against harmonized | Shows the fake jump in 2012 and that we remove it | Jump in the naive merge: 4.5 times in 2012 (9,245 against 2,037 MODIS alone; pipeline run Sat 17:08) | [ ] |
+| 23 | Blind test: fit on 2012 to 2016, predict 2017 to 2019 | Shows the method works on years it never saw | Error, all Greece: 26.3 % (fire-season months; 7.0 % for whole years) ; 1° squares: 27.4 % (per year). With one factor for the whole year it was 37.4 %: the season split is shown as tested and kept | [ ] |
 | 24 | Evia 2021 and Evros 2023, day by day, against Copernicus burned-area maps | Shows the record follows real fires | Evia August 2021: ____ ; Evros: ____ | [ ] |
-| 25 | Yearly record against official EFFIS burned area, 2006 to 2025 | Tests the pre-2012 estimates against an independent source | Agreement: ____ | [ ] |
-| 26 | NOAA-20 against S-NPP on their shared years | Shows the last join is clean | Link factor: ____ | [ ] |
+| 25 | Yearly record against official EFFIS burned area, 2006 to 2025 | Tests the pre-2012 estimates against an independent source | Agreement: rank correlation 0.70 (Pearson 0.89); 2007 is the top year in both | [ ] |
+| 26 | NOAA-20 against S-NPP on their shared years | Shows the last join is clean | Link factor: 1.04 (37,673 NOAA-20 ÷ 36,168 S-NPP, 2019 to 2025) | [ ] |
 
 Publish the results as they come out. If an error is large, say so and widen the range.
 
@@ -67,10 +67,10 @@ Publish the results as they come out. If an error is large, say so and widen the
 | # | What we chose to do | What it gains | Result to fill in | On page |
 |---|---|---|---|---|
 | 27 | A record that starts in 2000 | C: the other public tools we looked at start in 2012. Re-check this before writing it. | Checked: ____ | [ ] |
-| 28 | One finding nobody could make before (for example: was 2007 worse than 2021 or 2023?) | I + C: turns the tool into a discovery | Finding: ____ | [ ] |
+| 28 | One finding nobody could make before (for example: was 2007 worse than 2021 or 2023?) | I + C: turns the tool into a discovery | Finding: 2007 = 22,224 NOAA-20-equivalent hotspots, about 2.3 times 2021 (9,545) and 2.4 times 2023 (9,376); whole-year blind-test error 7 % (worst year 13 %) | [ ] |
 | 29 | "Why now": S-NPP has ended, and Terra and Aqua are planned to stop in 2027 | R + I: the problem is urgent this year, for every long fire record | The challenge section | [ ] |
 | 30 | "Use our data": the open address of the calendar function | C + I: others can build on it | Address: ____ | [ ] |
-| 31 | New measured ratios for the Mediterranean, which we found published nowhere | C + Best Use of Science | Ratio: ____ (range ____ to ____) | [ ] |
+| 31 | New measured ratios for the Mediterranean, which we found published nowhere | C + Best Use of Science | Ratio: June to September 2.63 by day, 4.96 by night; rest of the year 3.36 by day, 11.52 by night (range ____ to ____) | [ ] |
 | 32 | Start with Greece and two fires everyone here remembers | I + Local Impact: a real place and real events, not a demo | Case studies | [ ] |
 | 33 | "Show the arithmetic": every estimate shows the NASA detections and the factor behind it | C + V: a glass box, not a black box | How it works + screenshot of a hover | [ ] |
 | 34 | Three decisions the tool supports: planning the season, raising an alert, comparing a fire with the record | I: shows the quality of the impact, not only who might use it | Who it helps | [ ] |
@@ -132,8 +132,8 @@ Fill rows 50 and 52 only with what really happened. If the brainstorm or a test 
 |---|---|---|---|---|
 | 54 | Frame the problem with NASA's own three differences: spatial resolution, sensitivity, observation schedule. State the goal in NASA's words: "the sensor of origin no longer matters" | R + P: the judge reads the challenge's own language | The challenge: the problem | [ ] |
 | 55 | The looks-per-day rule: add Terra and Aqua (different times), never add the VIIRS satellites (same orbit) | V: answers a question an expert will ask | How it works | [ ] |
-| 56 | Show why the type filter matters: non-vegetation rows are about 2% of MODIS and about 15% of VIIRS | V: the cleaning step is justified with numbers | MODIS ____ %, S-NPP ____ %, NOAA-20 ____ % | [ ] |
-| 57 | Test the obvious alternative, a common grid, and show it fails (optional proof 7) | C + V: we did not assume, we measured | Ratio with no grid ____ ; with a grid ____ | [ ] |
+| 56 | Show why the type filter matters: non-vegetation rows are about 2% of MODIS and about 15% of VIIRS | V: the cleaning step is justified with numbers | MODIS 1.6 %, S-NPP 16.9 %, NOAA-20 14.5 % | [ ] |
+| 57 | Test the obvious alternative, a common grid, and show it fails (optional proof 7) | C + V: we did not assume, we measured | Ratio with no grid 3.41 ; with a grid ____ | [ ] |
 | 58 | Split the factor into sensitivity and resolution, using passes minutes apart (optional proof 6) | C + V: explains where the factor comes from | Aqua saw ____ % of VIIRS fire cells; ____ pixels per MODIS pixel | [ ] |
 | 59 | Say what the record can and cannot answer, with the four-row table | V: honest scope | Limits | [ ] |
 | 60 | Name the VIIRS 750 m product as a next step, and say why it is not the main source | V + C: shows we know NASA's continuity product | Use it and build on it | [ ] |

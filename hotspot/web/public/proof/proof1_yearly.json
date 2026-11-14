@@ -1,0 +1,262 @@
+[
+ {
+  "year": 2000,
+  "MODIS": 85,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 85,
+  "MODIS in N20 units": 894.2,
+  "SNPP in N20 units": null,
+  "harmonized": 894.2
+ },
+ {
+  "year": 2001,
+  "MODIS": 1762,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 1762,
+  "MODIS in N20 units": 15282.1,
+  "SNPP in N20 units": null,
+  "harmonized": 15282.1
+ },
+ {
+  "year": 2002,
+  "MODIS": 845,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 845,
+  "MODIS in N20 units": 3453.7,
+  "SNPP in N20 units": null,
+  "harmonized": 3453.7
+ },
+ {
+  "year": 2003,
+  "MODIS": 1558,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 1558,
+  "MODIS in N20 units": 5202.4,
+  "SNPP in N20 units": null,
+  "harmonized": 5202.4
+ },
+ {
+  "year": 2004,
+  "MODIS": 2024,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 2024,
+  "MODIS in N20 units": 6858.0,
+  "SNPP in N20 units": null,
+  "harmonized": 6858.0
+ },
+ {
+  "year": 2005,
+  "MODIS": 1730,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 1730,
+  "MODIS in N20 units": 6158.2,
+  "SNPP in N20 units": null,
+  "harmonized": 6158.2
+ },
+ {
+  "year": 2006,
+  "MODIS": 1344,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 1344,
+  "MODIS in N20 units": 4634.0,
+  "SNPP in N20 units": null,
+  "harmonized": 4634.0
+ },
+ {
+  "year": 2007,
+  "MODIS": 5970,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 5970,
+  "MODIS in N20 units": 22224.5,
+  "SNPP in N20 units": null,
+  "harmonized": 22224.5
+ },
+ {
+  "year": 2008,
+  "MODIS": 2606,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 2606,
+  "MODIS in N20 units": 9110.3,
+  "SNPP in N20 units": null,
+  "harmonized": 9110.3
+ },
+ {
+  "year": 2009,
+  "MODIS": 1689,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 1689,
+  "MODIS in N20 units": 5868.7,
+  "SNPP in N20 units": null,
+  "harmonized": 5868.7
+ },
+ {
+  "year": 2010,
+  "MODIS": 871,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 871,
+  "MODIS in N20 units": 3063.7,
+  "SNPP in N20 units": null,
+  "harmonized": 3063.7
+ },
+ {
+  "year": 2011,
+  "MODIS": 2524,
+  "SNPP": 0,
+  "NOAA20": 0,
+  "naive sum": 2524,
+  "MODIS in N20 units": 8789.0,
+  "SNPP in N20 units": null,
+  "harmonized": 8789.0
+ },
+ {
+  "year": 2012,
+  "MODIS": 2037,
+  "SNPP": 7208,
+  "NOAA20": 0,
+  "naive sum": 9245,
+  "MODIS in N20 units": 7288.8,
+  "SNPP in N20 units": 7507.9,
+  "harmonized": 7493.7
+ },
+ {
+  "year": 2013,
+  "MODIS": 1732,
+  "SNPP": 5479,
+  "NOAA20": 0,
+  "naive sum": 7211,
+  "MODIS in N20 units": 6097.2,
+  "SNPP in N20 units": 5707.0,
+  "harmonized": 5707.0
+ },
+ {
+  "year": 2014,
+  "MODIS": 1280,
+  "SNPP": 4135,
+  "NOAA20": 0,
+  "naive sum": 5415,
+  "MODIS in N20 units": 4434.3,
+  "SNPP in N20 units": 4307.1,
+  "harmonized": 4307.1
+ },
+ {
+  "year": 2015,
+  "MODIS": 1251,
+  "SNPP": 4292,
+  "NOAA20": 0,
+  "naive sum": 5543,
+  "MODIS in N20 units": 4175.4,
+  "SNPP in N20 units": 4470.6,
+  "harmonized": 4470.6
+ },
+ {
+  "year": 2016,
+  "MODIS": 1573,
+  "SNPP": 5854,
+  "NOAA20": 0,
+  "naive sum": 7427,
+  "MODIS in N20 units": 5787.8,
+  "SNPP in N20 units": 6097.6,
+  "harmonized": 6097.6
+ },
+ {
+  "year": 2017,
+  "MODIS": 1431,
+  "SNPP": 4394,
+  "NOAA20": 0,
+  "naive sum": 5825,
+  "MODIS in N20 units": 5124.1,
+  "SNPP in N20 units": 4576.8,
+  "harmonized": 4576.8
+ },
+ {
+  "year": 2018,
+  "MODIS": 750,
+  "SNPP": 2667,
+  "NOAA20": 2311,
+  "naive sum": 5728,
+  "MODIS in N20 units": 2801.0,
+  "SNPP in N20 units": 2778.0,
+  "harmonized": 2778.0
+ },
+ {
+  "year": 2019,
+  "MODIS": 936,
+  "SNPP": 3473,
+  "NOAA20": 3658,
+  "naive sum": 8067,
+  "MODIS in N20 units": 3339.7,
+  "SNPP in N20 units": 3617.5,
+  "harmonized": 3658.0
+ },
+ {
+  "year": 2020,
+  "MODIS": 1042,
+  "SNPP": 3448,
+  "NOAA20": 3638,
+  "naive sum": 8128,
+  "MODIS in N20 units": 3732.0,
+  "SNPP in N20 units": 3591.5,
+  "harmonized": 3638.0
+ },
+ {
+  "year": 2021,
+  "MODIS": 2271,
+  "SNPP": 9053,
+  "NOAA20": 9545,
+  "naive sum": 20869,
+  "MODIS in N20 units": 9156.0,
+  "SNPP in N20 units": 9429.7,
+  "harmonized": 9545.0
+ },
+ {
+  "year": 2022,
+  "MODIS": 1014,
+  "SNPP": 3610,
+  "NOAA20": 3884,
+  "naive sum": 8508,
+  "MODIS in N20 units": 3986.9,
+  "SNPP in N20 units": 3760.2,
+  "harmonized": 3884.0
+ },
+ {
+  "year": 2023,
+  "MODIS": 3063,
+  "SNPP": 9291,
+  "NOAA20": 9376,
+  "naive sum": 21730,
+  "MODIS in N20 units": 11903.9,
+  "SNPP in N20 units": 9677.6,
+  "harmonized": 9376.0
+ },
+ {
+  "year": 2024,
+  "MODIS": 1143,
+  "SNPP": 3811,
+  "NOAA20": 4273,
+  "naive sum": 9227,
+  "MODIS in N20 units": 4583.4,
+  "SNPP in N20 units": 3969.6,
+  "harmonized": 4273.0
+ },
+ {
+  "year": 2025,
+  "MODIS": 1092,
+  "SNPP": 3482,
+  "NOAA20": 3299,
+  "naive sum": 7873,
+  "MODIS in N20 units": 4299.5,
+  "SNPP in N20 units": 3626.9,
+  "harmonized": 3299.0
+ }
+]
