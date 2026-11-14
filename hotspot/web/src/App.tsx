@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { fetchCalendar } from './api/calendar'
 import AreaPicker, { type Selection } from './components/AreaPicker'
 import CalendarTable from './components/CalendarTable'
+import HeadlineCard from './components/HeadlineCard'
+import Rankings from './components/Rankings'
 import { outsideGreece } from './lib/geo'
 import type { CalendarRow } from './lib/stats'
 
@@ -36,7 +38,11 @@ export default function App() {
             : 'error' in result ? <p role="alert">Could not load the calendar: {result.error}</p>
             : result.rows.length === 0 ? <p>The database has no hotspots yet.</p>
             : result.rows.every(r => r.value === 0) ? <p>No hotspots found in this area in 26 years.</p>
-            : <CalendarTable rows={result.rows} />}
+            : <>
+                <HeadlineCard rows={result.rows} label={selection?.label ?? ''} />
+                <CalendarTable rows={result.rows} />
+                <Rankings rows={result.rows} />
+              </>}
         </main>
       </div>
     </>

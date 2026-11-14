@@ -60,7 +60,8 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 |---|---|
 | Small label above | {North Evia 2021}: selected month |
 | Sentence | Made by `headline()` in `web/src/lib/stats`. Its three forms are below. |
-| Line under the sentence | {3,252} hotspots against a normal of {208}. |
+| Line under the sentence | {3,252} hotspots against a normal of {208}. Shown only after the "N times" form: the other two forms already give both numbers. |
+| Which month | Until a month can be clicked on the calendar, the card shows the area's highest month. |
 | Help line | A hotspot is a spot a satellite saw as hot, usually a fire. Normal is the middle value (median) for that calendar month, 2001 to 2025. |
 
 The three forms the code makes, all correct as written:
@@ -122,8 +123,8 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | Column headings | Top 5 months · Top 5 years · Peak season |
 | Row form | 1. Aug 2021 · 3,252 |
 | Peak season | {July to September} |
-| Peak season line | holds {74}% of a normal year's hotspots |
-| Note | 2000 and 2026 are partial years and are not ranked. |
+| Peak season line | holds {74}% of a normal year's hotspots. **Not shown yet:** `peakSeason()` returns only the months. Person A can make it return the share too. |
+| Note | {2000} and {2026} are partial years and are left out of the top years. (Not "not ranked": their finished months still appear in the top 5 months.) |
 
 ## Downloads (must-have 6)
 

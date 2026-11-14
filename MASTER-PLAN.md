@@ -663,6 +663,8 @@ It writes a log line each run. The daily run also counts as activity on the Supa
 - A library, dataset or service is added to `REFERENCES.md` in the same commit that first uses it.
 - Before every push, run `git diff --cached` and check that no key or password appears. Added 14 Nov, 17:30: on the second machine `hotspot/.env.example` had been filled with the real keys by mistake. It was never committed or pushed, and it is restored to the empty template. Whether to change the Supabase secret key and database password is the team's call (the values were shown once inside a Claude Code session on that machine).
 - `.gitignore` (Person A): add `/greece-firms-data/`. On the second machine the raw data folder sits inside the repository root. Until then it is excluded there in `.git/info/exclude`, together with `/CLAUDE.md` and `/CHATGPT-ENRICHED-EL.md`.
+- Tests on Windows: if Vitest says "failed to find the current suite" for every file, the shell started on `c:\` (lowercase, as VS Code does) and Vitest was loaded twice. Run the tests from the `C:\` path, for example `Set-Location -LiteralPath 'C:\Users\...\hotspot\web'; npx vitest run`. Found 14 Nov, 18:45, on the second machine.
+- The website reads `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` from `hotspot/web/.env` (ignored by Git; public values only). Each machine needs its own copy to run the app locally. The rebuild steps in the README must say so.
 
 ### 9.9 Building with Claude Code
 

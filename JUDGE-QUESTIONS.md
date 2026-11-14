@@ -147,6 +147,8 @@ One row per decision, newest at the bottom. This is the memory of the build: if 
 | Sat 18:45 | All screen words are in `web/content/ui-text.md` and `web/content/method.md`; the layout mock is `design/hotspot-mockup.pdf` | Words invented inside the code | One place to proofread; Person B owns the words | – |
 | Sat 18:45 | The "so far" card says its normal is the median of the **whole** month, which is what the code computes | The mockup's "the median for the same 12 days" | A same-days normal needs daily counts, and `calendar` returns months. Person A may still add it | New question below |
 | Sat 18:45 | The method page names the three differences the challenge lists (resolution, sensitivity, observation schedule). It says sensitivity is the larger part only if proof 7 is published as a script | Saying it now | The grid test was counted on the second machine only (facts file 10.6) | 38 |
+| Sat 18:50 | The headline card shows the area's highest month until a month can be clicked on the calendar (should-have 3) (Person B) | The current month | The current month already has its own card (must-have 12); the highest month is the area's story, and for North Evia it is August 2021 | |
+| Sat 18:50 | The rankings note says partial years are "left out of the top years" (Person B) | "are not ranked" | Their finished months still appear in the top 5 months; only the yearly ranking leaves them out | |
 
 ## New questions
 
