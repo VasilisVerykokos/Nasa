@@ -123,6 +123,6 @@ Add any question you hear or think of here, with the time. Move it to a table ab
 
 | When | Asked by | Question | Answer |
 |---|---|---|---|
-| ______ | ______ | ______ | ______ |
+| Sat 17:30 | Team (Person B) | How do you keep keys out of a public repository? | Keys live only in `.env`, which Git ignores; the website holds only the public (publishable) key; Row Level Security blocks direct table reads; visitors can call only our four functions. |
 | ______ | ______ | ______ | ______ |
 | ______ | ______ | ______ | ______ |

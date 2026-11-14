@@ -5,6 +5,7 @@ NASA Space Apps Challenge 2026, challenge "Harmonization of MODIS and VIIRS Hot 
 - Written Saturday 14 Nov 2026, 01:30 local time, **before the 09:00 start**. It is planning only and contains **no code**. Nothing in it may be built before 09:00.
 - **Updated Saturday 14 Nov, 10:45**, against the official judging criteria shown at the Local Event and the full challenge text. Changed: the judging table (section 2), the challenge checklist and must-haves 3, 5, 6, 8 and 12 (section 3), the method refinements (section 4), the schedule (sections 10 and 11) and the project page outline (section 12). Section 18, on the organisers' six design steps, was added the same morning.
 - **Merged Saturday afternoon:** the second team member's notes (`FOR-MASTER-PLAN.md`, written after the start). Her counts were re-run on this machine and match exactly. Changed: the skip list (section 3), the method (section 4: looks-per-day rule, type-filter numbers, why a grid fails, limits), proofs 6 and 7 (section 5), expected values (section 9.7), the team split (section 11), ChatGPT in the AI log (sections 7 and 16).
+- **Merged Saturday 17:40, on the second machine (Person B):** the rest of `FOR-MASTER-PLAN.md`, which is now deleted. Added: the challenge's difficulty and subjects (section 1), the 750 m side check and the grid-test overlap share (sections 3 and 4), the expected values for proof 6 (section 5), the Greece outline extent (section 9.1), the fake-jump numbers, the Aqua-only ratio and the finding's range (section 9.7), the key check before every push and a `.gitignore` line (section 9.8). Everything else in that note was already here or in `verified-facts.md`.
 - Drafted with AI help (Claude) from the team's discussion. List this in the AI-use disclosure (section 16).
 - Companion file: `verified-facts.md` in this folder. Every fact used here comes from it, with its status (verified, second-hand, unverified). When the two files differ, the facts file wins.
 
@@ -31,7 +32,7 @@ NASA Space Apps Challenge 2026, challenge "Harmonization of MODIS and VIIRS Hot 
 
 ## 1. Topic and goal
 
-**The challenge asks for:** a web app that merges MODIS (1 km, since November 2000) and VIIRS (375 m, since 2012) fire hotspots from NASA FIRMS into one consistent record, and shows a "burning activity calendar" (months × years) for an area and date range the user chooses. It should compare a month with the historical median, use colour ramps everyone can read, and let the user download the hotspots as CSV.
+**The challenge asks for:** a web app that merges MODIS (1 km, since November 2000) and VIIRS (375 m, since 2012) fire hotspots from NASA FIRMS into one consistent record, and shows a "burning activity calendar" (months × years) for an area and date range the user chooses. It should compare a month with the historical median, use colour ramps everyone can read, and let the user download the hotspots as CSV. Difficulty on the challenge page: Intermediate and Advanced. Subjects: Earth Science, Software.
 
 **Our project in one sentence:** pick any area in Greece and see 26 years of fire activity on one consistent scale, with proof that the scale is consistent.
 
@@ -165,7 +166,7 @@ User accounts, chatbot, fire forecasting, grouping hotspots into fire events, fi
 - A day-by-day calendar. The challenge asks for months and years against the median.
 - Matching detections one to one between the sensors, or a 1 km common grid. We tested the grid; it does not harmonize the record (section 4, "Why a common grid fails").
 - Adding MODIS, VIIRS 750 m and VIIRS 375 m together. The two VIIRS products are the same fire, on the same satellite, at the same instant.
-- **The VIIRS 750 m product as the main source.** NASA built it for continuity with MODIS, so a judge may ask about it. We do not use it because FIRMS distributes only MODIS 1 km and VIIRS 375 m, the challenge lists FIRMS as its one resource and asks for the "greater detail" of VIIRS, the 750 m product also starts in 2012 and would still need a factor, and its swath files do not fit in 30 hours. Name it on the project page as a next step.
+- **The VIIRS 750 m product as the main source.** NASA built it for continuity with MODIS, so a judge may ask about it. We do not use it because FIRMS distributes only MODIS 1 km and VIIRS 375 m, the challenge lists FIRMS as its one resource and asks for the "greater detail" of VIIRS, the 750 m product also starts in 2012 and would still need a factor, and its swath files do not fit in 30 hours. Name it on the project page as a next step. A side check through it (MODIS to 750 m to 375 m, North Evia only) was considered and dropped: it would give the same final factor, its two steps would add their errors if used inside the record, and the Aqua and S-NPP coincidences (proof 6) already split resolution from sensitivity.
 
 ---
 
@@ -215,7 +216,7 @@ Three VIIRS satellites fly the same orbit about 25 minutes apart, so adding them
 | The same, cells of about 11 km | 6,256 | 17,949 | 2.87 |
 | The same, cells of about 28 km | 5,265 | 14,655 | 2.78 |
 
-A grid lowers the ratio from 3.4 to about 2.8 and no further, whatever the cell size. So "different kilometres" is two problems. One fire lights more small pixels than large ones, and a grid reduces that: the small part. MODIS never sees the small fires at all, which is sensitivity, and only a factor measured on the shared years covers it: the large part. The grid rows were counted on the second machine only; the first row was reproduced on both.
+A grid lowers the ratio from 3.4 to about 2.8 and no further, whatever the cell size. Only 9% to 20% of the VIIRS cell-days with fire also have a MODIS detection. So "different kilometres" is two problems. One fire lights more small pixels than large ones, and a grid reduces that: the small part. MODIS never sees the small fires at all, which is sensitivity, and only a factor measured on the shared years covers it: the large part. The grid rows were counted on the second machine only; the first row was reproduced on both.
 
 ### Step 4. Measure the S-NPP-to-NOAA-20 link (F2)
 
@@ -291,6 +292,33 @@ The method corrects totals, not single fires. The challenge asks for the first k
 | 7 (optional, Person B) | The grid test of section 4, as a small chart | Shows that we tried the obvious alternative and measured why it fails. |
 
 **Proofs 6 and 7 are Person B's.** She already ran both as quick checks on her machine. To count as proof, each must become a script in the repository that uses the pipeline's own cleaning step, so the filters cannot drift apart. They explain the factor; they do not replace it. Limits of proof 6 to state with it: Aqua only (Terra has no near-simultaneous passes), no large fires in the sample, a small sample (119 days in 8 years at the 5-minute limit), and a pass that detected nothing leaves no row, so the 1-in-4 figure is probably optimistic.
+
+**Expected values for proof 6** (quick check, Greece, Feb 2012 to Dec 2019, second machine only; targets, not numbers for the page).
+
+Matches per MODIS hotspot: an S-NPP hotspot on the same day within about 2 km.
+
+| Time difference | Aqua hotspots with a match | Days | Terra hotspots with a match |
+|---|---|---|---|
+| up to 2 min | 166 (2.7%) | 37 | 0 |
+| up to 5 min | 522 (8.4%) | 119 | 2 |
+| up to 10 min | 1,014 (16.3%) | 228 | 19 |
+| up to 30 min | 2,468 (39.7%) | 506 | 101 (2.1%) |
+| up to 60 min | 3,728 (60.0%) | 742 | 368 (7.7%) |
+
+Totals: 6,212 Aqua and 4,766 Terra hotspots. A match within 2 km is not proof of the same fire: a MODIS pixel reaches 9.6 km² at the swath edge.
+
+The same pass, compared on cells of about 0.1°:
+
+| Measured | Within 5 min | Within 10 min |
+|---|---|---|
+| Days with a coincident pass | 147 | 277 |
+| S-NPP ÷ Aqua in the same pass, day | 3.96 | 3.79 |
+| S-NPP ÷ Aqua in the same pass, night | 7.38 | 6.80 |
+| Cells where S-NPP saw fire that Aqua also saw | 22% | 23% |
+| Cells where Aqua saw fire that S-NPP also saw | 70% | 70% |
+| S-NPP ÷ Aqua pixels in cells both saw | 2.83 | 2.41 |
+
+The day counts differ (119 and 147) because the first table counts days with a matched hotspot and the second counts days with any coincident pass. Sample at 5 minutes: 597 Aqua hotspots by day, 85 by night. The script's last step compares the coincidence ratio with the monthly S-NPP ÷ Aqua ratio (section 9.7); agreement would be independent evidence that F1 measures the sensor.
 
 All proof charts are saved as small data files inside the website, so the proof page works even if the database is down.
 
@@ -435,7 +463,8 @@ pipeline/            Python
   evidence/          typed evidence files (Person B, from verified-facts.md): Evros 2023 and
                      Evia 2021 Copernicus burned area, EFFIS yearly table (2006 to 2026,
                      2026 marked complete=false), greece.geojson (Natural Earth 1:10m,
-                     public domain, 6,096 points). The proofs read these files.
+                     public domain, 6,096 points, 19.63 to 28.24°E, 34.82 to
+                     41.75°N, not widened at the coast). The proofs read these files.
                      The Evia bounding box inside is an ESTIMATE until read off the
                      EMSR527 map.
   validate           the five proofs, saved as small data files for the website
@@ -605,6 +634,7 @@ It writes a log line each run. The daily run also counts as activity on the Supa
 | F1 per year, 2013 to 2019 | 3.07 to 3.72 |
 | F1 per year, 2020 to 2025 (drift years, not used for the fit) | 3.03 to 3.99 |
 | F1 Terra only (S-NPP ÷ Terra) | 37,448 ÷ 4,766 = 7.86 |
+| F1 Aqua only (S-NPP ÷ Aqua), for reference | 37,448 ÷ 6,212 = 6.03 |
 | F2 pooled, 2019 to 2025 (NOAA-20 ÷ S-NPP) | 37,673 ÷ 36,168 = 1.04 |
 | F2 per year, 2019 to 2025 | 1.05, 1.06, 1.05, 1.08, 1.01, 1.12, 0.95 |
 | F2 in 2018 (NOAA-20 starts 1 April) | 0.87 |
@@ -613,8 +643,11 @@ It writes a log line each run. The daily run also counts as activity on the Supa
 | August 2023: MODIS, S-NPP, NOAA-20 | 1,670; 5,420; 5,736 |
 | First Aqua detection | 4 July 2002 |
 | 2021: MODIS alone; all three sources added | 2,271; 20,869 (9 times) |
+| Median yearly MODIS hotspots, 2003 to 2011 | 1,730 |
+| Median yearly MODIS hotspots, 2012 to 2019 (activity did not rise) | 1,355 |
+| Median yearly naive sum MODIS + S-NPP, 2012 to 2017 (proof 1; video, seconds 0 to 5) | 6,518 (almost 4 times) |
 
-**Expected finding (must-have 9), to be confirmed by the pipeline with separate day and night factors:** 2007 has 5,970 MODIS hotspots, which is about 21,200 NOAA-20-equivalent (5,970 × 3.41 × 1.04). 2021 has 9,545 real NOAA-20 hotspots and 2023 has 9,376. So 2007 had roughly twice the hotspot activity of either. EFFIS burned area agrees that 2007 is first (271,715 ha). **Careful with the order of the other two:** by hotspots 2021 and 2023 are nearly equal (2% apart), but by burned area 2023 is clearly larger (174,773 ha against 130,744 ha). Do not write that the order "matches EFFIS" for all three. Say that 2007 leads in both, and that Evros 2023 burned fast and left fewer hotspots per hectare.
+**Expected finding (must-have 9), to be confirmed by the pipeline with separate day and night factors:** 2007 has 5,970 MODIS hotspots, which is about 21,200 NOAA-20-equivalent (5,970 × 3.41 × 1.04; range about 19,100 to 23,100). 2021 has 9,545 real NOAA-20 hotspots and 2023 has 9,376. So 2007 had roughly twice the hotspot activity of either. EFFIS burned area agrees that 2007 is first (271,715 ha). **Careful with the order of the other two:** by hotspots 2021 and 2023 are nearly equal (2% apart), but by burned area 2023 is clearly larger (174,773 ha against 130,744 ha). Do not write that the order "matches EFFIS" for all three. Say that 2007 leads in both, and that Evros 2023 burned fast and left fewer hotspots per hectare.
 
 **Frontend tests (Vitest):** the `stats` rules above, including normal = 0, a normal below 5, and the partial month; the CSV builder.
 
@@ -628,6 +661,8 @@ It writes a log line each run. The daily run also counts as activity on the Supa
 - Secrets only in `.env` files that are listed in `.gitignore` from the first commit.
 - Each AI-assisted file gets a one-line header note, and each session gets a line in `AI_USE.md`.
 - A library, dataset or service is added to `REFERENCES.md` in the same commit that first uses it.
+- Before every push, run `git diff --cached` and check that no key or password appears. Added 14 Nov, 17:30: on the second machine `hotspot/.env.example` had been filled with the real keys by mistake. It was never committed or pushed, and it is restored to the empty template. Whether to change the Supabase secret key and database password is the team's call (the values were shown once inside a Claude Code session on that machine).
+- `.gitignore` (Person A): add `/greece-firms-data/`. On the second machine the raw data folder sits inside the repository root. Until then it is excluded there in `.git/info/exclude`, together with `/CLAUDE.md` and `/CHATGPT-ENRICHED-EL.md`.
 
 ### 9.9 Building with Claude Code
 
