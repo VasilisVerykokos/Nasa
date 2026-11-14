@@ -542,7 +542,7 @@ Size: Greece is about 186,000 raw rows (counted from the downloaded files), fewe
 | `hotspots_export` | Area, date from, date to | Every hotspot row with all columns and its weight | Read in pages of 10,000; hard stop at 200,000 with a message to narrow the selection |
 | `get_meta` | Nothing | Data-through date, coverage outline, factors, uncertainty range | |
 
-`calendar` always returns the whole record because the historical median needs every year. The date range only decides what the screen shows.
+`calendar` always returns the whole record because the historical median needs every year. The date range only decides what the screen shows. (Built 14 Nov: `DateRange` holds two date fields, default 2000-11-01 to the `get_meta` data-through date or today; a bad range shows a message and keeps the last good one. The dates change the years shown and the hotspots download; they never change the statistics or trigger a `calendar` call.)
 
 The raw counts per sensor cost nothing extra in the query. They feed the "show the arithmetic" hover text and the raw-versus-harmonized switch, so build them in from the start.
 
