@@ -523,7 +523,7 @@ Indexes: a spatial index on `geom` and an index on `acq_date`.
 
 **`coverage`**: the outline of each covered country.
 
-**`meta`**: data-through date, last update time, record start, switch dates, F2, uncertainty range, method version.
+**`meta`**: data-through date, last update time, record start, switch dates, F2, uncertainty range, method version. The data stamp reads two keys: `data_through` (a date, `YYYY-MM-DD`) and `last_update` (a UTC time). On 14 Nov, 19:25, the live `get_meta` answered with an empty `meta`, so the page shows "Data date unavailable" until the load and the daily update write these keys.
 
 Size: Greece is about 186,000 raw rows (counted from the downloaded files), fewer after cleaning. My estimate is under 100 MB with indexes, which fits the free plan. Stay under about 1 million rows on the free plan. A monthly summary table is only needed if large countries are added later.
 
@@ -578,7 +578,7 @@ A circle (point + radius) is turned into a shape in the browser, so the database
 - If the normal is 0 (winter months), show the plain number and "normal: 0". Never divide by zero.
 - **Small numbers:** if the normal is below 5, show the two plain numbers and no "N times". "8 against a normal of 2" is honest; "4 times normal" is noise.
 - Peak season = the calendar months with the highest normal values that together hold most of a normal year's hotspots. Shown as a plain phrase, for example "July to September".
-- The calendar CSV carries both the median and the mean for each calendar month, because the challenge mentions both.
+- The calendar CSV carries both the median and the mean for each calendar month, because the challenge mentions both. Columns (built 14 Nov, 19:35): `year, month, hotspots_noaa20_equivalent, modis_detections, snpp_detections, noaa20_detections, provisional_detections, normal_median, normal_mean, difference_from_normal`. The hotspots CSV passes through the columns `hotspots_export` returns, in its order; the website reads it in pages with `?limit=10000&offset=N` and stops at 200,000 rows.
 - 2000 and 2026 are partial years. They are left out of yearly rankings.
 - The current month is labelled "so far" and is never ranked against full months.
 
@@ -663,6 +663,8 @@ It writes a log line each run. The daily run also counts as activity on the Supa
 - A library, dataset or service is added to `REFERENCES.md` in the same commit that first uses it.
 - Before every push, run `git diff --cached` and check that no key or password appears. Added 14 Nov, 17:30: on the second machine `hotspot/.env.example` had been filled with the real keys by mistake. It was never committed or pushed, and it is restored to the empty template. Whether to change the Supabase secret key and database password is the team's call (the values were shown once inside a Claude Code session on that machine).
 - `.gitignore` (Person A): add `/greece-firms-data/`. On the second machine the raw data folder sits inside the repository root. Until then it is excluded there in `.git/info/exclude`, together with `/CLAUDE.md` and `/CHATGPT-ENRICHED-EL.md`.
+- Tests on Windows: if Vitest says "failed to find the current suite" for every file, the shell started on `c:\` (lowercase, as VS Code does) and Vitest was loaded twice. Run the tests from the `C:\` path, for example `Set-Location -LiteralPath 'C:\Users\...\hotspot\web'; npx vitest run`. Found 14 Nov, 18:45, on the second machine.
+- The website reads `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` from `hotspot/web/.env` (ignored by Git; public values only). Each machine needs its own copy to run the app locally. The rebuild steps in the README must say so.
 
 ### 9.9 Building with Claude Code
 

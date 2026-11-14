@@ -74,4 +74,6 @@ In this order. Nothing later may delay anything earlier.
 - Smallest complete solution. Must-haves before should-haves.
 - One step at a time, each with its check.
 - Python is started with `py -3.13`. Node 26.13.1, npm 11.20.0.
+- Run the web tests from the uppercase path, or Vitest loads twice and every file fails ("failed to find the current suite"): `Set-Location -LiteralPath 'C:\Users\diama\Desktop\NASA\hotspot\web'; npx vitest run`.
+- The local app needs `hotspot/web/.env` with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (public values; it exists on this machine). Start it with `npx vite` from the same uppercase path.
 - Explain what you built in plain words when you finish a step. Person B must be able to explain it to a judge.

@@ -1,16 +1,29 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Page skeleton: map column on the left, results on the right (WIREFRAME.md).
 import { useEffect, useState } from 'react'
 import { fetchCalendar } from './api/calendar'
+import { fetchMeta } from './api/meta'
 import AreaPicker, { type Selection } from './components/AreaPicker'
 import CalendarTable from './components/CalendarTable'
+import DataStamp from './components/DataStamp'
+import ExportBar from './components/ExportBar'
+import HeadlineCard from './components/HeadlineCard'
+import { DatabaseMessage, NoHotspots, OutsideGreece, Unreachable } from './components/Messages'
+import Rankings from './components/Rankings'
 import { outsideGreece } from './lib/geo'
 import type { CalendarRow } from './lib/stats'
 
-type Result = { for: Selection } & ({ rows: CalendarRow[] } | { error: string })
+type Result = { for: Selection } & ({ rows: CalendarRow[] } | { error: string; unreachable: boolean })
 
 export default function App() {
   const [selection, setSelection] = useState<Selection | null>(null)
   const [answer, setAnswer] = useState<Result | null>(null)
+  const [attempt, setAttempt] = useState(0) // "Try again" raises it, which repeats the calendar call
+  const [meta, setMeta] = useState<{ values: Record<string, unknown>; at: number } | null>(null)
+
+  // Once per visit: the data-through date for the stamp, and when it arrived. A failed call shows "Data date unavailable".
+  useEffect(() => {
+    fetchMeta().then(values => setMeta({ values, at: Date.now() })).catch(() => setMeta({ values: {}, at: Date.now() }))
+  }, [])
   const outside = selection !== null && outsideGreece(selection.area)
   const result = answer?.for === selection ? answer : 'loading' // an answer for an older area counts as still loading
 
@@ -20,23 +33,31 @@ export default function App() {
     const ctrl = new AbortController()
     fetchCalendar(selection.area, ctrl.signal)
       .then(rows => setAnswer({ for: selection, rows }))
-      .catch(e => ctrl.signal.aborted || setAnswer({ for: selection, error: e.message }))
+      // fetch() throws a TypeError when it gets no answer at all (offline, database down); other errors carry the database's own message.
+      .catch(e => ctrl.signal.aborted || setAnswer({ for: selection, error: e.message, unreachable: e instanceof TypeError }))
     return () => ctrl.abort()
-  }, [selection, outside])
+  }, [selection, outside, attempt])
 
   return (
     <>
-      <header><h1>HOTSPOT</h1></header>
+      <header><h1>HOTSPOT</h1><DataStamp meta={meta?.values ?? null} now={meta?.at ?? 0} /></header>
       <div className="layout">
         <aside aria-label="Area and dates"><AreaPicker onChange={setSelection} /></aside>
         <main aria-live="polite">
           {selection && <h2>{selection.label}</h2>}
-          {outside ? <p role="alert">This area is outside the covered region (Greece).</p>
+          {outside ? <OutsideGreece />
             : result === 'loading' ? <p>Loading the calendar…</p>
-            : 'error' in result ? <p role="alert">Could not load the calendar: {result.error}</p>
+            : 'error' in result ? (result.unreachable
+                ? <Unreachable onRetry={() => { setAnswer(null); setAttempt(a => a + 1) }} />
+                : <DatabaseMessage text={result.error} />)
             : result.rows.length === 0 ? <p>The database has no hotspots yet.</p>
-            : result.rows.every(r => r.value === 0) ? <p>No hotspots found in this area in 26 years.</p>
-            : <CalendarTable rows={result.rows} />}
+            : result.rows.every(r => r.value === 0) ? <NoHotspots />
+            : <>
+                <HeadlineCard rows={result.rows} label={selection?.label ?? ''} />
+                <CalendarTable rows={result.rows} />
+                <Rankings rows={result.rows} />
+                {selection && <ExportBar rows={result.rows} label={selection.label} area={selection.area} />}
+              </>}
         </main>
       </div>
     </>
