@@ -27,7 +27,7 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | NASA FIRMS, VIIRS 375 m active fire products (S-NPP 2012 to 2025, NOAA-20 2018 to 2025), yearly country files, Greece | Hotspots from 2012; the factors F1 and F2 | https://firms.modaps.eosdis.nasa.gov |
 | EFFIS Statistics Portal, yearly burned area for Greece, 2006 to 2025 | Proof 4: our yearly record against an independent one | https://forest-fire.emergency.copernicus.eu/apps/effis.statistics/estimates |
 | Copernicus Emergency Management Service, activation EMSR686 (Evros 2023): burned-area products and area of interest | Dates and burned area of the Evros fire; the Evros preset box | https://mapping.emergency.copernicus.eu/activations/EMSR686/ |
-| Copernicus Emergency Management Service, activation EMSR527 and its bulletin on fire events in the Mediterranean (North Evia 2021) | Start date and burned area of the North Evia fire | https://mapping.emergency.copernicus.eu/activations/EMSR527/ |
+| Copernicus Emergency Management Service, activation EMSR527 and its bulletin on fire events in the Mediterranean (North Evia 2021) | Start date and burned area of the North Evia fire; the North Evia preset box (area of interest AOI01 "Evia", read from the Delineation Monitoring 3 vector files) | https://mapping.emergency.copernicus.eu/activations/EMSR527/ |
 | Natural Earth, 1:10m Admin 0 Countries (public domain) | The Greece outline: clipping and the coverage outline | https://www.naturalearthdata.com |
 
 ## Papers and guides

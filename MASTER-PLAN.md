@@ -239,6 +239,7 @@ Detections from a sensor outside its period stay in the database with weight 0. 
 - The API has standard data for the older months and near-real-time data for the latest ones. Near-real-time data has no `type` column.
 - To remove factories from near-real-time data we build a mask from the archive, following the published GFED5NRT rule: any 0.01° cell with more than five non-vegetation detections is a permanent heat source.
 - The API returns a rectangle that includes parts of neighbouring countries. Rows outside the Greece outline are dropped, so 2026 covers the same ground as earlier years.
+- **Check of 14 Nov, 18:40 (second machine):** the Natural Earth outline is slightly tighter than FIRMS's own Greece files. 1.5% of the cleaned 2025 NOAA-20 hotspots (48 of 3,299) fall outside it, all within about 2.4 km. Proposed by Person B: cut the 2026 rows with the outline widened by 3 km, so 2026 is not about 1.5% low against the archive years. Person A decides.
 
 ### Step 7. Uncertainty
 
@@ -465,8 +466,7 @@ pipeline/            Python
                      2026 marked complete=false), greece.geojson (Natural Earth 1:10m,
                      public domain, 6,096 points, 19.63 to 28.24°E, 34.82 to
                      41.75°N, not widened at the coast). The proofs read these files.
-                     The Evia bounding box inside is an ESTIMATE until read off the
-                     EMSR527 map.
+                     The Evia bounding box inside is VERIFIED (EMSR527 AOI01, 14 Nov).
   validate           the five proofs, saved as small data files for the website
   load_db            load the rows into Supabase
   update_daily       pull new days from the API, clean, weight, insert
@@ -593,7 +593,7 @@ A circle (point + radius) is turned into a shape in the browser, so the database
 **Presets**
 
 - Evros 2023: west 25.536, south 40.749, east 26.317, north 41.261 (the official Copernicus area).
-- North Evia 2021: 23.0 to 23.5°E, 38.75 to 39.05°N. This is a rough box; adjust it against the Copernicus map.
+- North Evia 2021: west 22.966, south 38.674, east 23.509, north 39.063 (the official Copernicus area AOI01 "Evia", EMSR527; settled 14 Nov, 18:40, facts file 10.7). The old rough box (23.0 to 23.5°E, 38.75 to 39.05°N) cut off the south of the fire. The official 19-corner polygon is in `pipeline/evidence/copernicus_evia_2021.json` if an exact shape is wanted; the box holds only one hotspot more in August 2021.
 
 **When things fail:** the page starts from the saved North Evia example and then refreshes from the database. If the database call fails, the example stays with a clear message. The page never shows an empty screen or a raw error.
 
@@ -771,9 +771,9 @@ Why this split: A is the only one who can build the hard parts, so A's hours are
 **What B owns (none of it needs React)**
 
 - **Evidence files:** the Copernicus burned-area dates for Evros and Evia and the EFFIS yearly table, typed from `verified-facts.md` into small data files the proofs read. The Greece outline file.
-- **Open checks:** the exact North Evia box from the Copernicus map, the MODIS confidence boundaries, the claim that other tools start in 2012, similar names on the Teams tab.
+- **Open checks:** the exact North Evia box from the Copernicus map (done 14 Nov, 18:40), the MODIS confidence boundaries, the claim that other tools start in 2012, similar names on the Teams tab.
 - **Paperwork from the first hour:** `REFERENCES.md`, `AI_USE.md`, README.
-- **All words on the screen:** the method page text, button labels, the limits list, the "why now" paragraph.
+- **All words on the screen:** the method page text, button labels, the limits list, the "why now" paragraph. First full draft 14 Nov, 18:45: `web/content/ui-text.md` (every label and message, by component) and `web/content/method.md` (the method page, with the limits and "why now").
 - **Look and feel and loading states** (decisions 9 and 10), with Impeccable.
 - **Testing:** the manual checklist at every checkpoint, on a phone and a second network. B reports bugs; A fixes them.
 - **Presentation:** screenshots, the 30-second video, the pitch slides if allowed.
@@ -930,7 +930,7 @@ Only local winners go to Global Judging, so the pitch matters as much as the pag
 2. **Local deadline: Sunday 15:00** (settled). Still ask the Local Lead about the pitch format.
 3. **Team name.** The project name is HOTSPOT (settled). Write the team name into section 1.
 4. **MODIS confidence cut-off: closed on 14 Nov.** The second team member verified the classes in the MODIS user's guide (table 11): low is under 30. Our cut-off is the official low class.
-5. **North Evia box.** Adjust against the Copernicus EMSR527 map.
+5. **North Evia box: closed on 14 Nov.** Read from the EMSR527 AOI01 vector files: 22.966 to 23.509°E, 38.674 to 39.063°N (section 9.5).
 6. **More countries.** Only after the feature freeze checklist is green, and only within the storage limit.
 7. **Does the daily update stop Supabase from pausing a free project?** Not confirmed.
 8. **The claim that other public tools start in 2012.** Re-check before publishing it.
@@ -1146,7 +1146,7 @@ The last four rows come from the second team member's review of ideas suggested 
 
 **Where the plan stood:** strong. The prototype is a working app on a public link, with a saved example behind it. Two gaps: nobody has drawn the screen yet, and no single picture was named as "the idea".
 
-- **Paper wireframe, 15 minutes, Person B, ready for A by 15:00.** One sheet for the desktop screen and one for the phone. Boxes only: where the map, the calendar, the sentence, the rankings and the buttons sit. A approves it in five minutes before building the skeleton. This settles the layout before any screen code is written, and the photo is evidence of this step.
+- **Paper wireframe, 15 minutes, Person B, ready for A by 15:00.** One sheet for the desktop screen and one for the phone. Boxes only: where the map, the calendar, the sentence, the rankings and the buttons sit. A approves it in five minutes before building the skeleton. This settles the layout before any screen code is written, and the photo is evidence of this step. **Status 14 Nov, 18:45:** the screen is drawn as a clickable layout mock (desktop, phone, method page), printed to `design/hotspot-mockup.pdf`, with its words in `web/content/`. A paper redraw for the process photo is still to do.
 - **The one picture that is the idea:** the same calendar twice, raw and harmonized, with the jump in 2012 in the first and gone in the second. If a judge sees only one image, it should be this one. It is image 1 on the project page, the opening of the video, and the raw-versus-harmonized switch in the app.
 - **Three levels of prototype, so the idea can always be shown:**
 

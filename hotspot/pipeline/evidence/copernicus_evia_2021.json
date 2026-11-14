@@ -1,24 +1,39 @@
 {
-  "note": "AI note: written with Claude Code from verified-facts.md sections 6 and 9.4.",
+  "note": "AI note: written with Claude Code from verified-facts.md sections 5 and 9.4, and from the EMSR527 AOI01 Monitoring 3 vector package (read 14 Nov 2026).",
   "event": "North Evia wildfire 2021",
   "source": "Copernicus EMS activation EMSR527 and the Copernicus EMS bulletin on fire events in the Mediterranean",
   "source_urls": [
     "https://mapping.emergency.copernicus.eu/activations/EMSR527/",
-    "https://mapping.emergency.copernicus.eu/news/the-copernicus-emergency-management-service-monitors-fire-events-in-the-mediterranean-region/"
+    "https://mapping.emergency.copernicus.eu/news/the-copernicus-emergency-management-service-monitors-fire-events-in-the-mediterranean-region/",
+    "https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR527/EMSR527_AOI01_DEL_MONIT03_r1_RTP01_v1_vector.zip"
   ],
   "start_date": "2021-08-03",
   "start_status": "VERIFIED (EMSR527)",
   "burned_area": [
     { "date": "2021-08-05", "ha": 7313, "status": "VERIFIED (Copernicus bulletin)" },
-    { "date": "2021-08-11", "ha": 50909, "status": "VERIFIED (Copernicus bulletin)" }
+    { "date": "2021-08-11", "ha": 50909, "status": "VERIFIED (Copernicus bulletin; the Monitoring 3 burnt-area polygon sums to 50,909.9 ha, mapped from a SPOT-6/7 image of 11 Aug 2021, 09:04 UTC)" }
   ],
   "last_copernicus_product_date": "2021-08-14",
   "end_of_fire": "Not stated. Use: last Copernicus product dated 14 Aug 2021. The claim 'mostly extinguished 12 Aug' is UNVERIFIED.",
   "bounding_box": {
-    "west": 23.0,
-    "south": 38.75,
-    "east": 23.5,
-    "north": 39.05,
-    "status": "ESTIMATE, UNVERIFIED. Adjust against the EMSR527 PDF map (AOI01, Monitoring 3)."
-  }
+    "west": 22.966,
+    "south": 38.674,
+    "east": 23.509,
+    "north": 39.063,
+    "status": "VERIFIED (area of interest AOI01 'Evia', EMSR527 Delineation Monitoring 3; the box around the official shape, rounded outwards to 3 decimals)",
+    "replaces": "the rough estimate 23.0 to 23.5 E, 38.75 to 39.05 N, which cut off the south of the burnt area (it reaches 38.701 N)"
+  },
+  "burned_area_extent_2021_08_11": {
+    "west": 23.1755,
+    "south": 38.7012,
+    "east": 23.4647,
+    "north": 39.0395,
+    "status": "VERIFIED (bounds of the Monitoring 3 burnt-area polygon)"
+  },
+  "area_of_interest_polygon": {
+    "type": "Polygon",
+    "coordinates": [[[23.508935, 38.845678], [23.488255, 38.819272], [23.475882, 38.803567], [23.468744, 38.786911], [23.452088, 38.751695], [23.446853, 38.729804], [23.435907, 38.709817], [23.424962, 38.691733], [23.412029, 38.674205], [23.279591, 38.764776], [23.180497, 38.829145], [22.971416, 38.824731], [22.96627, 38.931616], [23.13867, 39.014482], [23.315671, 39.062134], [23.382675, 39.006212], [23.440469, 38.949244], [23.493164, 38.851368], [23.508935, 38.845678]]],
+    "status": "VERIFIED (AOI01 'Evia', 19 corners, longitude and latitude in degrees)"
+  },
+  "check_2021_08_noaa20": "NOAA-20, August 2021, type 0, confidence not l, raw Greece file: 3,110 hotspots in the old rough box, 3,252 in the new box, 3,251 inside the official polygon. A quick check on the second machine, not a number for the project page."
 }
