@@ -1,0 +1,161 @@
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 3: calendar heatmap (years × months) as a plain React SVG, so ExportBar can save it as an image. Words: web/content/ui-text.md.
+import { type KeyboardEvent, useState } from 'react'
+import { MONTH_NAMES, type Range, countColor, describeMonth, diffColor, fmtCount, sensorOf } from '../lib/heatmap'
+import { type CalendarRow, completeYears, currentMonth, differenceFromNormal, normalFor, yearTotals } from '../lib/stats'
+import CalendarTable from './CalendarTable'
+
+type Cell = { name: string; text: string; fill?: string; label?: string; est?: boolean; prov?: boolean; soFar?: boolean; none?: boolean }
+type Props = { rows: CalendarRow[]; label: string; meta: Record<string, unknown>; fromYear?: number; toYear?: number }
+
+// Layout in SVG units; the SVG scales to its box, so it fits a phone without sideways scrolling.
+const L = 52, CW = 26, CH = 16, G = 2, TW = 64, TOP = 58, W = L + 12 * CW + TW
+const KEYS: Record<string, [number, number]> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }
+const clamp = (v: number, hi: number) => Math.max(0, Math.min(v, hi))
+const date = (v: unknown) => {
+  const d = typeof v === 'string' ? new Date(v) : null
+  return d && !Number.isNaN(d.getTime()) ? d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }) : null
+}
+
+/** fromYear/toYear only choose the years shown; colours and normals always use the whole record. */
+export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinity, toYear = Infinity }: Props) {
+  const [view, setView] = useState<'count' | 'diff'>('count')
+  const [table, setTable] = useState(false)
+  const [pos, setPos] = useState<[number, number]>([0, 0]) // the grid's single tab stop
+  const [shown, setShown] = useState(false)
+
+  const at = new Map(rows.map(r => [r.year * 12 + r.month, r]))
+  const diff = new Map(differenceFromNormal(rows).map(d => [d.year * 12 + d.month, d.difference]))
+  const normals = MONTH_NAMES.map((_, i) => normalFor(rows, i + 1).median)
+  const max = Math.max(...rows.map(r => r.value))
+  const maxAbs = Math.max(...[...diff.values()].map(Math.abs))
+  const now = currentMonth(rows)
+  const complete = completeYears(rows)
+  const totals = yearTotals(rows)
+  const range = Array.isArray(meta.uncertainty) ? (meta.uncertainty as Range) : null // shortcut: get_meta has one range, used for every area; a wider drawn-area range would need a second meta key
+  const years = [...totals.keys()].sort((a, b) => a - b).filter(y => y >= fromYear && y <= toYear)
+  const partial = years.filter(y => !complete.includes(y))
+  const color = (v: number, d: number) => (view === 'count' ? countColor(v, max) : diffColor(d, maxAbs))
+
+  const monthCell = (y: number, m: number): Cell => {
+    const r = at.get(y * 12 + m)
+    const when = `${MONTH_NAMES[m - 1]} ${y}`
+    if (!r) return { name: `${when}, no data`, text: `${when}: no data.`, none: true }
+    const soFar = r === now
+    return { ...describeMonth(r, normals[m - 1], range, soFar), fill: color(r.value, diff.get(y * 12 + m)!), est: sensorOf(y, m) === 'modis', prov: r.provisional > 0, soFar }
+  }
+  const normalSum = normals.reduce((a, b) => a + b, 0)
+  const grid: { head: string; cells: Cell[] }[] = [
+    ...years.map(y => {
+      const t = fmtCount(totals.get(y)!), p = partial.includes(y)
+      return { head: `${y}${p ? '*' : ''}`, cells: [...MONTH_NAMES.map((_, i) => monthCell(y, i + 1)),
+        { label: t, name: `${y} total, ${t} hotspots${p ? ', partial year' : ''}`, text: `${y} total: ${t} hotspots.${p ? ' A partial year, left out of yearly rankings.' : ''}` }] }
+    }),
+    { head: 'Normal', cells: [...normals.map((v, i) => ({ fill: color(v, 0), name: `Normal ${MONTH_NAMES[i]}, ${fmtCount(v)} hotspots`,
+        text: `Normal ${MONTH_NAMES[i]}: ${fmtCount(v)} hotspots, the median of ${complete[0]} to ${complete.at(-1)}.` })),
+      { label: fmtCount(normalSum), name: `Normal year, ${fmtCount(normalSum)} hotspots`, text: `Normal year: ${fmtCount(normalSum)} hotspots, the sum of the monthly normals.` }] },
+  ]
+  const [pr, pc] = [clamp(pos[0], grid.length - 1), pos[1]]
+  const x = (c: number) => L + c * CW
+  const y = (r: number) => TOP + r * CH + (r === years.length ? 6 : 0) // a small gap before the normal row
+  const bottom = y(grid.length)
+  const H = bottom + 96
+  const through = date(meta.data_through)
+
+  function onKey(e: KeyboardEvent) {
+    if (e.key === 'Escape') return setShown(false)
+    const step = KEYS[e.key] ?? (e.key === 'Home' ? [0, -12] : e.key === 'End' ? [0, 12] : null)
+    if (!step) return
+    e.preventDefault()
+    document.getElementById(`hm-${clamp(pr + step[0], grid.length - 1)}-${clamp(pc + step[1], 12)}`)?.focus()
+  }
+  const show = (r: number, c: number) => { setPos([r, c]); setShown(true) }
+
+  return (
+    <section className="heatmap" aria-labelledby="heatmap-heading">
+      <h3 id="heatmap-heading">{`Calendar, ${years[0]} to ${years.at(-1)}`}</h3>
+      <fieldset className="switch">
+        <legend>Show</legend>
+        <label><input type="radio" name="hm-view" checked={view === 'count'} onChange={() => setView('count')} /> Hotspots</label>
+        <label><input type="radio" name="hm-view" checked={view === 'diff'} onChange={() => setView('diff')} /> Difference from normal</label>
+      </fieldset>
+      <button type="button" onClick={() => setTable(t => !t)}>{table ? 'Show as calendar' : 'Show as table'}</button>
+      {table && <CalendarTable rows={rows} />}
+      {/* Hidden, not removed, in table view: the image download reads this SVG. */}
+      <div hidden={table}>
+        <p className="hint hm-phone">Slide the box sideways for all months.</p>
+        <div className="hm-scroll">
+        <svg id="calendar-image" xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${W} ${H}`} width={W} height={H}
+          fontFamily="system-ui, sans-serif" fontSize={11} onMouseLeave={() => setShown(false)}>
+          <defs>
+            <pattern id="hm-est" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+              <line x1="0" y1="0" x2="0" y2="4" stroke="#fff" strokeOpacity="0.5" />
+            </pattern>
+            <pattern id="hm-none" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+              <rect width="4" height="4" fill="#e6e6e6" /><line x1="0" y1="0" x2="0" y2="4" stroke="#aaa" />
+            </pattern>
+            <linearGradient id="hm-ramp">
+              {[...Array(11).keys()].map(i => {
+                const s = view === 'count' ? i / 10 : i / 5 - 1
+                return <stop key={i} offset={i / 10} stopColor={view === 'count' ? countColor(s * s, 1) : diffColor(Math.sign(s) * s * s, 1)} />
+              })}
+            </linearGradient>
+          </defs>
+          <rect width={W} height={H} fill="#fff" />
+          <text x={0} y={16} fontSize={15} fontWeight="bold">{label}</text>
+          <text x={0} y={33} fill="#555">{`${view === 'count' ? 'Hotspots per month, NOAA-20 equivalent' : 'Difference from normal'}${through ? `. Data through ${through}.` : '.'}`}</text>
+          <g aria-hidden="true" fill="#333">
+            {MONTH_NAMES.map((m, i) => <text key={m} x={x(i) + (CW - G) / 2} y={TOP - 5} textAnchor="middle">{m.slice(0, 3)}</text>)}
+            <text x={W - 2} y={TOP - 5} textAnchor="end">Year total</text>
+            {grid.map((row, r) => <text key={row.head} x={L - 6} y={y(r) + CH - 5} textAnchor="end">{row.head}</text>)}
+          </g>
+          <g role="grid" aria-label="Calendar of hotspots per month. Use the arrow keys to move between months." onKeyDown={onKey}
+            onBlur={e => e.currentTarget.contains(e.relatedTarget as Node) || setShown(false)}>
+            {grid.map((row, r) => (
+              <g role="row" key={row.head}>
+                {row.cells.map((c, col) => (
+                  <rect key={col} id={`hm-${r}-${col}`} role="gridcell" aria-label={c.name} tabIndex={r === pr && col === pc ? 0 : -1}
+                    x={x(col)} y={y(r)} width={col === 12 ? TW - G : CW - G} height={CH - G}
+                    fill={c.none ? 'url(#hm-none)' : c.fill ?? '#fff'} onFocus={() => show(r, col)} onMouseEnter={() => show(r, col)} />
+                ))}
+              </g>
+            ))}
+          </g>
+          <g aria-hidden="true" pointerEvents="none">
+            {grid.flatMap((row, r) => row.cells.map((c, col) => (
+              <g key={`${r}-${col}`}>
+                {c.est && <rect x={x(col)} y={y(r)} width={CW - G} height={CH - G} fill="url(#hm-est)" />}
+                {c.prov && <circle cx={x(col) + CW - G - 4} cy={y(r) + 4} r={2.5} fill="#fff" stroke="#000" />}
+                {c.soFar && <rect x={x(col) + 1} y={y(r) + 1} width={CW - G - 2} height={CH - G - 2} fill="none" stroke="#000" strokeDasharray="2 2" />}
+                {c.label && <text x={x(col) + TW - G - 4} y={y(r) + CH - 5} textAnchor="end" fill="#1a1a1a">{c.label}</text>}
+              </g>
+            )))}
+            {shown && <rect x={x(pc) - 1} y={y(pr) - 1} width={(pc === 12 ? TW : CW) - G + 2} height={CH - G + 2} fill="none" stroke="#000" strokeWidth={2} />}
+          </g>
+          <g aria-hidden="true" transform={`translate(0 ${bottom + 14})`} fill="#333">
+            <text y={10}>{view === 'count' ? 'Hotspots per month (square-root scale)' : 'Below normal · Normal · Above normal'}</text>
+            <rect x={230} y={0} width={190} height={10} fill="url(#hm-ramp)" />
+            {(view === 'count' ? ['0', fmtCount(max / 4), fmtCount(max)] : [`-${fmtCount(maxAbs)}`, 'Normal', `+${fmtCount(maxAbs)}`]).map((t, i) => (
+              <text key={i} x={230 + i * 95} y={22} fontSize={10} textAnchor={(['start', 'middle', 'end'] as const)[i]}>{t}</text>
+            ))}
+            {['Estimated before 2012', 'No data', 'Provisional', 'This month so far'].map((t, i) => {
+              const lx = (i % 2) * 210, ly = 32 + Math.floor(i / 2) * 16
+              return (
+                <g key={t} transform={`translate(${lx} ${ly})`}>
+                  <rect width={CW - G} height={CH - G} fill={i === 1 ? 'url(#hm-none)' : countColor(1, 4)} />
+                  {i === 0 && <rect width={CW - G} height={CH - G} fill="url(#hm-est)" />}
+                  {i === 2 && <circle cx={CW - G - 4} cy={4} r={2.5} fill="#fff" stroke="#000" />}
+                  {i === 3 && <rect x={1} y={1} width={CW - G - 2} height={CH - G - 2} fill="none" stroke="#000" strokeDasharray="2 2" />}
+                  <text x={CW + 4} y={CH - 5}>{t}</text>
+                </g>
+              )
+            })}
+            {partial.length > 0 && <text y={78}>{`* ${partial.join(' and ')} ${partial.length > 1 ? 'are partial years' : 'is a partial year'}, left out of yearly rankings.`}</text>}
+            <text y={92}>{`Normal = the median of each calendar month, ${complete[0]} to ${complete.at(-1)}.`}</text>
+          </g>
+        </svg>
+        </div>
+        <p className="hm-info" aria-live="polite">{shown ? `${grid[pr].cells[pc].text} Press another cell to compare.` : 'Point at a month or tab to the calendar to see its number and how it was worked out.'}</p>
+      </div>
+    </section>
+  )
+}

@@ -74,6 +74,12 @@ describe('thisMonthSoFar (must-have 12)', () => {
     expect(t).toMatchObject({ year: 2004, month: 3, value: 210, normal: 6, ratio: 35, rank: null })
     expect(t.sentence).toBe('March 2004 so far is 35.0 times the normal March here.')
   })
+  it('uses the same first days (so_far) for the normal, and drops "so far" when the data stopped', () => {
+    const days = rows.map(r => (r.month === 3 ? { ...r, so_far: r.value / 3 } : r)) // normal March for the same days: 6 / 3 = 2
+    expect(thisMonthSoFar(days)).toMatchObject({ normal: 2, ratio: null, sentence: 'March 2004 so far has 210 hotspots here, against a normal of 2.' })
+    expect(thisMonthSoFar(days, true).sentence).toBe('March 2004 had 210 hotspots here, against a normal of 2.')
+    expect(thisMonthSoFar(rows.map(r => ({ ...r, so_far: 0 }))).sentence).toBe('March 2004 so far has 210 hotspots here (normal: 0).')
+  })
 })
 
 describe('rankings', () => {

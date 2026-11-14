@@ -55,7 +55,7 @@ Each row quotes the part of the challenge text it answers.
 | # | What we chose to do | What it gains | Result to fill in | On page |
 |---|---|---|---|---|
 | 22 | Before/after chart: naive merge against harmonized | Shows the fake jump in 2012 and that we remove it | Jump in the naive merge: 4.5 times in 2012 (9,245 against 2,037 MODIS alone; pipeline run Sat 17:08) | [ ] |
-| 23 | Blind test: fit on 2012 to 2016, predict 2017 to 2019 | Shows the method works on years it never saw | Error, all Greece: 26.3 % (fire-season months; 7.0 % for whole years) ; 1° squares: 27.4 % (per year). With one factor for the whole year it was 37.4 %: the season split is shown as tested and kept | [ ] |
+| 23 | Blind test: fit on 2012 to 2016, predict 2017 to 2019 | Shows the method works on years it never saw | Error, all Greece: 26.3 % (fire-season months; 7.8 % for whole years) ; 1° squares: 26.3 % (per year). With one factor for the whole year it was 37.4 %: the season split is shown as tested and kept | [ ] |
 | 24 | Evia 2021 and Evros 2023, day by day, against Copernicus burned-area maps | Shows the record follows real fires | Evia August 2021: ____ ; Evros: ____ | [ ] |
 | 25 | Yearly record against official EFFIS burned area, 2006 to 2025 | Tests the pre-2012 estimates against an independent source | Agreement: rank correlation 0.70 (Pearson 0.89); 2007 is the top year in both | [ ] |
 | 26 | NOAA-20 against S-NPP on their shared years | Shows the last join is clean | Link factor: 1.04 (37,673 NOAA-20 ÷ 36,168 S-NPP, 2019 to 2025) | [ ] |
@@ -67,7 +67,7 @@ Publish the results as they come out. If an error is large, say so and widen the
 | # | What we chose to do | What it gains | Result to fill in | On page |
 |---|---|---|---|---|
 | 27 | A record that starts in 2000 | C: the other public tools we looked at start in 2012. Re-check this before writing it. | Checked: ____ | [ ] |
-| 28 | One finding nobody could make before (for example: was 2007 worse than 2021 or 2023?) | I + C: turns the tool into a discovery | Finding: 2007 = 22,224 NOAA-20-equivalent hotspots, about 2.3 times 2021 (9,545) and 2.4 times 2023 (9,376); whole-year blind-test error 7 % (worst year 13 %) | [ ] |
+| 28 | One finding nobody could make before (for example: was 2007 worse than 2021 or 2023?) | I + C: turns the tool into a discovery | Finding: 2007 = 22,224 NOAA-20-equivalent hotspots, about 2.3 times 2021 (9,545) and 2.4 times 2023 (9,376); whole-year blind-test error 8 % (worst year 11 %). August 2007 = 11,606 (8,554 to 14,658) against 6,893 (2021) and 5,736 (2023) | [ ] |
 | 29 | "Why now": S-NPP has ended, and Terra and Aqua are planned to stop in 2027 | R + I: the problem is urgent this year, for every long fire record | The challenge section | [ ] |
 | 30 | "Use our data": the open address of the calendar function | C + I: others can build on it | Address: ____ | [ ] |
 | 31 | New measured ratios for the Mediterranean, which we found published nowhere | C + Best Use of Science | Ratio: June to September 2.63 by day, 4.96 by night; rest of the year 3.36 by day, 11.52 by night (range ____ to ____) | [ ] |

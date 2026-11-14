@@ -18,6 +18,8 @@ VIIRS_DROP_CONFIDENCE = "l"
 FIT_START, FIT_END = "2012-02-01", "2019-12-31"
 AQUA_START = "2002-07-01"  # Aqua's first data is 4 Jul 2002; before this MODIS means Terra alone
 
+MIN_DETECTIONS = 100  # plan, section 4, step 3: an F1 cell with fewer MODIS detections falls back to a pooled factor
+
 # S-NPP to NOAA-20 link (plan, section 4, step 4): the full shared years
 F2_START, F2_END = "2019-01-01", "2025-12-31"
 

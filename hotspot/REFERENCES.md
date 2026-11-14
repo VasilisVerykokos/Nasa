@@ -12,6 +12,7 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | Vitest | Tests for the website's statistics | MIT | https://vitest.dev |
 | Leaflet | The map on the website | BSD-2-Clause | https://leafletjs.com |
 | Leaflet-Geoman (free edition) | Drawing a polygon or rectangle on the map | MIT | https://geoman.io |
+| d3-scale-chromatic | The cividis colour ramp of the calendar heatmap (cividis: Nuñez, Anderton and Renslow 2018, PLOS ONE, https://doi.org/10.1371/journal.pone.0199239) | ISC | https://github.com/d3/d3-scale-chromatic |
 | PostgreSQL | The database that holds the hotspots and runs the four functions | PostgreSQL License | https://www.postgresql.org |
 | PostGIS | Map maths in the database: tests each hotspot against the drawn area | GPL-2.0-or-later | https://postgis.net |
 | psycopg 3 | Connects the Python scripts to the database | LGPL-3.0 | https://www.psycopg.org |

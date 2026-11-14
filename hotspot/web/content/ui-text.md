@@ -76,10 +76,10 @@ The three forms the code makes, all correct as written:
 |---|---|
 | Badge | So far |
 | Sentence | Made by `thisMonthSoFar()`, for example "November 2026 so far has 2 hotspots here, against a normal of 1." |
-| Help line | Normal here is the median for the whole month, 2001 to 2025. The month is not finished, so its count can still rise, and it is not ranked. |
+| Help line | Normal here is the median of the same first {12} days of the month, 2001 to 2025. The month is not finished, so its count can still rise, and it is not ranked. (The second sentence is left out when the "API failed" line shows.) |
 | API failed | The newest days could not be loaded. Showing {October 2026}, the latest complete month. |
 
-**CODE:** the mockup said "Normal is the median for the same 12 days". The code compares the days so far with the normal for the **whole** month, so the help line above says that instead. A same-days normal would need daily counts, and `calendar` returns months. Person A decides; the honest text above works with the code as it is.
+**CODE:** done (`ThisMonthCard.tsx`, Sat 20:45). `calendar` returns `so_far`, so the card compares with the median of the same first days, as the mockup said. "API failed" shows when the newest data is not from the current month.
 
 ## View switch and calendar (must-have 3)
 
@@ -95,7 +95,7 @@ The three forms the code makes, all correct as written:
 | Normal row | Normal |
 | Partial year mark | {2026}* |
 | Note under the calendar | * {2026} is a partial year, left out of yearly rankings. Normal = the median of each calendar month, 2001 to 2025. |
-| Phone hint | Slide the box sideways for all months. The year column stays in place. |
+| Phone hint | Slide the box sideways for all months. (The year column does not stay in place: the calendar is one picture, so it can be saved as an image. Pinning it would need a second picture.) |
 | Legend, counts | Hotspots per month (square-root scale) |
 | Legend, difference | Below normal · Normal · Above normal |
 | Legend, patterns | Estimated before 2012 · No data · Provisional · This month so far |
@@ -138,7 +138,7 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | Nothing to download | No hotspots to download for this area and these dates. |
 
 **CODE:** above 200,000 rows the database stops first, with its own words: "This selection has {N} hotspots; the export limit is 200,000. Choose a smaller area or a shorter date range." The page shows that text as it is. It is clear, so it can stay; to use the "Too many rows" text above instead, Person A changes the message in `db/schema.sql`.
-| Not shown yet | "Download calendar (image)" waits for the heatmap; "Copy link" waits for the share link (should-have 5). |
+| Not shown yet | "Copy link" waits for the share link (should-have 5). |
 | Hint | Files are named with the area and the dates, for example hotspot-calendar_north-evia-2021_2000-11_2026-11.csv |
 
 ## Messages (must-have 8)

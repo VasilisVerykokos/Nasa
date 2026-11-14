@@ -49,7 +49,7 @@ export function lastDay(ym: string) {
 }
 
 /** "hotspot-calendar_north-evia-2021_2000-11_2026-11.csv" (ui-text.md, Downloads). */
-export function fileName(kind: 'calendar' | 'hotspots', label: string, from: string, to: string) {
+export function fileName(kind: 'calendar' | 'hotspots', label: string, from: string, to: string, ext = 'csv') {
   const area = label.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'area'
-  return `hotspot-${kind}_${area}_${from}_${to}.csv`
+  return `hotspot-${kind}_${area}_${from}_${to}.${ext}`
 }

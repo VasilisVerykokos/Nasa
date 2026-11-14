@@ -14,6 +14,7 @@ const area: Polygon = { type: 'Polygon', coordinates: [[[23, 38.7], [23.5, 38.7]
 it('offers the two CSV downloads and names the file after the area and the months', () => {
   const html = renderToStaticMarkup(<ExportBar rows={rows} label="North Evia 2021" area={area} />)
   expect(html).toContain('>Download calendar (CSV)</button>')
+  expect(html).toContain('>Download calendar (image)</button>')
   expect(html).toContain('>Download hotspots (CSV)</button>')
   expect(html).toContain('hotspot-calendar_north-evia-2021_2001-01_2003-02.csv')
 })

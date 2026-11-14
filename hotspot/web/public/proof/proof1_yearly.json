@@ -5,9 +5,9 @@
   "SNPP": 0,
   "NOAA20": 0,
   "naive sum": 85,
-  "MODIS in N20 units": 894.2,
+  "MODIS in N20 units": 814.1,
   "SNPP in N20 units": null,
-  "harmonized": 894.2
+  "harmonized": 814.1
  },
  {
   "year": 2001,
@@ -15,9 +15,9 @@
   "SNPP": 0,
   "NOAA20": 0,
   "naive sum": 1762,
-  "MODIS in N20 units": 15282.1,
+  "MODIS in N20 units": 14812.8,
   "SNPP in N20 units": null,
-  "harmonized": 15282.1
+  "harmonized": 14812.8
  },
  {
   "year": 2002,
@@ -25,9 +25,9 @@
   "SNPP": 0,
   "NOAA20": 0,
   "naive sum": 845,
-  "MODIS in N20 units": 3453.7,
+  "MODIS in N20 units": 3407.9,
   "SNPP in N20 units": null,
-  "harmonized": 3453.7
+  "harmonized": 3407.9
  },
  {
   "year": 2003,

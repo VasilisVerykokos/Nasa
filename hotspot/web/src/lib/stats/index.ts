@@ -1,6 +1,7 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Statistics rules of MASTER-PLAN section 9.5.
 
-export type CalendarRow = { year: number; month: number; value: number; modis: number; snpp: number; noaa20: number; provisional: number }
+/** `so_far`: the month's value for days 1 to D only, D = day of the newest hotspot (db/schema.sql). */
+export type CalendarRow = { year: number; month: number; value: number; modis: number; snpp: number; noaa20: number; provisional: number; so_far?: number }
 
 /** Share of a normal year the peak season must hold (decision log, JUDGE-QUESTIONS.md). */
 export const PEAK_SEASON_SHARE = 0.6
@@ -70,10 +71,22 @@ export function headline(rows: CalendarRow[], year: number, month: number): stri
   return body + rank + '.'
 }
 
-/** Must-have 12: this month so far against normal. */
-export function thisMonthSoFar(rows: CalendarRow[]) {
+/** Must-have 12: the latest month against the median of the same first days of that month in complete years
+ * (`so_far`, decision log Sat 17:55; the whole month if `so_far` is missing). `finished`: the data stopped, so it is not "so far". */
+export function thisMonthSoFar(rows: CalendarRow[], finished = false) {
   const { year, month } = currentMonth(rows)
-  return { ...compare(rows, year, month), sentence: headline(rows, year, month) }
+  const c = compare(rows, year, month)
+  const years = new Set(completeYears(rows))
+  const normal = median(rows.filter(r => r.month === month && years.has(r.year)).map(r => r.so_far ?? r.value))
+  const ratio = normal < SMALL_NORMAL ? null : c.value / normal
+  const name = MONTHS[month - 1]
+  const when = `${name} ${year}${finished ? '' : ' so far'}`
+  const [has, is] = finished ? ['had', 'was'] : ['has', 'is']
+  const sentence =
+    normal === 0 ? `${when} ${has} ${hotspots(c.value)} here (normal: 0).`
+    : ratio === null ? `${when} ${has} ${hotspots(c.value)} here, against a normal of ${fmt(normal)}.`
+    : `${when} ${is} ${ratio.toFixed(1)} times the normal ${name} here.`
+  return { ...c, normal, ratio, sentence }
 }
 
 /** Top months among finished months (the current month is never ranked). */

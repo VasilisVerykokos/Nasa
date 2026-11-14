@@ -27,3 +27,12 @@ main h2 { margin-top: 0; }
 .calendar table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .calendar th, .calendar td { padding: 2px 6px; text-align: right; border-bottom: 1px solid #eee; }
 .calendar caption { text-align: left; color: var(--muted); }
+.hm-scroll { overflow-x: auto; } /* on a phone the calendar slides inside this box; the page itself never scrolls sideways */
+.heatmap svg { display: block; width: 100%; min-width: 560px; max-width: 640px; height: auto; margin-top: 8px; } /* 560: labels about 14 px */
+.hm-phone { display: none; }
+@media (max-width: 599px) { .hm-phone { display: block; } }
+.heatmap rect:focus { outline: none; } /* the SVG draws its own black frame around the focused cell */
+.switch { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.switch legend { float: left; margin-right: 8px; }
+.switch label { min-height: 44px; display: inline-flex; align-items: center; gap: 4px; }
+.hm-info { min-height: 3em; }

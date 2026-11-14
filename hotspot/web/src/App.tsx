@@ -3,12 +3,13 @@ import { useEffect, useState } from 'react'
 import { fetchCalendar } from './api/calendar'
 import { fetchMeta } from './api/meta'
 import AreaPicker, { type Selection } from './components/AreaPicker'
-import CalendarTable from './components/CalendarTable'
+import CalendarHeatmap from './components/CalendarHeatmap'
 import DataStamp from './components/DataStamp'
 import ExportBar from './components/ExportBar'
 import HeadlineCard from './components/HeadlineCard'
 import { DatabaseMessage, NoHotspots, OutsideGreece, Unreachable } from './components/Messages'
 import Rankings from './components/Rankings'
+import ThisMonthCard from './components/ThisMonthCard'
 import { outsideGreece } from './lib/geo'
 import type { CalendarRow } from './lib/stats'
 
@@ -54,7 +55,8 @@ export default function App() {
             : result.rows.every(r => r.value === 0) ? <NoHotspots />
             : <>
                 <HeadlineCard rows={result.rows} label={selection?.label ?? ''} />
-                <CalendarTable rows={result.rows} />
+                <ThisMonthCard rows={result.rows} meta={meta?.values ?? {}} />
+                <CalendarHeatmap rows={result.rows} label={selection?.label ?? ''} meta={meta?.values ?? {}} />
                 <Rankings rows={result.rows} />
                 {selection && <ExportBar rows={result.rows} label={selection.label} area={selection.area} />}
               </>}

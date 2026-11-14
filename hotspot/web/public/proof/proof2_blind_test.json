@@ -1,16 +1,16 @@
 {
  "summary": {
-  "yearly_error_pct": 7.0,
+  "yearly_error_pct": 7.8,
   "fire_season_month_error_pct": 26.3,
   "fire_season_month_worst_pct": 55.3,
-  "square_year_error_pct": 27.4,
+  "square_year_error_pct": 26.3,
   "square_years": 32
  },
  "factors_2012_2016": {
   "fire season D": 2.688,
   "fire season N": 5.32,
   "rest D": 3.299,
-  "rest N": 10.633
+  "rest N": 5.751
  },
  "fire_season_months": [
   6,
@@ -21,21 +21,21 @@
  "years": [
   {
    "year": 2017,
-   "predicted": 4964.765,
+   "predicted": 4886.666,
    "real": 4394,
-   "error_pct": 12.99
+   "error_pct": 11.212
   },
   {
    "year": 2018,
-   "predicted": 2678.707,
+   "predicted": 2585.964,
    "real": 2667,
-   "error_pct": 0.439
+   "error_pct": -3.038
   },
   {
    "year": 2019,
-   "predicted": 3209.951,
+   "predicted": 3151.377,
    "real": 3473,
-   "error_pct": -7.574
+   "error_pct": -9.261
   }
  ],
  "months": [
@@ -70,9 +70,9 @@
   {
    "year": 2017,
    "month": 5,
-   "predicted": 77.348,
+   "predicted": 67.585,
    "real": 49,
-   "error_pct": 57.853
+   "error_pct": 37.93
   },
   {
    "year": 2017,
@@ -105,9 +105,9 @@
   {
    "year": 2017,
    "month": 10,
-   "predicted": 1283.705,
+   "predicted": 1215.368,
    "real": 1044,
-   "error_pct": 22.96
+   "error_pct": 16.415
   },
   {
    "year": 2017,
@@ -126,23 +126,23 @@
   {
    "year": 2018,
    "month": 1,
-   "predicted": 177.053,
+   "predicted": 162.409,
    "real": 195,
-   "error_pct": -9.204
+   "error_pct": -16.713
   },
   {
    "year": 2018,
    "month": 2,
-   "predicted": 33.725,
+   "predicted": 28.844,
    "real": 34,
-   "error_pct": -0.807
+   "error_pct": -15.164
   },
   {
    "year": 2018,
    "month": 3,
-   "predicted": 148.477,
+   "predicted": 104.547,
    "real": 184,
-   "error_pct": -19.306
+   "error_pct": -43.181
   },
   {
    "year": 2018,
@@ -154,9 +154,9 @@
   {
    "year": 2018,
    "month": 5,
-   "predicted": 27.863,
+   "predicted": 18.101,
    "real": 48,
-   "error_pct": -41.952
+   "error_pct": -62.29
   },
   {
    "year": 2018,
@@ -189,16 +189,16 @@
   {
    "year": 2018,
    "month": 10,
-   "predicted": 790.662,
+   "predicted": 776.019,
    "real": 655,
-   "error_pct": 20.712
+   "error_pct": 18.476
   },
   {
    "year": 2018,
    "month": 11,
-   "predicted": 488.984,
+   "predicted": 484.103,
    "real": 447,
-   "error_pct": 9.392
+   "error_pct": 8.3
   },
   {
    "year": 2018,
@@ -231,16 +231,16 @@
   {
    "year": 2019,
    "month": 4,
-   "predicted": 80.647,
+   "predicted": 70.884,
    "real": 107,
-   "error_pct": -24.629
+   "error_pct": -33.753
   },
   {
    "year": 2019,
    "month": 5,
-   "predicted": 49.129,
+   "predicted": 29.604,
    "real": 38,
-   "error_pct": 29.286
+   "error_pct": -22.095
   },
   {
    "year": 2019,
@@ -273,16 +273,16 @@
   {
    "year": 2019,
    "month": 10,
-   "predicted": 670.072,
+   "predicted": 645.666,
    "real": 807,
-   "error_pct": -16.968
+   "error_pct": -19.992
   },
   {
    "year": 2019,
    "month": 11,
-   "predicted": 96.406,
+   "predicted": 91.525,
    "real": 138,
-   "error_pct": -30.141
+   "error_pct": -33.678
   },
   {
    "year": 2019,
@@ -329,25 +329,25 @@
    "year": 2017,
    "lat": 38,
    "lon": 21,
-   "predicted": 123.792,
+   "predicted": 118.911,
    "real": 173.0,
-   "error_pct": -28.444
+   "error_pct": -31.265
   },
   {
    "year": 2017,
    "lat": 38,
    "lon": 23,
-   "predicted": 639.255,
+   "predicted": 605.087,
    "real": 389.0,
-   "error_pct": 64.333
+   "error_pct": 55.549
   },
   {
    "year": 2017,
    "lat": 39,
    "lon": 20,
-   "predicted": 268.083,
+   "predicted": 263.202,
    "real": 280.0,
-   "error_pct": -4.256
+   "error_pct": -5.999
   },
   {
    "year": 2017,
@@ -409,9 +409,9 @@
    "year": 2018,
    "lat": 35,
    "lon": 23,
-   "predicted": 158.466,
+   "predicted": 119.417,
    "real": 113.0,
-   "error_pct": 40.236
+   "error_pct": 5.679
   },
   {
    "year": 2018,
@@ -425,9 +425,9 @@
    "year": 2018,
    "lat": 38,
    "lon": 23,
-   "predicted": 259.726,
+   "predicted": 254.845,
    "real": 140.0,
-   "error_pct": 85.519
+   "error_pct": 82.032
   },
   {
    "year": 2018,
@@ -457,33 +457,33 @@
    "year": 2018,
    "lat": 40,
    "lon": 23,
-   "predicted": 121.52,
+   "predicted": 116.639,
    "real": 192.0,
-   "error_pct": -36.708
+   "error_pct": -39.251
   },
   {
    "year": 2018,
    "lat": 41,
    "lon": 23,
-   "predicted": 211.384,
+   "predicted": 201.621,
    "real": 227.0,
-   "error_pct": -6.879
+   "error_pct": -11.18
   },
   {
    "year": 2019,
    "lat": 38,
    "lon": 21,
-   "predicted": 91.149,
+   "predicted": 86.268,
    "real": 118.0,
-   "error_pct": -22.755
+   "error_pct": -26.891
   },
   {
    "year": 2019,
    "lat": 38,
    "lon": 23,
-   "predicted": 448.278,
+   "predicted": 443.397,
    "real": 367.0,
-   "error_pct": 22.147
+   "error_pct": 20.817
   },
   {
    "year": 2019,

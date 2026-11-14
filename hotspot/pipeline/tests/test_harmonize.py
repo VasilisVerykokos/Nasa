@@ -38,7 +38,7 @@ def test_known_ratio_of_3_gives_factor_3_per_season_and_ignores_months_outside_t
         hs("MODIS", "Terra", WINTER, "N", 1), hs("MODIS", "Aqua", WINTER, "N", 1),
         hs("MODIS", "Aqua", "2021-08-01", "D", 50),        # after the fit window: ignored by F1
         hs("SNPP", "S-NPP", "2020-08-01", "D", 1), hs("NOAA20", "NOAA-20", "2020-08-01", "N", 3))
-    f = fit(df)
+    f = fit(df, min_detections=1)
     assert factor(f, "F1 Terra + Aqua", "fire season", "D") == 3 and factor(f, "F1 Terra + Aqua", "fire season", "N") == 3
     assert factor(f, "F1 Terra + Aqua", "rest", "D") == 4 and factor(f, "F1 Terra + Aqua", "rest", "N") == 10
     assert factor(f, "F1 Terra only", "fire season", "D") == 6 and factor(f, "F1 Terra only", "rest", "N") == 20
@@ -54,13 +54,40 @@ def test_fit_window_is_a_setting_for_the_blind_test():
                hs("SNPP", "S-NPP", WINTER, "N", 1), hs("MODIS", "Terra", WINTER, "N", 1),
                hs("SNPP", "S-NPP", "2017-08-01", "D", 10), hs("MODIS", "Terra", "2017-08-01", "D", 1),
                hs("SNPP", "S-NPP", "2020-08-01", "D", 1), hs("NOAA20", "NOAA-20", "2020-08-01", "D", 1))
-    assert factor(fit(df, fit_end="2016-12-31"), "F1 Terra + Aqua", "fire season", "D") == 3
-    assert factor(fit(df), "F1 Terra + Aqua", "fire season", "D") == 13 / 2
+    assert factor(fit(df, fit_end="2016-12-31", min_detections=1), "F1 Terra + Aqua", "fire season", "D") == 3
+    assert factor(fit(df, min_detections=1), "F1 Terra + Aqua", "fire season", "D") == 13 / 2
 
 
-def test_no_denominator_hotspots_stops_instead_of_dividing_by_zero():
+def test_no_modis_hotspots_in_the_window_stops_instead_of_dividing_by_zero():
     with pytest.raises(ValueError):
-        fit(table(hs("SNPP", "S-NPP", SUMMER, "D"), hs("MODIS", "Aqua", SUMMER, "D")))  # nothing at night or in winter
+        fit(table(hs("SNPP", "S-NPP", SUMMER, "D"), hs("MODIS", "Aqua", "2021-08-01", "D")))  # MODIS only after the window
+
+
+def _cells(fire_day_modis):
+    """Fire season by day: `fire_day_modis` MODIS and 3x as many S-NPP. Every other cell: 100 MODIS, 5x S-NPP."""
+    return table(hs("MODIS", "Terra", SUMMER, "D", fire_day_modis), hs("SNPP", "S-NPP", SUMMER, "D", 3 * fire_day_modis),
+                 hs("MODIS", "Terra", WINTER, "D", 100), hs("SNPP", "S-NPP", WINTER, "D", 500),
+                 hs("MODIS", "Terra", SUMMER, "N", 100), hs("SNPP", "S-NPP", SUMMER, "N", 500),
+                 hs("MODIS", "Terra", WINTER, "N", 100), hs("SNPP", "S-NPP", WINTER, "N", 500),
+                 hs("SNPP", "S-NPP", "2020-08-01", "D"), hs("NOAA20", "NOAA-20", "2020-08-01", "D"))
+
+
+def test_cell_with_99_detections_falls_back_to_both_seasons_and_100_does_not():
+    f = fit(_cells(99)).set_index(["name", "season", "daynight"])
+    cell = f.loc[("F1 Terra + Aqua", "fire season", "D")]
+    assert cell["factor"] == pytest.approx((297 + 500) / (99 + 100)) and cell["uses"].startswith("both seasons pooled")
+    assert f.loc[("F1 Terra + Aqua", "rest", "D"), "uses"] == "own cell"  # the neighbour keeps its own ratio of 5
+
+    cell = fit(_cells(100)).set_index(["name", "season", "daynight"]).loc[("F1 Terra + Aqua", "fire season", "D")]
+    assert cell["factor"] == 3 and cell["uses"] == "own cell"
+
+
+def test_day_or_night_still_under_the_minimum_pools_everything():
+    df = table(hs("MODIS", "Terra", SUMMER, "D", 100), hs("SNPP", "S-NPP", SUMMER, "D", 300),
+               hs("MODIS", "Terra", SUMMER, "N", 10), hs("SNPP", "S-NPP", SUMMER, "N", 100),   # 10 night in all
+               hs("SNPP", "S-NPP", "2020-08-01", "D"), hs("NOAA20", "NOAA-20", "2020-08-01", "D"))
+    cell = fit(df).set_index(["name", "season", "daynight"]).loc[("F1 Terra + Aqua", "fire season", "N")]
+    assert cell["factor"] == pytest.approx(400 / 110) and cell["uses"].startswith("both seasons, day and night pooled")
 
 
 FACTORS = pd.DataFrame({
