@@ -6,11 +6,7 @@
 # Local Claude Code instructions (machine paths)
 hotspot/CLAUDE.md
 
-# Local planning files and raw data (kept outside the repository)
-/MASTER-PLAN.md
-/JUDGE-QUESTIONS.md
-/PROJECT-PAGE-CHOICES.md
-/verified-facts.md
+# Raw data (kept outside the repository)
 /data/
 /greece-firms-data.zip
 
