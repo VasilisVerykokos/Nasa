@@ -14,8 +14,17 @@ export const sensorOf = (year: number, month: number) => {
   return k < SNPP_START ? 'modis' : k < NOAA20_START ? 'snpp' : 'noaa20'
 }
 
-/** Counts: cividis on a square-root scale, so the few huge months do not wash out the rest. */
-export const countColor = (v: number, max: number) => interpolateCividis(max > 0 ? Math.sqrt(Math.max(v, 0) / max) : 0)
+/** Counts: cividis on a square-root scale, so the few huge months do not wash out the rest. Above `max`: the top colour. */
+export const countColor = (v: number, max: number) => interpolateCividis(max > 0 ? Math.sqrt(Math.min(Math.max(v, 0) / max, 1)) : 0)
+
+export type View = 'count' | 'diff' | 'raw'
+
+/** Should-have 1: the naive sum the challenge warns against, no scaling. */
+export const rawOf = (r: CalendarRow) => r.modis + r.snpp + r.noaa20
+
+/** One cell's colour. `max` is the harmonized maximum in both count views, so raw and harmonized compare by eye. */
+export const cellColor = (view: View, r: CalendarRow, max: number, diff: number, maxAbs: number) =>
+  view === 'diff' ? diffColor(diff, maxAbs) : countColor(view === 'raw' ? rawOf(r) : r.value, max)
 
 // Blue, near-white at normal, orange (ColorBrewer PuOr/RdBu end colours, colour-blind safe).
 const STOPS = [[33, 102, 172], [242, 242, 242], [179, 88, 6]]
@@ -52,6 +61,20 @@ export function describeMonth(r: CalendarRow, normal: number, range: Range | nul
     `${when}: ${estimate ? 'about ' : ''}${n(r.value)} hotspots${estimate ? ', an estimate' : ''}.`,
     arithmetic(r, range),
     normal === 0 ? `Normal ${month}: 0.` : `${signed(r.value - normal)} against the normal ${month} of ${n(normal)}.`,
+    r.provisional > 0 ? 'Provisional: near-real-time data until NASA releases the final data.' : '',
+  ].filter(Boolean).join(' ')
+  return { name, text }
+}
+
+/** Raw view: the three counts and their sum, next to the harmonized value it should be read against. */
+export function describeRaw(r: CalendarRow, soFar: boolean) {
+  const when = `${MONTH_NAMES[r.month - 1]} ${r.year}${soFar ? ' so far' : ''}`
+  const raw = rawOf(r)
+  const name = `${when}, ${n(raw)} detections, sensors simply added${r.provisional > 0 ? ', provisional' : ''}`
+  const text = [
+    `${when}: ${n(raw)} detections, sensors simply added.`,
+    `MODIS ${n(r.modis)} + S-NPP ${n(r.snpp)} + NOAA-20 ${n(r.noaa20)} = ${n(raw)}.`,
+    `Harmonized: ${sensorOf(r.year, r.month) === 'modis' ? 'about ' : ''}${n(r.value)} hotspots.`,
     r.provisional > 0 ? 'Provisional: near-real-time data until NASA releases the final data.' : '',
   ].filter(Boolean).join(' ')
   return { name, text }

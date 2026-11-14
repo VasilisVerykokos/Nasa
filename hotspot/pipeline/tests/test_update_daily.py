@@ -3,10 +3,39 @@ import sys
 from datetime import date
 from pathlib import Path
 
+import traceback
+
 import pandas as pd
+import pytest
+import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import update_daily  # noqa: E402
 from update_daily import clean_api, factory_cells, windows  # noqa: E402
+
+KEY = "abc123secretkey"
+
+
+def failed_status(url, timeout):
+    r = requests.Response()
+    r.status_code, r.url, r.reason = 403, url, "Forbidden"
+    return r
+
+
+def no_connection(url, timeout):
+    raise requests.ConnectionError(f"Max retries exceeded with url: {url}")
+
+
+@pytest.mark.parametrize("fake_get", [failed_status, no_connection])
+def test_a_failed_request_never_shows_the_key(monkeypatch, fake_get):
+    monkeypatch.setattr(update_daily.requests, "get", fake_get)
+    with pytest.raises(ConnectionError) as e:
+        update_daily.fetch(KEY, "VIIRS_NOAA20_NRT", date(2026, 11, 1), date(2026, 11, 3))
+    shown = "".join(traceback.format_exception(e.value))  # what a crash would print, chained errors included
+    assert KEY not in shown
+    assert "VIIRS_NOAA20_NRT 2026-11-01 to 2026-11-03" in str(e.value)
+    if fake_get is failed_status:
+        assert "HTTP 403" in str(e.value)
 
 
 def test_requests_cover_every_day_in_steps_of_at_most_five():

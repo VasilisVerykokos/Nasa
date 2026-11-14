@@ -1,6 +1,6 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 3: calendar heatmap (years × months) as a plain React SVG, so ExportBar can save it as an image. Words: web/content/ui-text.md.
 import { type KeyboardEvent, useState } from 'react'
-import { MONTH_NAMES, type Range, countColor, describeMonth, diffColor, fmtCount, sensorOf } from '../lib/heatmap'
+import { MONTH_NAMES, type Range, type View, cellColor, countColor, describeMonth, describeRaw, diffColor, fmtCount, rawOf, sensorOf } from '../lib/heatmap'
 import { type CalendarRow, completeYears, currentMonth, differenceFromNormal, normalFor, yearTotals } from '../lib/stats'
 import CalendarTable from './CalendarTable'
 
@@ -10,6 +10,7 @@ type Props = { rows: CalendarRow[]; label: string; meta: Record<string, unknown>
 // Layout in SVG units; the SVG scales to its box, so it fits a phone without sideways scrolling.
 const L = 52, CW = 26, CH = 16, G = 2, TW = 64, TOP = 58, W = L + 12 * CW + TW
 const KEYS: Record<string, [number, number]> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }
+const VIEWS: Record<View, string> = { count: 'Hotspots', diff: 'Difference from normal', raw: 'Raw (sensors simply added)' }
 const clamp = (v: number, hi: number) => Math.max(0, Math.min(v, hi))
 const date = (v: unknown) => {
   const d = typeof v === 'string' ? new Date(v) : null
@@ -18,7 +19,8 @@ const date = (v: unknown) => {
 
 /** fromYear/toYear only choose the years shown; colours and normals always use the whole record. */
 export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinity, toYear = Infinity }: Props) {
-  const [view, setView] = useState<'count' | 'diff'>('count')
+  const [view, setView] = useState<View>('count')
+  const raw = view === 'raw'
   const [table, setTable] = useState(false)
   const [pos, setPos] = useState<[number, number]>([0, 0]) // the grid's single tab stop
   const [shown, setShown] = useState(false)
@@ -30,28 +32,31 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
   const maxAbs = Math.max(...[...diff.values()].map(Math.abs))
   const now = currentMonth(rows)
   const complete = completeYears(rows)
-  const totals = yearTotals(rows)
+  const totals = yearTotals(raw ? rows.map(r => ({ ...r, value: rawOf(r) })) : rows)
+  const rawMax = Math.max(...rows.map(rawOf))
   const range = Array.isArray(meta.uncertainty) ? (meta.uncertainty as Range) : null // shortcut: get_meta has one range, used for every area; a wider drawn-area range would need a second meta key
   const years = [...totals.keys()].sort((a, b) => a - b).filter(y => y >= fromYear && y <= toYear)
   const partial = years.filter(y => !complete.includes(y))
-  const color = (v: number, d: number) => (view === 'count' ? countColor(v, max) : diffColor(d, maxAbs))
+  const unit = raw ? 'detections, sensors simply added' : 'hotspots'
 
   const monthCell = (y: number, m: number): Cell => {
     const r = at.get(y * 12 + m)
     const when = `${MONTH_NAMES[m - 1]} ${y}`
     if (!r) return { name: `${when}, no data`, text: `${when}: no data.`, none: true }
     const soFar = r === now
-    return { ...describeMonth(r, normals[m - 1], range, soFar), fill: color(r.value, diff.get(y * 12 + m)!), est: sensorOf(y, m) === 'modis', prov: r.provisional > 0, soFar }
+    return { ...(raw ? describeRaw(r, soFar) : describeMonth(r, normals[m - 1], range, soFar)), fill: cellColor(view, r, max, diff.get(y * 12 + m)!, maxAbs),
+      est: !raw && sensorOf(y, m) === 'modis', prov: r.provisional > 0, soFar }
   }
   const normalSum = normals.reduce((a, b) => a + b, 0)
   const grid: { head: string; cells: Cell[] }[] = [
     ...years.map(y => {
       const t = fmtCount(totals.get(y)!), p = partial.includes(y)
       return { head: `${y}${p ? '*' : ''}`, cells: [...MONTH_NAMES.map((_, i) => monthCell(y, i + 1)),
-        { label: t, name: `${y} total, ${t} hotspots${p ? ', partial year' : ''}`, text: `${y} total: ${t} hotspots.${p ? ' A partial year, left out of yearly rankings.' : ''}` }] }
+        { label: t, name: `${y} total, ${t} ${unit}${p ? ', partial year' : ''}`, text: `${y} total: ${t} ${unit}.${p ? ' A partial year, left out of yearly rankings.' : ''}` }] }
     }),
-    { head: 'Normal', cells: [...normals.map((v, i) => ({ fill: color(v, 0), name: `Normal ${MONTH_NAMES[i]}, ${fmtCount(v)} hotspots`,
-        text: `Normal ${MONTH_NAMES[i]}: ${fmtCount(v)} hotspots, the median of ${complete[0]} to ${complete.at(-1)}.` })),
+    // The normal row stays harmonized in the raw view: a median across the sensor change would mean nothing.
+    { head: 'Normal', cells: [...normals.map((v, i) => ({ fill: view === 'diff' ? diffColor(0, maxAbs) : countColor(v, max), name: `Normal ${MONTH_NAMES[i]}, ${fmtCount(v)} hotspots`,
+        text: `Normal ${MONTH_NAMES[i]}: ${fmtCount(v)} hotspots, the median of ${complete[0]} to ${complete.at(-1)}.${raw ? ' Harmonized: raw counts have no fair normal.' : ''}` })),
       { label: fmtCount(normalSum), name: `Normal year, ${fmtCount(normalSum)} hotspots`, text: `Normal year: ${fmtCount(normalSum)} hotspots, the sum of the monthly normals.` }] },
   ]
   const [pr, pc] = [clamp(pos[0], grid.length - 1), pos[1]]
@@ -75,9 +80,12 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
       <h3 id="heatmap-heading">{`Calendar, ${years[0]} to ${years.at(-1)}`}</h3>
       <fieldset className="switch">
         <legend>Show</legend>
-        <label><input type="radio" name="hm-view" checked={view === 'count'} onChange={() => setView('count')} /> Hotspots</label>
-        <label><input type="radio" name="hm-view" checked={view === 'diff'} onChange={() => setView('diff')} /> Difference from normal</label>
+        {(Object.keys(VIEWS) as View[]).map(v => (
+          <label key={v}><input type="radio" name="hm-view" checked={view === v} onChange={() => setView(v)}
+            aria-describedby={v === 'raw' && raw ? 'hm-raw-hint' : undefined} /> {VIEWS[v]}</label>
+        ))}
       </fieldset>
+      {raw && <p className="hint" id="hm-raw-hint">Raw: the three satellites' detections simply added. VIIRS sees smaller fires, so the count jumps in 2012. The fires did not change, the instruments did. This is what HOTSPOT corrects.</p>}
       <button type="button" onClick={() => setTable(t => !t)}>{table ? 'Show as calendar' : 'Show as table'}</button>
       {table && <CalendarTable rows={rows} />}
       {/* Hidden, not removed, in table view: the image download reads this SVG. */}
@@ -95,20 +103,20 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
             </pattern>
             <linearGradient id="hm-ramp">
               {[...Array(11).keys()].map(i => {
-                const s = view === 'count' ? i / 10 : i / 5 - 1
-                return <stop key={i} offset={i / 10} stopColor={view === 'count' ? countColor(s * s, 1) : diffColor(Math.sign(s) * s * s, 1)} />
+                const s = view !== 'diff' ? i / 10 : i / 5 - 1
+                return <stop key={i} offset={i / 10} stopColor={view !== 'diff' ? countColor(s * s, 1) : diffColor(Math.sign(s) * s * s, 1)} />
               })}
             </linearGradient>
           </defs>
           <rect width={W} height={H} fill="#fff" />
-          <text x={0} y={16} fontSize={15} fontWeight="bold">{label}</text>
-          <text x={0} y={33} fill="#555">{`${view === 'count' ? 'Hotspots per month, NOAA-20 equivalent' : 'Difference from normal'}${through ? `. Data through ${through}.` : '.'}`}</text>
+          <text x={0} y={16} fontSize={15} fontWeight="bold">{`${label} · ${VIEWS[view]}`}</text>
+          <text x={0} y={33} fill="#555">{`${{ count: 'Hotspots per month, NOAA-20 equivalent', diff: 'Difference from normal', raw: 'MODIS + S-NPP + NOAA-20 detections per month, not harmonized' }[view]}${through ? `. Data through ${through}.` : '.'}`}</text>
           <g aria-hidden="true" fill="#333">
             {MONTH_NAMES.map((m, i) => <text key={m} x={x(i) + (CW - G) / 2} y={TOP - 5} textAnchor="middle">{m.slice(0, 3)}</text>)}
             <text x={W - 2} y={TOP - 5} textAnchor="end">Year total</text>
             {grid.map((row, r) => <text key={row.head} x={L - 6} y={y(r) + CH - 5} textAnchor="end">{row.head}</text>)}
           </g>
-          <g role="grid" aria-label="Calendar of hotspots per month. Use the arrow keys to move between months." onKeyDown={onKey}
+          <g role="grid" aria-label={`Calendar of ${raw ? 'raw detections, sensors simply added,' : 'hotspots'} per month. Use the arrow keys to move between months.`} onKeyDown={onKey}
             onBlur={e => e.currentTarget.contains(e.relatedTarget as Node) || setShown(false)}>
             {grid.map((row, r) => (
               <g role="row" key={row.head}>
@@ -132,9 +140,9 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
             {shown && <rect x={x(pc) - 1} y={y(pr) - 1} width={(pc === 12 ? TW : CW) - G + 2} height={CH - G + 2} fill="none" stroke="#000" strokeWidth={2} />}
           </g>
           <g aria-hidden="true" transform={`translate(0 ${bottom + 14})`} fill="#333">
-            <text y={10}>{view === 'count' ? 'Hotspots per month (square-root scale)' : 'Below normal · Normal · Above normal'}</text>
+            <text y={10}>{{ count: 'Hotspots per month (square-root scale)', diff: 'Below normal · Normal · Above normal', raw: 'Same colours and maximum as Hotspots' }[view]}</text>
             <rect x={230} y={0} width={190} height={10} fill="url(#hm-ramp)" />
-            {(view === 'count' ? ['0', fmtCount(max / 4), fmtCount(max)] : [`-${fmtCount(maxAbs)}`, 'Normal', `+${fmtCount(maxAbs)}`]).map((t, i) => (
+            {(view !== 'diff' ? ['0', fmtCount(max / 4), `${fmtCount(max)}${raw && rawMax > max ? ' or more' : ''}`] : [`-${fmtCount(maxAbs)}`, 'Normal', `+${fmtCount(maxAbs)}`]).map((t, i) => (
               <text key={i} x={230 + i * 95} y={22} fontSize={10} textAnchor={(['start', 'middle', 'end'] as const)[i]}>{t}</text>
             ))}
             {['Estimated before 2012', 'No data', 'Provisional', 'This month so far'].map((t, i) => {

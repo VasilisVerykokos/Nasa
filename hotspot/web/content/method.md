@@ -107,12 +107,35 @@ Every long fire record that relies on MODIS must now be joined to VIIRS, or it s
 
 ## 7. Use our data
 
-The calendar that drives the screen is a function anyone can call for any area in Greece.
+The calendar that drives the screen is a public web address anyone can call for any area in Greece.
 
-- **Address:** `{Person A: https://<project>.supabase.co/rest/v1/rpc/calendar}`
-- **Send:** a POST request with the header `apikey: {public key}` and the body `{"area": <a GeoJSON polygon, longitude then latitude>}`. At most 500 corner points.
-- **You get back:** one row per year and month of the whole record, with the harmonized value and the raw counts of each satellite.
-- **Limits:** Greece only; 10 seconds per request. The same numbers come as files from the three download buttons on the Calendar view.
+- **Address:** `{calendar address}` (POST)
+- **Key:** send the header `apikey: {public key}`. This is the publishable key, public by design: the website itself uses it, and the database lets it call only the app's read functions.
+- **Send:** a JSON body `{"area": <GeoJSON Polygon or MultiPolygon>}`, coordinates as longitude then latitude, at most 500 corner points.
+- **You get back:** one row per year and month of the whole record, from November 2000 to the current month. Months with no hotspots are rows of zeros, and so is every month of an area outside Greece.
+
+| Column | Meaning |
+|---|---|
+| `year`, `month` | The month (1 to 12) |
+| `value` | Harmonized burning activity: the sum of the weights, in NOAA-20-equivalent hotspots. This is the number the calendar shows. |
+| `modis` | Raw count of cleaned MODIS (Terra + Aqua) hotspots in the area that month, any year |
+| `snpp` | Raw count of cleaned VIIRS S-NPP hotspots |
+| `noaa20` | Raw count of cleaned VIIRS NOAA-20 hotspots |
+| `provisional` | How many of the month's hotspots are near-real-time data; above 0 means the month is provisional |
+| `so_far` | `value` counting only days 1 to D of the month, where D is the day of the newest hotspot in the database. Its median over the years is the "same days" normal for the current month. |
+
+The raw counts include detections outside their sensor's period (weight 0), so `value` is not their sum. An invalid area, or one with more than 500 corners, returns an error with a plain message.
+
+Example (the official North Evia box):
+
+```bash
+curl -s -X POST "{calendar address}" \
+  -H "apikey: {public key}" \
+  -H "Content-Type: application/json" \
+  -d '{"area": {"type": "Polygon", "coordinates": [[[22.966, 38.674], [23.509, 38.674], [23.509, 39.063], [22.966, 39.063], [22.966, 38.674]]]}}'
+```
+
+**Limits:** each request may run for at most 10 seconds (all of Greece takes about 6). The database is on Supabase's free plan, whose monthly data allowance is shared with the website, so please keep requests modest; the answer is small. If the database ever moves, this address changes. The same numbers also come as files from the download buttons on the Calendar view.
 - **The full dataset:** `{Dataset release link: added on Sunday}`
 
 ## 8. References and attribution

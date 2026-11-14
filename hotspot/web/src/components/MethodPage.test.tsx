@@ -27,6 +27,14 @@ it('draws a chart, a caption and a table for every proof file', () => {
   expect(html).toContain('±26.3%') // the range slot, filled from proof2_blind_test.json
 })
 
+it('fills every "Use our data" address and key from the settings, the curl example included', () => {
+  const html = page(all)
+  const filled = renderToStaticMarkup(<Method proofs={all} env={{ VITE_SUPABASE_URL: 'https://x.supabase.co', VITE_SUPABASE_ANON_KEY: 'sb_publishable_k' }} />)
+  expect(html).not.toMatch(/\{calendar address\}|\{public key\}/)
+  expect(filled).toContain('curl -s -X POST &quot;https://x.supabase.co/rest/v1/rpc/calendar&quot;')
+  expect(filled.match(/apikey: sb_publishable_k/g)).toHaveLength(2) // the bullet and the curl example
+})
+
 it('skips missing proof files without crashing', () => {
   const html = page({ proof7_grid })
   expect(html).toContain('Proof 7.')

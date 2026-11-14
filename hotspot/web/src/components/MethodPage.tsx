@@ -33,8 +33,8 @@ function sections(p: Proofs, env: Env): string[] {
     .replace('Factors: `{slot: factors.json}`.', 'The factors are in the table below.')
     .replace('`{slot: factors.json, F2}`', f2 ? `F2 = ${f2.toFixed(3)}` : 'see the factor table')
     .replace('±`{slot: proof2_blind_test.json, fire-season error}`%', err ? `±${err}%` : 'the blind-test error')
-    .replace(/`\{Person A: [^`]*`/, url ? `\`${url}/rest/v1/rpc/calendar\`` : 'see the README')
-    .replace('{public key}', env.VITE_SUPABASE_ANON_KEY ?? 'the public key from the README')
+    .replaceAll('{calendar address}', url ? `${url}/rest/v1/rpc/calendar` : 'the address in the README')
+    .replaceAll('{public key}', env.VITE_SUPABASE_ANON_KEY ?? 'the public key from the README')
     .replace(/^.*\{Dataset release link.*\n/m, '') // no release yet; the line comes back when method.md gets the link
     .split(/^(?=## )/m)
 }

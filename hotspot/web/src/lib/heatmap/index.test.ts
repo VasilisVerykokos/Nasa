@@ -2,7 +2,7 @@
 import { interpolateCividis } from 'd3-scale-chromatic'
 import { describe, expect, it } from 'vitest'
 import type { CalendarRow } from '../stats'
-import { arithmetic, countColor, describeMonth, diffColor } from '.'
+import { arithmetic, cellColor, countColor, describeMonth, describeRaw, diffColor, rawOf } from '.'
 
 const row = (year: number, month: number, value: number, counts: Partial<CalendarRow> = {}): CalendarRow =>
   ({ year, month, value, modis: 0, snpp: 0, noaa20: 0, provisional: 0, ...counts })
@@ -20,6 +20,26 @@ describe('colour scales', () => {
     expect(diffColor(50, 50)).toBe('rgb(179, 88, 6)')
     expect(diffColor(12.5, 50)).toBe('rgb(211, 165, 124)') // square root: a quarter of the way is half the colour
     expect(diffColor(0, 0)).toBe('rgb(242, 242, 242)')
+  })
+})
+
+describe('raw view (sensors simply added)', () => {
+  it('the raw value is MODIS + S-NPP + NOAA-20, never the harmonized value', () => {
+    expect(rawOf(row(2019, 8, 900, { modis: 120, snpp: 700, noaa20: 650 }))).toBe(1470)
+    expect(rawOf(row(2007, 8, 1400.8, { modis: 412 }))).toBe(412)
+  })
+  it('raw and harmonized share the harmonized maximum and the ramp; raw above it gets the top colour', () => {
+    const top = row(2021, 8, 400, { noaa20: 400 })
+    expect(cellColor('raw', row(2019, 7, 90, { snpp: 250, noaa20: 150 }), 400, 0, 1)).toBe(cellColor('count', top, 400, 0, 1))
+    expect(cellColor('raw', row(2013, 8, 100, { modis: 40, snpp: 60 }), 400, 0, 1)).toBe(countColor(100, 400))
+    expect(cellColor('raw', row(2019, 8, 300, { modis: 300, snpp: 500, noaa20: 400 }), 400, 0, 1)).toBe(interpolateCividis(1))
+  })
+  it('hover text gives the three counts and their sum, then the harmonized value', () => {
+    const r = describeRaw(row(2021, 8, 3252, { modis: 1210, snpp: 3988, noaa20: 3252, provisional: 0 }), false)
+    expect(r.name).toBe('August 2021, 8,450 detections, sensors simply added')
+    expect(r.text).toBe('August 2021: 8,450 detections, sensors simply added. MODIS 1,210 + S-NPP 3,988 + NOAA-20 3,252 = 8,450. Harmonized: 3,252 hotspots.')
+    expect(describeRaw(row(2007, 8, 1400.8, { modis: 412 }), false).text).toContain('= 412. Harmonized: about 1,401 hotspots.')
+    expect(describeRaw(row(2026, 11, 2, { noaa20: 2, provisional: 2 }), true).name).toBe('November 2026 so far, 2 detections, sensors simply added, provisional')
   })
 })
 

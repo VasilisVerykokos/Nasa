@@ -57,9 +57,15 @@ def clean_api(raw: pd.DataFrame, mask: set) -> pd.DataFrame:
     return clean(raw).assign(acq_time=lambda d: d["acq_time"].str.zfill(4))  # "104" -> "0104", as in the yearly files
 
 
-def _get(url: str, key: str) -> str:
-    r = requests.get(url, timeout=120)
-    r.raise_for_status()
+def _get(url: str, key: str, what: str) -> str:
+    """GET a FIRMS address. The address holds the key, so no error message may contain it: requests' own messages
+    (bad status, no connection) repeat the address, and `from None` keeps them out of the traceback too."""
+    try:
+        r = requests.get(url, timeout=120)
+    except requests.RequestException as e:
+        raise ConnectionError(f"FIRMS could not be reached for {what} ({type(e).__name__}).") from None
+    if not r.ok:
+        raise ConnectionError(f"FIRMS answered HTTP {r.status_code} for {what}.")
     if key in r.text:  # FIRMS error pages can repeat the address; never let the key reach a message
         raise ValueError("FIRMS answered with an error that repeats the key (not shown). Check the key and the address.")
     return r.text
@@ -67,7 +73,7 @@ def _get(url: str, key: str) -> str:
 
 def available(key: str, source: str) -> tuple[date, date]:
     """First and last day NASA has for a source."""
-    t = pd.read_csv(io.StringIO(_get(f"{API}/data_availability/csv/{key}/{source}", key)))
+    t = pd.read_csv(io.StringIO(_get(f"{API}/data_availability/csv/{key}/{source}", key, f"the available dates of {source}")))
     return date.fromisoformat(t["min_date"].iloc[0]), date.fromisoformat(t["max_date"].iloc[0])
 
 
@@ -75,11 +81,11 @@ def fetch(key: str, source: str, first: date, last: date) -> pd.DataFrame:
     """Every row of a source from first to last. Stops with an error on any answer that is not hotspot data."""
     parts = []
     for start, days in windows(first, last):
-        text = _get(f"{API}/area/csv/{key}/{source}/{API_BOX}/{days}/{start}", key)
+        end = start + timedelta(days=days - 1)
+        text = _get(f"{API}/area/csv/{key}/{source}/{API_BOX}/{days}/{start}", key, f"{source} {start} to {end}")
         t = pd.read_csv(io.StringIO(text), dtype={"acq_time": str, "confidence": str})
         if "acq_date" not in t:
             raise ValueError(f"FIRMS answered something that is not hotspot data for {source} {start}: {text[:120]!r}")
-        end = start + timedelta(days=days - 1)
         if len(t) and not t["acq_date"].between(str(start), str(end)).all():
             raise ValueError(f"FIRMS returned days outside {start} to {end} for {source}")
         parts.append(t)
