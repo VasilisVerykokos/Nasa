@@ -1,0 +1,24 @@
+{
+  "note": "AI note: written with Claude Code from verified-facts.md sections 6 and 9.4.",
+  "event": "North Evia wildfire 2021",
+  "source": "Copernicus EMS activation EMSR527 and the Copernicus EMS bulletin on fire events in the Mediterranean",
+  "source_urls": [
+    "https://mapping.emergency.copernicus.eu/activations/EMSR527/",
+    "https://mapping.emergency.copernicus.eu/news/the-copernicus-emergency-management-service-monitors-fire-events-in-the-mediterranean-region/"
+  ],
+  "start_date": "2021-08-03",
+  "start_status": "VERIFIED (EMSR527)",
+  "burned_area": [
+    { "date": "2021-08-05", "ha": 7313, "status": "VERIFIED (Copernicus bulletin)" },
+    { "date": "2021-08-11", "ha": 50909, "status": "VERIFIED (Copernicus bulletin)" }
+  ],
+  "last_copernicus_product_date": "2021-08-14",
+  "end_of_fire": "Not stated. Use: last Copernicus product dated 14 Aug 2021. The claim 'mostly extinguished 12 Aug' is UNVERIFIED.",
+  "bounding_box": {
+    "west": 23.0,
+    "south": 38.75,
+    "east": 23.5,
+    "north": 39.05,
+    "status": "ESTIMATE, UNVERIFIED. Adjust against the EMSR527 PDF map (AOI01, Monitoring 3)."
+  }
+}

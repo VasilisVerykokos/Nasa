@@ -1,0 +1,17 @@
+{
+  "note": "AI note: written with Claude Code from verified-facts.md sections 9.3 and 6.",
+  "event": "Evros wildfire 2023 (Aristino fire)",
+  "source": "Copernicus EMS activation EMSR686, data service",
+  "source_url": "https://mapping.emergency.copernicus.eu/activations/EMSR686/",
+  "status": "VERIFIED",
+  "start_utc": "2023-08-19T02:49:00Z",
+  "start_local": "2023-08-19 04:49",
+  "bounding_box": {
+    "west": 25.536,
+    "south": 40.749,
+    "east": 26.317,
+    "north": 41.261,
+    "status": "VERIFIED (area of interest Aristino)"
+  },
+  "burned_area_table": "copernicus_evros_2023.csv"
+}

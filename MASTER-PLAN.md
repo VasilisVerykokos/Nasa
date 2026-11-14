@@ -432,6 +432,12 @@ pipeline/            Python
   clean              read the files, unify columns, apply the filters
   factors            compute F1 and F2, with fallback and range
   harmonize          give every row its weight
+  evidence/          typed evidence files (Person B, from verified-facts.md): Evros 2023 and
+                     Evia 2021 Copernicus burned area, EFFIS yearly table (2006 to 2026,
+                     2026 marked complete=false), greece.geojson (Natural Earth 1:10m,
+                     public domain, 6,096 points). The proofs read these files.
+                     The Evia bounding box inside is an ESTIMATE until read off the
+                     EMSR527 map.
   validate           the five proofs, saved as small data files for the website
   load_db            load the rows into Supabase
   update_daily       pull new days from the API, clean, weight, insert
