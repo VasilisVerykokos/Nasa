@@ -153,6 +153,9 @@ One row per decision, newest at the bottom. This is the memory of the build: if 
 | Sat 19:25 | The "database unreachable" message leaves out "you are looking at the saved North Evia example" until that saved example exists (Person B) | The full text now | The page must not claim a fallback it does not have yet | |
 | Sat 19:30 | The data stamp reads `data_through` and `last_update` from `get_meta`. **Person A: the load and the daily update must write both keys**; the live `meta` was empty at 19:25 (Person B) | Working the date out from the calendar rows | The rows give months, not the last day with data | |
 | Sat 19:30 | ", updated daily" is shown only if the last update is at most 2 days old (Person B) | Always showing it | Judging runs for weeks after the deadline; if the daily update stops, the page must not claim it | |
+| Sat 19:35 | Downloads: calendar CSV and hotspots CSV now; the image and "Copy link" buttons come with the heatmap and the share link (Person B) | All four buttons at once | A button that does nothing costs more than a missing one | |
+| Sat 19:35 | The hotspots CSV reads `hotspots_export` in pages (`limit`/`offset`), moves on by the rows received and stops at an empty page or above 200,000 rows. **Person A: confirm the function returns rows (a set), not one JSON value** (Person B) | Trusting a full page of 10,000 to mean "more to come" | Supabase caps each answer (1,000 rows by default), which would cut the file short without warning | |
+| Sat 19:35 | Live database check: `calendar` and `hotspots_export` return no rows and `get_meta` is empty, so the headline, rankings and downloads are tested in code but not yet seen with real data (Person B) | | The hotspot rows are not loaded yet | |
 
 ## New questions
 

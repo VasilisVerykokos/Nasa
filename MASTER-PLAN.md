@@ -578,7 +578,7 @@ A circle (point + radius) is turned into a shape in the browser, so the database
 - If the normal is 0 (winter months), show the plain number and "normal: 0". Never divide by zero.
 - **Small numbers:** if the normal is below 5, show the two plain numbers and no "N times". "8 against a normal of 2" is honest; "4 times normal" is noise.
 - Peak season = the calendar months with the highest normal values that together hold most of a normal year's hotspots. Shown as a plain phrase, for example "July to September".
-- The calendar CSV carries both the median and the mean for each calendar month, because the challenge mentions both.
+- The calendar CSV carries both the median and the mean for each calendar month, because the challenge mentions both. Columns (built 14 Nov, 19:35): `year, month, hotspots_noaa20_equivalent, modis_detections, snpp_detections, noaa20_detections, provisional_detections, normal_median, normal_mean, difference_from_normal`. The hotspots CSV passes through the columns `hotspots_export` returns, in its order; the website reads it in pages with `?limit=10000&offset=N` and stops at 200,000 rows.
 - 2000 and 2026 are partial years. They are left out of yearly rankings.
 - The current month is labelled "so far" and is never ranked against full months.
 

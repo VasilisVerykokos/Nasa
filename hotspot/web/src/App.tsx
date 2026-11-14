@@ -5,6 +5,7 @@ import { fetchMeta } from './api/meta'
 import AreaPicker, { type Selection } from './components/AreaPicker'
 import CalendarTable from './components/CalendarTable'
 import DataStamp from './components/DataStamp'
+import ExportBar from './components/ExportBar'
 import HeadlineCard from './components/HeadlineCard'
 import { DatabaseMessage, NoHotspots, OutsideGreece, Unreachable } from './components/Messages'
 import Rankings from './components/Rankings'
@@ -55,6 +56,7 @@ export default function App() {
                 <HeadlineCard rows={result.rows} label={selection?.label ?? ''} />
                 <CalendarTable rows={result.rows} />
                 <Rankings rows={result.rows} />
+                {selection && <ExportBar rows={result.rows} label={selection.label} area={selection.area} />}
               </>}
         </main>
       </div>
