@@ -1,6 +1,10 @@
 # Secrets
 .env
 .env.*
+!.env.example
+
+# Local Claude Code instructions (machine paths)
+hotspot/CLAUDE.md
 
 # Local planning files and raw data (kept outside the repository)
 /MASTER-PLAN.md
