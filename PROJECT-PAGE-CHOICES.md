@@ -134,7 +134,7 @@ Fill rows 50 and 52 only with what really happened. If the brainstorm or a test 
 | 55 | The looks-per-day rule: add Terra and Aqua (different times), never add the VIIRS satellites (same orbit) | V: answers a question an expert will ask | How it works | [ ] |
 | 56 | Show why the type filter matters: non-vegetation rows are about 2% of MODIS and about 15% of VIIRS | V: the cleaning step is justified with numbers | MODIS 1.6 %, S-NPP 16.9 %, NOAA-20 14.5 % | [ ] |
 | 57 | Test the obvious alternative, a common grid, and show it fails (optional proof 7) | C + V: we did not assume, we measured | Ratio with no grid 3.41 ; with a grid 2.62 to 2.87 (proof 7, `pipeline/proof7_grid.py`) | [ ] |
-| 58 | Split the factor into sensitivity and resolution, using passes minutes apart (optional proof 6) | C + V: explains where the factor comes from | Aqua saw ____ % of VIIRS fire cells; ____ pixels per MODIS pixel | [ ] |
+| 58 | Split the factor into sensitivity and resolution, using passes minutes apart (optional proof 6) | C + V: explains where the factor comes from | Aqua saw 22 % of VIIRS fire cells; 2.8 pixels per MODIS pixel (proof 6, `pipeline/proof6_coincident.py`, passes within 5 minutes) | [ ] |
 | 59 | Say what the record can and cannot answer, with the four-row table | V: honest scope | Limits | [ ] |
 | 60 | Name the VIIRS 750 m product as a next step, and say why it is not the main source | V + C: shows we know NASA's continuity product | Use it and build on it | [ ] |
 

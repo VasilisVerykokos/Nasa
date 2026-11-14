@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { fetchHotspots, TooManyHotspots } from '../api/hotspots'
 import { calendarCsv, fileName, firstDay, lastDay, span, toCsv } from '../lib/csv'
+import type { Range } from '../lib/dates'
 import type { Polygon } from '../lib/geo'
 import type { CalendarRow } from '../lib/stats'
 
@@ -33,20 +34,21 @@ async function saveImage(svg: SVGSVGElement, name: string) {
   }
 }
 
-type Props = { rows: CalendarRow[]; label: string; area: Polygon }
+type Props = { rows: CalendarRow[]; label: string; area: Polygon; range?: Range | null }
 
-export default function ExportBar({ rows, label, area }: Props) {
+export default function ExportBar({ rows, label, area, range }: Props) {
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
-  const { from, to } = span(rows)
+  const { from, to } = span(rows) // the calendar CSV always holds the whole record
+  const shown = range ?? { from: firstDay(from), to: lastDay(to) } // the hotspots CSV follows the date range
 
   async function downloadHotspots() {
     setBusy(true)
     setMessage(null)
     try {
-      const list = await fetchHotspots(area, firstDay(from), lastDay(to))
+      const list = await fetchHotspots(area, shown.from, shown.to)
       if (list.length === 0) setMessage(NONE)
-      else save(fileName('hotspots', label, from, to), toCsv(list))
+      else save(fileName('hotspots', label, shown.from.slice(0, 7), shown.to.slice(0, 7)), toCsv(list))
     } catch (e) {
       setMessage(e instanceof TooManyHotspots ? TOO_MANY : e instanceof TypeError ? UNREACHABLE : (e as Error).message)
     } finally {

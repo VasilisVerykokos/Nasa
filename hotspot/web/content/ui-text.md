@@ -42,7 +42,11 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 | Section heading | Date range |
 | Fields | From · To |
 | Hint | These dates change which years you see. "Normal" is always worked out from the whole record. |
-| Error, From after To | The start month must be before the end month. |
+| Button | Whole record |
+| Error, From after To | The start date must be before the end date. |
+| Error, outside the record | Choose dates from 1 Nov 2000 to {12 Nov 2026}, the whole record. |
+
+**Built as day fields** (native date inputs, English labels), so the error says "date", not "month". The note below is from the mockup:
 
 **CODE:** in the mockup the month fields show "Νοέμβριος 2000" because the browser uses the computer's Greek setting. Set `<html lang="en">` and format months in English (for example "Nov 2000"), or use two drop-downs (month, year), so judges see English everywhere.
 

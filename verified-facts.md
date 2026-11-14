@@ -345,7 +345,7 @@ Filters: `type = 0`, MODIS confidence 30 or more, VIIRS not `l`. Quick check out
 
 - Orbit altitudes (about 705 km for Terra and Aqua, about 824 km for the VIIRS satellites): general knowledge.
 - MODIS swath width (about 2,330 km): general knowledge.
-- The near-simultaneous-pass counts: counted on the second machine only, until proof 6 is a script. (The grid test left this list on 14 Nov, 19:50: `pipeline/proof7_grid.py` now produces it from the project's cleaning step.)
+- The near-simultaneous matches within 2 km (plan, section 5, first proof-6 table): counted on the second machine only. (The grid test left this list on 14 Nov, 19:50, and the coincident-pass measures on 14 Nov, 19:58: `pipeline/proof7_grid.py` and `pipeline/proof6_coincident.py` now produce them from the project's cleaning step.)
 - Planned end of Terra (Feb 2027) and Aqua (Sep 2027): still second-hand.
 
 ### 10.7 Evia area and the Greece outline (second machine, 14 Nov, 18:40)
