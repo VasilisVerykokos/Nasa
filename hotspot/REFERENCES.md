@@ -10,6 +10,8 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | React | The website's interface | MIT | https://react.dev |
 | TypeScript | Typed JavaScript for the website | Apache-2.0 | https://www.typescriptlang.org |
 | Vitest | Tests for the website's statistics | MIT | https://vitest.dev |
+| Leaflet | The map on the website | BSD-2-Clause | https://leafletjs.com |
+| Leaflet-Geoman (free edition) | Drawing a polygon or rectangle on the map | MIT | https://geoman.io |
 | PostgreSQL | The database that holds the hotspots and runs the four functions | PostgreSQL License | https://www.postgresql.org |
 | PostGIS | Map maths in the database: tests each hotspot against the drawn area | GPL-2.0-or-later | https://postgis.net |
 | psycopg 3 | Connects the Python scripts to the database | LGPL-3.0 | https://www.psycopg.org |
@@ -36,3 +38,5 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | Name | Used for | Link |
 |---|---|---|
 | Supabase | Hosts the PostgreSQL + PostGIS database and the secure web address the website calls | https://supabase.com |
+| OpenStreetMap tiles (© OpenStreetMap contributors, ODbL) | The background map | https://www.openstreetmap.org/copyright |
+| GitHub Pages and GitHub Actions | Build and host the website on every push to `main` | https://pages.github.com |
