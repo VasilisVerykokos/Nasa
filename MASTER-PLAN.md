@@ -523,7 +523,7 @@ Indexes: a spatial index on `geom` and an index on `acq_date`.
 
 **`coverage`**: the outline of each covered country.
 
-**`meta`**: data-through date, last update time, record start, switch dates, F2, uncertainty range, method version.
+**`meta`**: data-through date, last update time, record start, switch dates, F2, uncertainty range, method version. The data stamp reads two keys: `data_through` (a date, `YYYY-MM-DD`) and `last_update` (a UTC time). On 14 Nov, 19:25, the live `get_meta` answered with an empty `meta`, so the page shows "Data date unavailable" until the load and the daily update write these keys.
 
 Size: Greece is about 186,000 raw rows (counted from the downloaded files), fewer after cleaning. My estimate is under 100 MB with indexes, which fits the free plan. Stay under about 1 million rows on the free plan. A monthly summary table is only needed if large countries are added later.
 

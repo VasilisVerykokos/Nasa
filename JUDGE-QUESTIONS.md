@@ -151,6 +151,8 @@ One row per decision, newest at the bottom. This is the memory of the build: if 
 | Sat 18:50 | The rankings note says partial years are "left out of the top years" (Person B) | "are not ranked" | Their finished months still appear in the top 5 months; only the yearly ranking leaves them out | |
 | Sat 19:25 | Messages (must-have 8) live in `web/src/components/Messages.tsx` with the words of `ui-text.md`. "Database unreachable" (no answer at all) gets a "Try again" button; an answer with an error shows the database's own message unchanged (Person B) | One generic error line | The database's messages are already written for people; a lost connection is the only case where trying again helps | |
 | Sat 19:25 | The "database unreachable" message leaves out "you are looking at the saved North Evia example" until that saved example exists (Person B) | The full text now | The page must not claim a fallback it does not have yet | |
+| Sat 19:30 | The data stamp reads `data_through` and `last_update` from `get_meta`. **Person A: the load and the daily update must write both keys**; the live `meta` was empty at 19:25 (Person B) | Working the date out from the calendar rows | The rows give months, not the last day with data | |
+| Sat 19:30 | ", updated daily" is shown only if the last update is at most 2 days old (Person B) | Always showing it | Judging runs for weeks after the deadline; if the daily update stops, the page must not claim it | |
 
 ## New questions
 
