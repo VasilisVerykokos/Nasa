@@ -904,6 +904,7 @@ Only local winners go to Global Judging, so the pitch matters as much as the pag
 - [ ] The NASA data source is named
 - [ ] No pre-start numbers on the page; all numbers come from the pipeline run
 - [ ] Unverified facts from the facts file are not on the page (Person B's fact check, section 11)
+- [ ] When the work is finished: remove the planning notes from the repository and push (`MASTER-PLAN.md`, `JUDGE-QUESTIONS.md`, `PROJECT-PAGE-CHOICES.md`, `verified-facts.md`, `for-teammate/CLAUDE.md`; keep the copies on disk with `git rm --cached`). The repository was made public on Sat 14 Nov so the website could go live on GitHub Pages, so these notes stay readable in the Git history.
 
 ---
 
