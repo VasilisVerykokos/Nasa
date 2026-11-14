@@ -1,0 +1,55 @@
+{
+ "proof": 7,
+ "what": "S-NPP against MODIS (Terra + Aqua), as hotspots and as active cell-days on a common grid",
+ "window": {
+  "from": "2012-02-01",
+  "to": "2019-12-31"
+ },
+ "rows": [
+  {
+   "counted": "hotspots",
+   "cell_deg": null,
+   "cell_km": null,
+   "modis": 10978,
+   "snpp": 37448,
+   "ratio": 3.41,
+   "snpp_cells_also_seen_by_modis_pct": null
+  },
+  {
+   "counted": "cell-days",
+   "cell_deg": 0.01,
+   "cell_km": 1.1,
+   "modis": 10326,
+   "snpp": 27083,
+   "ratio": 2.62,
+   "snpp_cells_also_seen_by_modis_pct": 8.8
+  },
+  {
+   "counted": "cell-days",
+   "cell_deg": 0.05,
+   "cell_km": 5.6,
+   "modis": 7066,
+   "snpp": 20141,
+   "ratio": 2.85,
+   "snpp_cells_also_seen_by_modis_pct": 14.0
+  },
+  {
+   "counted": "cell-days",
+   "cell_deg": 0.1,
+   "cell_km": 11.1,
+   "modis": 6255,
+   "snpp": 17949,
+   "ratio": 2.87,
+   "snpp_cells_also_seen_by_modis_pct": 16.6
+  },
+  {
+   "counted": "cell-days",
+   "cell_deg": 0.25,
+   "cell_km": 27.8,
+   "modis": 5265,
+   "snpp": 14655,
+   "ratio": 2.78,
+   "snpp_cells_also_seen_by_modis_pct": 20.4
+  }
+ ]
+}

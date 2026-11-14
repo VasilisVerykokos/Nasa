@@ -32,7 +32,7 @@ HOTSPOT stands for Harmonized Observations of Thermal Sensors for Pyro-Occurrenc
 **The problem.** NASA has watched for fires from space with two kinds of instrument. MODIS has flown since 2000 and sees the ground in squares about 1 km wide. VIIRS has flown since 2012 and sees squares of 375 m. They differ in three ways:
 
 - **Resolution.** One fire covers more small squares than large ones, so VIIRS reports more hotspots for the same fire.
-- **Sensitivity.** VIIRS also notices small or cool fires that MODIS never sees at all. `{Keep this sentence only if proof 7 is published as a script:}` Our grid test shows this is the larger part of the difference.
+- **Sensitivity.** VIIRS also notices small or cool fires that MODIS never sees at all. Our grid test shows this is the larger part of the difference: counting grid cells with fire instead of hotspots lowers the VIIRS-to-MODIS ratio only from 3.41 to about 2.8, whatever the cell size.
 - **Observation schedule.** The satellites pass over Greece at different times of day.
 
 Put the two lists side by side and the count jumps in 2012, even though nothing changed on the ground. Our goal, in NASA's words: "the sensor of origin no longer matters".

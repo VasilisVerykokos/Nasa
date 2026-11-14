@@ -37,3 +37,6 @@ PROOF_DIR = Path(__file__).resolve().parents[1] / "web" / "public" / "proof"
 EFFIS_HA = {2006: 16294, 2007: 271715, 2008: 24988, 2009: 42807, 2010: 6472, 2011: 35713, 2012: 52487,
             2013: 19762, 2014: 14815, 2015: 11613, 2016: 31707, 2017: 20041, 2018: 12037, 2019: 10736,
             2020: 14915, 2021: 130744, 2022: 22480, 2023: 174773, 2024: 41948, 2025: 47819}
+
+# Proof 7, the grid test (plan, sections 4 and 5): cell sizes in degrees, about 1, 5.5, 11 and 28 km north to south
+GRID_CELLS_DEG = [0.01, 0.05, 0.1, 0.25]
