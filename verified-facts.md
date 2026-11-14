@@ -169,7 +169,7 @@ Any such numbers from our tool would be new. Worth saying on the project page.
 | Smoke over Athens | Aerosol optical depth up to 3.6 at 500 nm | VERIFIED (abstract) | Masoom et al. 2023, [DOI 10.5194/acp-23-8487-2023](https://doi.org/10.5194/acp-23-8487-2023) |
 | Heatwave peak 46.3°C at Makrakomi | – | UNVERIFIED | check Giannaros et al. |
 | VIIRS satellites operating | S-NPP and NOAA-20 (NOAA-21 not yet launched), plus Terra and Aqua, both already drifting | Derived from the coverage dates in section 2.1 | – |
-| Approximate bounding box | 23.0 to 23.5°E, 38.75 to 39.05°N | UNVERIFIED (rough estimate; adjust against the Copernicus map) | – |
+| Bounding box | 22.966 to 23.509°E, 38.674 to 39.063°N (box around area of interest AOI01 "Evia"). Replaces the rough 23.0 to 23.5°E, 38.75 to 39.05°N | VERIFIED (section 10.7) | [EMSR527 AOI01 Monitoring 3 vector package](https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR527/EMSR527_AOI01_DEL_MONIT03_r1_RTP01_v1_vector.zip) |
 
 ---
 
@@ -263,7 +263,7 @@ The jump from 8,529 ha to 72,344 ha between 21 and 23 August is the period our c
 ### 9.4 Copernicus: Evia 2021
 
 - **VERIFIED** ([Copernicus bulletin](https://mapping.emergency.copernicus.eu/news/the-copernicus-emergency-management-service-monitors-fire-events-in-the-mediterranean-region/)): the fire extent in northern Evia "increased from 7,313 ha to 50,909 ha between 05 and 11 August".
-- **Bounding box: STILL AN ESTIMATE.** EMSR527 is not in the Copernicus data service, and the map thumbnail is too small to read. Keep 23.0–23.5°E, 38.75–39.05°N as a rough box and adjust it against the full PDF map (AOI01, Monitoring 3).
+- **Bounding box: VERIFIED on 14 Nov** (section 10.7): west 22.966, south 38.674, east 23.509, north 39.063, read from the AOI01 vector package, not the map. EMSR527 is not in the Copernicus data service, but the activation page links each product's vector files.
 
 ### 9.5 EFFIS yearly burned area for Greece (VERIFIED, EFFIS statistics service)
 
@@ -303,7 +303,7 @@ Source: [EFFIS Statistics Portal](https://forest-fire.emergency.copernicus.eu/ap
 
 1. Schroeder 2014 abstract (section 9.1).
 2. MODIS confidence class boundaries.
-3. Exact Evia bounding box from the EMSR527 PDF map.
+3. Exact Evia bounding box from the EMSR527 PDF map. Closed 14 Nov (section 10.7).
 4. Confirm the whole team is registered at the same Local Event (only the team can do this).
 
 ## 10. Updates of 14 November (after the start)
@@ -347,3 +347,10 @@ Filters: `type = 0`, MODIS confidence 30 or more, VIIRS not `l`. Quick check out
 - MODIS swath width (about 2,330 km): general knowledge.
 - The grid test and the near-simultaneous-pass counts: counted on the second machine only.
 - Planned end of Terra (Feb 2027) and Aqua (Sep 2027): still second-hand.
+
+### 10.7 Evia area and the Greece outline (second machine, 14 Nov, 18:40)
+
+- **Evia area of interest: VERIFIED.** Read from the GeoJSON inside the [EMSR527 AOI01 Delineation Monitoring 3 vector package](https://cems-mapping-website.s3.eu-west-1.amazonaws.com/static/activations/EMSR527/EMSR527_AOI01_DEL_MONIT03_r1_RTP01_v1_vector.zip), linked from the activation page. AOI01 is named "Evia": a 19-corner polygon whose box is 22.9663 to 23.5089°E, 38.6742 to 39.0621°N. Rounded outwards for the preset: west 22.966, south 38.674, east 23.509, north 39.063. The polygon is stored in `pipeline/evidence/copernicus_evia_2021.json`.
+- **Evia burnt area on 11 Aug 2021: VERIFIED twice.** The Monitoring 3 burnt-area polygon sums to 50,909.9 ha, mapped from a SPOT-6/7 image of 11 Aug 2021, 09:04 UTC. This matches the bulletin's 50,909 ha (section 9.4). Its box: 23.1755 to 23.4647°E, 38.7012 to 39.0395°N.
+- **The old rough box cut off the south of the fire** (the burnt area reaches 38.701°N; the old box stopped at 38.75°N). Quick check, NOAA-20, August 2021, `type = 0`, confidence not `l`: 3,110 hotspots in the old box, 3,252 in the new box, 3,251 inside the official polygon. Second machine only; not a number for the page.
+- **The Natural Earth outline is slightly tighter than FIRMS's own Greece files.** Of the 3,299 cleaned NOAA-20 hotspots in the 2025 Greece file, 48 (1.5%) fall outside `greece.geojson`, all within about 2.4 km of it (rough distance to the nearest outline corner). So cutting the 2026 API data with the outline as it is would count about 1.5% less than the archive years. Second machine only.

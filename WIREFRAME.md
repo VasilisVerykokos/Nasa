@@ -6,6 +6,8 @@ For Person A (builds) and Person B (words, testing, simple parts). Layout comes 
 
 Status: draft v1, Saturday 14 Nov. Person B draws it on paper (one sheet desktop, one sheet phone); Person A approves in five minutes before the skeleton. Photograph the paper: it is process evidence for the project page.
 
+**Update 14 Nov, 18:45:** v2 of the screen is the clickable layout mock, printed to `design/hotspot-mockup.pdf` (desktop, phone, method page; every number on it is invented). Its words, corrected against `verified-facts.md` and the current code, are in `hotspot/web/content/ui-text.md` and `method.md`. Where the mock and those files differ, the files win.
+
 ---
 
 ## 1. Desktop screen (view "Calendar"), 1280 px wide
