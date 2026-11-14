@@ -143,7 +143,7 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 |---|---|
 | Outside Greece | This area is outside the covered region. HOTSPOT covers Greece only. Pick a preset or draw inside Greece. |
 | No hotspots | No hotspots were found in this area from November 2000 to today. Try a larger area. |
-| Database unreachable | We could not reach the database, so you are looking at the saved North Evia example. Try again in a minute. |
+| Database unreachable | We could not reach the database, so you are looking at the saved North Evia example. Try again in a minute. **Until the saved example exists, the page says only:** We could not reach the database. Try again in a minute. |
 | Button with it | Try again |
 | Shape too complex | Comes from the database and is already written for people ("The area has 812 corner points; the limit is 500..."). Show it as it is. |
 

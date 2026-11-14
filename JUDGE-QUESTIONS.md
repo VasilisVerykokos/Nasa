@@ -149,6 +149,8 @@ One row per decision, newest at the bottom. This is the memory of the build: if 
 | Sat 18:45 | The method page names the three differences the challenge lists (resolution, sensitivity, observation schedule). It says sensitivity is the larger part only if proof 7 is published as a script | Saying it now | The grid test was counted on the second machine only (facts file 10.6) | 38 |
 | Sat 18:50 | The headline card shows the area's highest month until a month can be clicked on the calendar (should-have 3) (Person B) | The current month | The current month already has its own card (must-have 12); the highest month is the area's story, and for North Evia it is August 2021 | |
 | Sat 18:50 | The rankings note says partial years are "left out of the top years" (Person B) | "are not ranked" | Their finished months still appear in the top 5 months; only the yearly ranking leaves them out | |
+| Sat 19:25 | Messages (must-have 8) live in `web/src/components/Messages.tsx` with the words of `ui-text.md`. "Database unreachable" (no answer at all) gets a "Try again" button; an answer with an error shows the database's own message unchanged (Person B) | One generic error line | The database's messages are already written for people; a lost connection is the only case where trying again helps | |
+| Sat 19:25 | The "database unreachable" message leaves out "you are looking at the saved North Evia example" until that saved example exists (Person B) | The full text now | The page must not claim a fallback it does not have yet | |
 
 ## New questions
 
