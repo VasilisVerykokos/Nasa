@@ -1188,6 +1188,8 @@ The last four rows come from the second team member's review of ideas suggested 
 | ______ | ______ | ______ | ______ | ______ | ______ |
 | ______ | ______ | ______ | ______ | ______ | ______ |
 
+The working copy of this log, the manual checklist and the bug list for Person A are in `TESTING.md` in the repository root (14 Nov, 19:55).
+
 **The rule that makes a test count:** something must change because of it. The project page gets one honest line in the form "We tested with N people. X did not work. We changed Y." If nothing failed, say that, and say who tested.
 
 ### 18.6 Implement: "Document the final solution and put the vision into effect"
