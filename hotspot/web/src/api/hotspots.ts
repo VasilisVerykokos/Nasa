@@ -12,22 +12,24 @@ export class TooManyHotspots extends Error {}
 
 /**
  * Every hotspot in the area and dates, with all the columns the database returns.
- * Pages advance by the number of rows that came back and stop at an empty page, so a server limit below PAGE cannot cut the file short.
+ * The database function hands out pages of PAGE rows by number (page 0, 1, 2 ...); a short page is the last one.
+ * The database itself refuses selections over MAX_ROWS.
  */
 export async function fetchHotspots(area: Polygon, dateFrom: string, dateTo: string): Promise<Record<string, unknown>[]> {
   if (!URL || !KEY) throw new Error('The database address is not set up (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY).')
   const all: Record<string, unknown>[] = []
-  while (true) {
-    const res = await fetch(`${URL}/rest/v1/rpc/hotspots_export?limit=${PAGE}&offset=${all.length}`, {
+  for (let page = 0; ; page++) {
+    const res = await fetch(`${URL}/rest/v1/rpc/hotspots_export`, {
       method: 'POST',
       headers: { apikey: KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ area, date_from: dateFrom, date_to: dateTo }),
+      body: JSON.stringify({ area, date_from: dateFrom, date_to: dateTo, page }),
     })
-    if (!res.ok) throw new Error((await res.json().catch(() => null))?.message ?? `The database answered with error ${res.status}.`)
-    const page: Record<string, unknown>[] = await res.json()
-    // A repeated first row means the server ignored the offset: the first page already held everything.
-    if (page.length === 0 || (all.length > 0 && JSON.stringify(page[0]) === JSON.stringify(all[0]))) return all
-    all.push(...page)
-    if (all.length > MAX_ROWS) throw new TooManyHotspots()
+    if (!res.ok) {
+      const message: string = (await res.json().catch(() => null))?.message ?? `The database answered with error ${res.status}.`
+      throw message.includes('export limit') ? new TooManyHotspots(message) : new Error(message)
+    }
+    const rows: Record<string, unknown>[] = await res.json()
+    all.push(...rows)
+    if (rows.length < PAGE) return all
   }
 }
