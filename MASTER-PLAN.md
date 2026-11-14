@@ -206,17 +206,17 @@ Three VIIRS satellites fly the same orbit about 25 minutes apart, so adding them
 - **Keep a refinement only if it wins the blind test (section 5).** Otherwise ship the single country factor and say so.
 - **What the factor contains.** MODIS and VIIRS never shared an orbit. Aqua and VIIRS pass at about the same time of day; Terra is a morning satellite and VIIRS has no morning pass. So F1 holds the difference in overpass time and orbit as well as the difference in pixel size. It is a factor for the whole MODIS record against VIIRS, not a pure "resolution" correction.
 
-**Why a common grid fails (tested on the Greece files, February 2012 to December 2019).** The obvious idea is to put both sensors on the same grid and count cells with fire instead of hotspots. The second team member tested it:
+**Why a common grid fails (tested on the Greece files, February 2012 to December 2019).** The obvious idea is to put both sensors on the same grid and count cells with fire instead of hotspots. The second team member tested it. Since 14 Nov, 19:50, `pipeline/proof7_grid.py` (proof 7) produces this table with the project's own cleaning step:
 
 | What is counted | MODIS | S-NPP | Ratio |
 |---|---|---|---|
 | Hotspots, no grid | 10,978 | 37,448 | 3.41 |
-| Cells with fire per day, cells of about 1 km | 10,326 | 27,086 | 2.62 |
-| The same, cells of about 5.5 km | 7,066 | 20,142 | 2.85 |
-| The same, cells of about 11 km | 6,256 | 17,949 | 2.87 |
+| Cells with fire per day, cells of about 1 km | 10,326 | 27,083 | 2.62 |
+| The same, cells of about 5.5 km | 7,066 | 20,141 | 2.85 |
+| The same, cells of about 11 km | 6,255 | 17,949 | 2.87 |
 | The same, cells of about 28 km | 5,265 | 14,655 | 2.78 |
 
-A grid lowers the ratio from 3.4 to about 2.8 and no further, whatever the cell size. Only 9% to 20% of the VIIRS cell-days with fire also have a MODIS detection. So "different kilometres" is two problems. One fire lights more small pixels than large ones, and a grid reduces that: the small part. MODIS never sees the small fires at all, which is sensitivity, and only a factor measured on the shared years covers it: the large part. The grid rows were counted on the second machine only; the first row was reproduced on both.
+A grid lowers the ratio from 3.4 to about 2.8 and no further, whatever the cell size. Only 8.8% to 20.4% of the VIIRS cell-days with fire also have a MODIS detection. So "different kilometres" is two problems. One fire lights more small pixels than large ones, and a grid reduces that: the small part. MODIS never sees the small fires at all, which is sensitivity, and only a factor measured on the shared years covers it: the large part. The script matches the afternoon quick check to within 3 cell-days per row (points lying exactly on a grid line); its output is `web/public/proof/proof7_grid.json`.
 
 ### Step 4. Measure the S-NPP-to-NOAA-20 link (F2)
 
@@ -290,7 +290,7 @@ The method corrects totals, not single fires. The challenge asks for the first k
 | 4 | Yearly harmonized hotspots against EFFIS burned area for Greece, 2006 to 2025 | Tests the pre-2012 estimates against an independent record. 2007 (271,715 ha, the worst year) lies in the MODIS-only era. |
 | 5 | NOAA-20 against S-NPP × F2, monthly, 2019 to 2025 | The last join is clean. |
 | 6 (optional, Person B) | What the factor is made of. On days when Aqua and S-NPP pass the same place within 5 to 10 minutes, the fire is the same and only the sensor differs. Measure, on cells of about 0.1°, the share of VIIRS fire cells that Aqua also saw, and the pixel ratio in cells both saw. | Splits the gap into sensitivity and resolution. The quick check found that Aqua saw about 1 in 4 of the places where VIIRS saw fire, and that VIIRS gave about 2.4 to 2.8 pixels per MODIS pixel where both saw it. |
-| 7 (optional, Person B) | The grid test of section 4, as a small chart | Shows that we tried the obvious alternative and measured why it fails. |
+| 7 (optional, Person B) | The grid test of section 4, as a small chart | Shows that we tried the obvious alternative and measured why it fails. **Done 14 Nov, 19:50:** `pipeline/proof7_grid.py` writes `web/public/proof/proof7_grid.json`; the chart on the method page is still to draw. |
 
 **Proofs 6 and 7 are Person B's.** She already ran both as quick checks on her machine. To count as proof, each must become a script in the repository that uses the pipeline's own cleaning step, so the filters cannot drift apart. They explain the factor; they do not replace it. Limits of proof 6 to state with it: Aqua only (Terra has no near-simultaneous passes), no large fires in the sample, a small sample (119 days in 8 years at the 5-minute limit), and a pass that detected nothing leaves no row, so the 1-in-4 figure is probably optimistic.
 
@@ -578,7 +578,7 @@ A circle (point + radius) is turned into a shape in the browser, so the database
 - If the normal is 0 (winter months), show the plain number and "normal: 0". Never divide by zero.
 - **Small numbers:** if the normal is below 5, show the two plain numbers and no "N times". "8 against a normal of 2" is honest; "4 times normal" is noise.
 - Peak season = the calendar months with the highest normal values that together hold most of a normal year's hotspots. Shown as a plain phrase, for example "July to September".
-- The calendar CSV carries both the median and the mean for each calendar month, because the challenge mentions both. Columns (built 14 Nov, 19:35): `year, month, hotspots_noaa20_equivalent, modis_detections, snpp_detections, noaa20_detections, provisional_detections, normal_median, normal_mean, difference_from_normal`. The hotspots CSV passes through the columns `hotspots_export` returns, in its order; the website reads it in pages with `?limit=10000&offset=N` and stops at 200,000 rows.
+- The calendar CSV carries both the median and the mean for each calendar month, because the challenge mentions both. Columns (built 14 Nov, 19:35): `year, month, hotspots_noaa20_equivalent, modis_detections, snpp_detections, noaa20_detections, provisional_detections, normal_median, normal_mean, difference_from_normal`. The hotspots CSV passes through the columns `hotspots_export` returns, in its order. The website reads it through the function's own `page` input (10,000 rows each, `db/schema.sql`) and, inside a page, by `offset`, so a Supabase limit on rows per answer cannot cut a page short. Above 200,000 rows the function stops with its own message, which the page shows unchanged.
 - 2000 and 2026 are partial years. They are left out of yearly rankings.
 - The current month is labelled "so far" and is never ranked against full months.
 
@@ -665,6 +665,7 @@ It writes a log line each run. The daily run also counts as activity on the Supa
 - `.gitignore` (Person A): add `/greece-firms-data/`. On the second machine the raw data folder sits inside the repository root. Until then it is excluded there in `.git/info/exclude`, together with `/CLAUDE.md` and `/CHATGPT-ENRICHED-EL.md`.
 - Tests on Windows: if Vitest says "failed to find the current suite" for every file, the shell started on `c:\` (lowercase, as VS Code does) and Vitest was loaded twice. Run the tests from the `C:\` path, for example `Set-Location -LiteralPath 'C:\Users\...\hotspot\web'; npx vitest run`. Found 14 Nov, 18:45, on the second machine.
 - The website reads `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` from `hotspot/web/.env` (ignored by Git; public values only). Each machine needs its own copy to run the app locally. The rebuild steps in the README must say so.
+- The pipeline has no pinned list of Python libraries. On the second machine pandas 3.1.1 and pytest 9.2.0 were installed by hand on 14 Nov. Proposal for Person A: a `pipeline/requirements.txt` with the versions used, so the rebuild check (section 18.6) can install the same ones.
 
 ### 9.9 Building with Claude Code
 

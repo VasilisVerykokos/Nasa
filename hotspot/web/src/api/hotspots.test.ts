@@ -1,45 +1,46 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks that the export reads every page.
-import { afterEach, describe, expect, it, vi } from 'vitest'
+// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the export reads every page, with and without a Supabase limit on rows per answer.
+import { afterEach, expect, it, vi } from 'vitest'
 
-const area = { type: 'Polygon', coordinates: [[[23, 38], [24, 38], [24, 39], [23, 38]]] }
+const area = { type: 'Polygon' as const, coordinates: [[[23, 38.7], [23.5, 38.7], [23.5, 39], [23, 38.7]] as [number, number][]] }
 
-async function load(answers: Array<{ ok: boolean; body: unknown }>) {
+/** A fake database that behaves like hotspots_export: `page` picks 10,000 rows, then `offset` and the row limit apply. */
+function fakeDatabase(total: number, rowLimit: number) {
+  const data = Array.from({ length: total }, (_, i) => ({ id: i + 1 }))
+  return vi.fn(async (url: string, init: { body: string }) => {
+    const { page } = JSON.parse(init.body)
+    const offset = Number(new URL(url).searchParams.get('offset') ?? 0)
+    const rows = data.slice(page * 10_000, page * 10_000 + 10_000).slice(offset, offset + rowLimit)
+    return new Response(JSON.stringify(rows), { status: 200 })
+  })
+}
+
+async function load() {
   vi.stubEnv('VITE_SUPABASE_URL', 'https://example.supabase.co')
   vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'test-key')
   vi.resetModules()
-  const calls: Array<{ page: number }> = []
-  vi.stubGlobal('fetch', vi.fn(async (_url: string, init: RequestInit) => {
-    calls.push(JSON.parse(init.body as string))
-    const a = answers.shift()!
-    return { ok: a.ok, status: a.ok ? 200 : 400, json: async () => a.body }
-  }))
-  const api = await import('./hotspots')
-  return { api, calls }
+  return import('./hotspots')
 }
-
-const rows = (n: number) => Array.from({ length: n }, (_, i) => ({ id: i }))
 
 afterEach(() => {
   vi.unstubAllEnvs()
   vi.unstubAllGlobals()
 })
 
-describe('fetchHotspots', () => {
-  it('asks for page 0, 1, 2 ... until a page comes back short', async () => {
-    const { api, calls } = await load([{ ok: true, body: rows(10_000) }, { ok: true, body: rows(10_000) }, { ok: true, body: rows(5) }])
-    const all = await api.fetchHotspots(area as never, '2021-08-01', '2021-08-31')
-    expect(all).toHaveLength(20_005)
-    expect(calls.map((c) => c.page)).toEqual([0, 1, 2])
-  })
+it.each([
+  ['no row limit', 25_000, 100_000],
+  ['Supabase default limit of 1,000 rows', 25_000, 1_000],
+  ['an exact number of pages', 20_000, 1_000],
+])('returns every hotspot once, in order (%s)', async (_, total, rowLimit) => {
+  vi.stubGlobal('fetch', fakeDatabase(total, rowLimit))
+  const { fetchHotspots } = await load()
+  const rows = await fetchHotspots(area, '2000-11-01', '2026-11-30')
+  expect(rows).toHaveLength(total)
+  expect(rows.every((r, i) => r.id === i + 1)).toBe(true)
+})
 
-  it('makes one call when everything fits in the first page', async () => {
-    const { api, calls } = await load([{ ok: true, body: rows(3) }])
-    expect(await api.fetchHotspots(area as never, '2021-08-01', '2021-08-31')).toHaveLength(3)
-    expect(calls).toHaveLength(1)
-  })
-
-  it('turns the database refusal over 200,000 into TooManyHotspots', async () => {
-    const { api } = await load([{ ok: false, body: { message: 'This selection has 250000 hotspots; the export limit is 200,000.' } }])
-    await expect(api.fetchHotspots(area as never, '2000-11-01', '2026-11-30')).rejects.toBeInstanceOf(api.TooManyHotspots)
-  })
+it("passes on the database's own message", async () => {
+  const message = 'This selection has 250000 hotspots; the export limit is 200,000. Choose a smaller area or a shorter date range.'
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify({ message }), { status: 400 })))
+  const { fetchHotspots } = await load()
+  await expect(fetchHotspots(area, '2000-11-01', '2026-11-30')).rejects.toThrow(message)
 })

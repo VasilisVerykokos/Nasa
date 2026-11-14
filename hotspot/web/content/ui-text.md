@@ -136,6 +136,8 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | Link copied | Link copied |
 | Too many rows | This selection has more than 200,000 hotspots. Make the area smaller or the dates shorter, then try again. |
 | Nothing to download | No hotspots to download for this area and these dates. |
+
+**CODE:** above 200,000 rows the database stops first, with its own words: "This selection has {N} hotspots; the export limit is 200,000. Choose a smaller area or a shorter date range." The page shows that text as it is. It is clear, so it can stay; to use the "Too many rows" text above instead, Person A changes the message in `db/schema.sql`.
 | Not shown yet | "Download calendar (image)" waits for the heatmap; "Copy link" waits for the share link (should-have 5). |
 | Hint | Files are named with the area and the dates, for example hotspot-calendar_north-evia-2021_2000-11_2026-11.csv |
 
