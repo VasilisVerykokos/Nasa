@@ -5,13 +5,23 @@
   --muted: #555;
   --accent: #b5400a;
   --error: #b00020;
+  --line: #ddd;
+  --link: #0645ad;
+  --c1: #e66101; /* chart colours */
+  --c2: #2f6fc4;
   --space: 16px;
+  color-scheme: light dark; /* buttons, inputs and scrollbars follow the theme */
   font: 16px/1.5 system-ui, sans-serif;
   color: var(--text);
   background: var(--bg);
 }
-body { margin: 0; }
-header { padding: 8px var(--space); border-bottom: 1px solid #ddd; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #161616; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #444; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; }
+}
+body { margin: 0; background: var(--bg); }
+a { color: var(--link); }
+/* The calendar picture keeps its own white background in both themes: its colour ramps and hatches are made for it, and it is also the downloaded image. */
+header { padding: 8px var(--space); border-bottom: 1px solid var(--line); }
 header h1 { margin: 0; font-size: 20px; }
 .layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space); padding: var(--space); } /* minmax(0, ...) lets the columns shrink below their content, so the wide calendar scrolls inside its own box instead of widening the page */
 @media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
@@ -25,7 +35,7 @@ input { font: inherit; width: 8em; }
 main h2 { margin-top: 0; }
 .calendar { overflow-x: auto; } /* the calendar scrolls inside its box, never the page */
 .calendar table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
-.calendar th, .calendar td { padding: 2px 6px; text-align: right; border-bottom: 1px solid #eee; }
+.calendar th, .calendar td { padding: 2px 6px; text-align: right; border-bottom: 1px solid var(--line); }
 .calendar caption { text-align: left; color: var(--muted); }
 .hm-scroll { overflow-x: auto; } /* on a phone the calendar slides inside this box; the page itself never scrolls sideways */
 .heatmap svg { display: block; width: 100%; min-width: 560px; max-width: 640px; height: auto; margin-top: 8px; } /* 560: labels about 14 px */
@@ -36,3 +46,21 @@ main h2 { margin-top: 0; }
 .switch legend { float: left; margin-right: 8px; }
 .switch label { min-height: 44px; display: inline-flex; align-items: center; gap: 4px; }
 .hm-info { min-height: 3em; }
+/* Method and proof view */
+header nav a { display: inline-block; padding: 10px 0; color: inherit; }
+header nav a[aria-current] { font-weight: 700; }
+.method { max-width: 760px; min-width: 0; }
+.method code { overflow-wrap: anywhere; } /* long codes such as the public key wrap instead of widening the page */
+.scroll td, .scroll th { white-space: nowrap; } /* data tables keep their rows on one line and slide inside their box */
+.method table, .scroll table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.method th, .method td { padding: 2px 8px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
+.method caption { text-align: left; color: var(--muted); }
+.method > div > table { display: block; overflow-x: auto; } /* Markdown tables scroll inside their own box */
+.scroll { overflow-x: auto; margin: 16px 0; }
+.finding { border-left: 4px solid var(--accent); padding: 4px 12px; }
+.chart { margin: 24px 0; }
+.chart svg[role="img"] { display: block; width: 100%; height: auto; }
+.legend { list-style: none; padding: 0; margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
+.legend li { display: inline-flex; align-items: center; gap: 4px; }
+details summary { padding: 10px 0; cursor: pointer; } /* tall enough to tap; stays a list item so it keeps its triangle */
+.page { padding: var(--space); }

@@ -1,0 +1,260 @@
+{
+ "proof": 3,
+ "what": "Daily harmonized hotspots inside the official Copernicus box, against the Copernicus burned-area maps",
+ "note": "Hotspots are not burned area. A map's hotspots are those on the days after the previous map, up to and including its own day.",
+ "fires": [
+  {
+   "name": "North Evia 2021",
+   "box": {
+    "west": 22.966,
+    "south": 38.674,
+    "east": 23.509,
+    "north": 39.063,
+    "status": "VERIFIED (area of interest AOI01 'Evia', EMSR527 Delineation Monitoring 3; the box around the official shape, rounded outwards to 3 decimals)",
+    "replaces": "the rough estimate 23.0 to 23.5 E, 38.75 to 39.05 N, which cut off the south of the burnt area (it reaches 38.701 N)"
+   },
+   "start": "2021-08-03",
+   "days": [
+    {
+     "date": "2021-08-01",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-02",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-03",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-04",
+     "hotspots": 365.0
+    },
+    {
+     "date": "2021-08-05",
+     "hotspots": 752.0
+    },
+    {
+     "date": "2021-08-06",
+     "hotspots": 488.0
+    },
+    {
+     "date": "2021-08-07",
+     "hotspots": 745.0
+    },
+    {
+     "date": "2021-08-08",
+     "hotspots": 642.0
+    },
+    {
+     "date": "2021-08-09",
+     "hotspots": 216.0
+    },
+    {
+     "date": "2021-08-10",
+     "hotspots": 33.0
+    },
+    {
+     "date": "2021-08-11",
+     "hotspots": 10.0
+    },
+    {
+     "date": "2021-08-12",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-13",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-14",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-15",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2021-08-16",
+     "hotspots": 0.0
+    }
+   ],
+   "maps": [
+    {
+     "date": "2021-08-05",
+     "ha": 7313,
+     "ha_added": 7313.0,
+     "hotspots_since_previous_map": 1117.0
+    },
+    {
+     "date": "2021-08-11",
+     "ha": 50909,
+     "ha_added": 43596,
+     "hotspots_since_previous_map": 2134.0
+    }
+   ],
+   "peak_day": "2021-08-05",
+   "peak_hotspots": 752.0,
+   "total_hotspots": 3251.0
+  },
+  {
+   "name": "Evros 2023",
+   "box": {
+    "west": 25.536,
+    "south": 40.749,
+    "east": 26.317,
+    "north": 41.261,
+    "status": "VERIFIED (area of interest Aristino)"
+   },
+   "start": "2023-08-19",
+   "days": [
+    {
+     "date": "2023-08-17",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2023-08-18",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2023-08-19",
+     "hotspots": 36.0
+    },
+    {
+     "date": "2023-08-20",
+     "hotspots": 207.0
+    },
+    {
+     "date": "2023-08-21",
+     "hotspots": 1061.0
+    },
+    {
+     "date": "2023-08-22",
+     "hotspots": 1410.0
+    },
+    {
+     "date": "2023-08-23",
+     "hotspots": 453.0
+    },
+    {
+     "date": "2023-08-24",
+     "hotspots": 244.0
+    },
+    {
+     "date": "2023-08-25",
+     "hotspots": 161.0
+    },
+    {
+     "date": "2023-08-26",
+     "hotspots": 123.0
+    },
+    {
+     "date": "2023-08-27",
+     "hotspots": 68.0
+    },
+    {
+     "date": "2023-08-28",
+     "hotspots": 24.0
+    },
+    {
+     "date": "2023-08-29",
+     "hotspots": 41.0
+    },
+    {
+     "date": "2023-08-30",
+     "hotspots": 113.0
+    },
+    {
+     "date": "2023-08-31",
+     "hotspots": 335.0
+    },
+    {
+     "date": "2023-09-01",
+     "hotspots": 22.0
+    },
+    {
+     "date": "2023-09-02",
+     "hotspots": 11.0
+    },
+    {
+     "date": "2023-09-03",
+     "hotspots": 2.0
+    },
+    {
+     "date": "2023-09-04",
+     "hotspots": 0.0
+    },
+    {
+     "date": "2023-09-05",
+     "hotspots": 0.0
+    }
+   ],
+   "maps": [
+    {
+     "date": "2023-08-20",
+     "ha": 5040.8,
+     "ha_added": 5040.8,
+     "hotspots_since_previous_map": 243.0
+    },
+    {
+     "date": "2023-08-21",
+     "ha": 8529.4,
+     "ha_added": 3488.6,
+     "hotspots_since_previous_map": 1061.0
+    },
+    {
+     "date": "2023-08-23",
+     "ha": 72344.5,
+     "ha_added": 63815.1,
+     "hotspots_since_previous_map": 1863.0
+    },
+    {
+     "date": "2023-08-24",
+     "ha": 73526.5,
+     "ha_added": 1182.0,
+     "hotspots_since_previous_map": 244.0
+    },
+    {
+     "date": "2023-08-25",
+     "ha": 75668.2,
+     "ha_added": 2141.7,
+     "hotspots_since_previous_map": 161.0
+    },
+    {
+     "date": "2023-08-26",
+     "ha": 77066.2,
+     "ha_added": 1398.0,
+     "hotspots_since_previous_map": 123.0
+    },
+    {
+     "date": "2023-08-28",
+     "ha": 80873.0,
+     "ha_added": 3806.8,
+     "hotspots_since_previous_map": 92.0
+    },
+    {
+     "date": "2023-08-29",
+     "ha": 81260.7,
+     "ha_added": 387.7,
+     "hotspots_since_previous_map": 41.0
+    },
+    {
+     "date": "2023-09-02",
+     "ha": 93511.0,
+     "ha_added": 12250.3,
+     "hotspots_since_previous_map": 481.0
+    },
+    {
+     "date": "2023-09-03",
+     "ha": 93880.8,
+     "ha_added": 369.8,
+     "hotspots_since_previous_map": 2.0
+    }
+   ],
+   "peak_day": "2023-08-22",
+   "peak_hotspots": 1410.0,
+   "total_hotspots": 4311.0
+  }
+ ]
+}

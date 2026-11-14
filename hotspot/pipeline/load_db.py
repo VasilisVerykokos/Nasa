@@ -1,7 +1,8 @@
 # AI note: written with Claude Code (Claude Sonnet 5.5), under the team's direction and review.
 """Empty and reload hotspots, factors, coverage and meta in Supabase, in one transaction (plan, sections 9.2 and 9.3).
 
-Run from the hotspot folder:  py -3.13 pipeline/load_db.py     Prints row counts only, never a secret."""
+Run from the hotspot folder:  py -3.13 pipeline/load_db.py     Prints row counts only, never a secret.
+It holds the yearly files only (to 2025): run pipeline/update_daily.py straight after it to put the current year back."""
 import json
 from datetime import datetime, timezone
 from pathlib import Path
@@ -67,3 +68,4 @@ if __name__ == "__main__":
             print(f"{t}: {c.execute(f'select count(*) from public.{t}').fetchone()[0]:,} rows")
         print(f"weight 0 rows: {c.execute('select count(*) from public.hotspots where weight = 0').fetchone()[0]:,}")
     print("meta:", {k: v for k, v in meta.items() if k != "last_update"})
+    print("The current year is now empty: run  py -3.13 pipeline/update_daily.py")

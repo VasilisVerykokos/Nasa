@@ -128,6 +128,10 @@ if __name__ == "__main__":
                                    **{k: _records(blind[k]) for k in ("years", "months", "squares")}},
         "proof4_effis.json": _records(effis.rename_axis("year")),
         "proof5_join.json": _records(join5),
+        # The finding (must-have 9): every August of the record, with the blind-test ranges to put on the estimates
+        "finding_augusts.json": {"fire_season_month_error_pct": s["fire_season_month_error_pct"],
+                                 "yearly_error_pct": s["yearly_error_pct"],
+                                 "augusts": _records(month_h.xs(8, level="month").round(1).rename("harmonized"))},
     }
     for name, data in out.items():
         (PROOF_DIR / name).write_text(json.dumps(data, indent=1), encoding="utf-8")

@@ -9,6 +9,7 @@ import DateRange from './components/DateRange'
 import { recordEnd, type Range, yearsOf } from './lib/dates'
 import ExportBar from './components/ExportBar'
 import HeadlineCard from './components/HeadlineCard'
+import MethodPage from './components/MethodPage'
 import { DatabaseMessage, NoHotspots, OutsideGreece, Unreachable } from './components/Messages'
 import Rankings from './components/Rankings'
 import ThisMonthCard from './components/ThisMonthCard'
@@ -25,6 +26,14 @@ export default function App() {
 
   // The date range changes only what the screen shows, never the calendar call or the statistics (plan 9.4); it is not in any effect below.
   const [range, setRange] = useState<Range | null>(null)
+  // Two views, chosen by the address: #method shows "Method and proof", anything else the calendar. No router needed.
+  const [hash, setHash] = useState(location.hash)
+  useEffect(() => {
+    const onHash = () => { setHash(location.hash); window.scrollTo(0, 0) }
+    addEventListener('hashchange', onHash)
+    return () => removeEventListener('hashchange', onHash)
+  }, [])
+  const method = hash === '#method'
   // Once per visit: the data-through date for the stamp, and when it arrived. A failed call shows "Data date unavailable".
   useEffect(() => {
     fetchMeta().then(values => setMeta({ values, at: Date.now() })).catch(() => setMeta({ values: {}, at: Date.now() }))
@@ -45,8 +54,14 @@ export default function App() {
 
   return (
     <>
-      <header><h1>HOTSPOT</h1><DataStamp meta={meta?.values ?? null} now={meta?.at ?? 0} /></header>
-      <div className="layout">
+      <header>
+        <h1>HOTSPOT</h1>
+        <nav aria-label="Views">
+          <a href="#" aria-current={method ? undefined : 'page'}>Calendar</a> · <a href="#method" aria-current={method ? 'page' : undefined}>Method and proof</a>
+        </nav>
+        <DataStamp meta={meta?.values ?? null} now={meta?.at ?? 0} />
+      </header>
+      {method ? <main className="page"><MethodPage /></main> :<div className="layout">
         <aside aria-label="Area and dates"><AreaPicker onChange={setSelection} /><DateRange through={meta ? recordEnd(meta.values) : null} onChange={setRange} /></aside>
         <main aria-live="polite">
           {selection && <h2>{selection.label}</h2>}
@@ -65,7 +80,7 @@ export default function App() {
                 {selection && <ExportBar rows={result.rows} label={selection.label} area={selection.area} range={range} />}
               </>}
         </main>
-      </div>
+      </div>}
     </>
   )
 }

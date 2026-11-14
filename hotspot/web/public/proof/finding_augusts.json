@@ -1,0 +1,106 @@
+{
+ "fire_season_month_error_pct": 26.3,
+ "yearly_error_pct": 7.8,
+ "augusts": [
+  {
+   "year": 2001,
+   "harmonized": 939.5
+  },
+  {
+   "year": 2002,
+   "harmonized": 560.6
+  },
+  {
+   "year": 2003,
+   "harmonized": 574.5
+  },
+  {
+   "year": 2004,
+   "harmonized": 659.4
+  },
+  {
+   "year": 2005,
+   "harmonized": 378.3
+  },
+  {
+   "year": 2006,
+   "harmonized": 1043.3
+  },
+  {
+   "year": 2007,
+   "harmonized": 11606.3
+  },
+  {
+   "year": 2008,
+   "harmonized": 1184.4
+  },
+  {
+   "year": 2009,
+   "harmonized": 2484.6
+  },
+  {
+   "year": 2010,
+   "harmonized": 731.1
+  },
+  {
+   "year": 2011,
+   "harmonized": 1869.2
+  },
+  {
+   "year": 2012,
+   "harmonized": 2705.1
+  },
+  {
+   "year": 2013,
+   "harmonized": 718.7
+  },
+  {
+   "year": 2014,
+   "harmonized": 592.7
+  },
+  {
+   "year": 2015,
+   "harmonized": 669.8
+  },
+  {
+   "year": 2016,
+   "harmonized": 892.7
+  },
+  {
+   "year": 2017,
+   "harmonized": 1123.9
+  },
+  {
+   "year": 2018,
+   "harmonized": 104.2
+  },
+  {
+   "year": 2019,
+   "harmonized": 414.0
+  },
+  {
+   "year": 2020,
+   "harmonized": 281.0
+  },
+  {
+   "year": 2021,
+   "harmonized": 6893.0
+  },
+  {
+   "year": 2022,
+   "harmonized": 143.0
+  },
+  {
+   "year": 2023,
+   "harmonized": 5736.0
+  },
+  {
+   "year": 2024,
+   "harmonized": 939.0
+  },
+  {
+   "year": 2025,
+   "harmonized": 997.0
+  }
+ ]
+}

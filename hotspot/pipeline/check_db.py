@@ -53,13 +53,14 @@ code, ans, sec = calendar(json.loads((Path(__file__).parent / "evidence" / "gree
 check("coverage outline is refused (over 500 corners, so the site cannot send it)", code != 200, f"({code}: {str(ans)[:90]}) {sec:.2f}s")
 code, rows, sec = calendar(box(*GREECE_BOX))
 check("All Greece rectangle answers", code == 200 and len(rows) > 300, f"{len(rows)} months, {sec:.2f}s")
-bad = [(r["year"], r["value"], mine.get((r["year"], 8), 0)) for r in rows if r["month"] == 8
+rows = [r for r in rows if r["year"] <= h["acq_date"].dt.year.max()]  # the current year comes from update_daily.py, not the yearly files
+bad =[(r["year"], r["value"], mine.get((r["year"], 8), 0)) for r in rows if r["month"] == 8
        and abs(r["value"] - mine.get((r["year"], 8), 0)) > 0.001 * max(mine.get((r["year"], 8), 0), 1e-9)]
 check("All Greece: every August within 0.1% of the pipeline", not bad, f"{sum(r['month'] == 8 for r in rows)} Augusts compared, mismatches: {bad[:3]}")
 print(f"      all months, largest relative gap: {max(abs(r['value'] - mine.get((r['year'], r['month']), 0)) / max(mine.get((r['year'], r['month']), 0), 1) for r in rows):.2e}")
 
 # 2. Presets
-code, rows, sec = calendar(box(23.0, 38.75, 23.5, 39.05))
+code, rows, sec = calendar(box(22.966, 38.674, 23.509, 39.063))  # official EMSR527 box, as in web/src/lib/geo
 check("North Evia: August 2021 is the highest August since 2012", code == 200 and top_august(rows) == 2021, f"top = {top_august(rows)}, {sec:.2f}s")
 code, rows, sec = calendar(box(25.536, 40.749, 26.317, 41.261))
 check("Evros: August 2023 is the highest August since 2012", code == 200 and top_august(rows) == 2023, f"top = {top_august(rows)}, {sec:.2f}s")

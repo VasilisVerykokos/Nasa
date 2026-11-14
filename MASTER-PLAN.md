@@ -239,7 +239,7 @@ Detections from a sensor outside its period stay in the database with weight 0. 
 - The API has standard data for the older months and near-real-time data for the latest ones. Near-real-time data has no `type` column.
 - To remove factories from near-real-time data we build a mask from the archive, following the published GFED5NRT rule: any 0.01° cell with more than five non-vegetation detections is a permanent heat source.
 - The API returns a rectangle that includes parts of neighbouring countries. Rows outside the Greece outline are dropped, so 2026 covers the same ground as earlier years.
-- **Check of 14 Nov, 18:40 (second machine):** the Natural Earth outline is slightly tighter than FIRMS's own Greece files. 1.5% of the cleaned 2025 NOAA-20 hotspots (48 of 3,299) fall outside it, all within about 2.4 km. Proposed by Person B: cut the 2026 rows with the outline widened by 3 km, so 2026 is not about 1.5% low against the archive years. Person A decides.
+- **Check of 14 Nov, 18:40 (second machine):** the Natural Earth outline is slightly tighter than FIRMS's own Greece files. 1.5% of the cleaned 2025 NOAA-20 hotspots (48 of 3,299) fall outside it, all within about 2.4 km. Proposed by Person B: cut the 2026 rows with the outline widened by 3 km, so 2026 is not about 1.5% low against the archive years. Person A decides. **Decided 15 Nov, 01:00:** 3 km, but never into a neighbouring country (decision log); built in `pipeline/update_daily.py`, 2026 loaded through 14 Nov.
 
 ### Step 7. Uncertainty
 

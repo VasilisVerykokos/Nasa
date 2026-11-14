@@ -33,7 +33,16 @@ BLIND_TEST_START, BLIND_TEST_END = "2017-01-01", "2019-12-31"
 FIRE_SEASON_MONTHS = [6, 7, 8, 9]  # our choice: June to September. F1 has its own value for these months, and the range shown is the error on them
 MIN_SQUARE_HOTSPOTS = 100  # a 1-degree square enters the small-area error only for years with this many real S-NPP hotspots
 
-PROOF_DIR = Path(__file__).resolve().parents[1] / "web" / "public" / "proof"
+# The current year (plan, section 4, step 6, and 9.6): NOAA-20 from the FIRMS Area API, from the day after the yearly files end
+API_START = "2026-01-01"
+API_SOURCES = {"SP": "VIIRS_NOAA20_SP", "NRT": "VIIRS_NOAA20_NRT"}  # standard where NASA has it, near-real-time after
+API_BOX = "19.6,34.8,28.3,41.8"  # west,south,east,north: the rectangle around Greece; rows outside the outline are cut
+API_DAYS = 5                     # the most days the Area API returns per request
+CLIP_KM = 3                      # the outline is widened by 3 km: it is slightly tighter than FIRMS's own Greece files (Person B, Sat 18:40)
+MASK_CELL_DEG = 0.01             # factory mask for NRT rows, which have no type column (GFED5NRT rule):
+MASK_MAX_OTHER = 5               # a cell with more than 5 non-vegetation detections in the yearly files is a permanent heat source
+
+PROOF_DIR =Path(__file__).resolve().parents[1] / "web" / "public" / "proof"
 
 # EFFIS yearly burned area for Greece, ha (verified-facts.md, section 9.5; fires of about 30 ha or larger)
 EFFIS_HA = {2006: 16294, 2007: 271715, 2008: 24988, 2009: 42807, 2010: 6472, 2011: 35713, 2012: 52487,

@@ -67,7 +67,7 @@ Publish the results as they come out. If an error is large, say so and widen the
 | # | What we chose to do | What it gains | Result to fill in | On page |
 |---|---|---|---|---|
 | 27 | A record that starts in 2000 | C: the other public tools we looked at start in 2012. Re-check this before writing it. | Checked: ____ | [ ] |
-| 28 | One finding nobody could make before (for example: was 2007 worse than 2021 or 2023?) | I + C: turns the tool into a discovery | Finding: 2007 = 22,224 NOAA-20-equivalent hotspots, about 2.3 times 2021 (9,545) and 2.4 times 2023 (9,376); whole-year blind-test error 8 % (worst year 11 %). August 2007 = 11,606 (8,554 to 14,658) against 6,893 (2021) and 5,736 (2023) | [ ] |
+| 28 | One finding nobody could make before (for example: was 2007 worse than 2021 or 2023?) | I + C: turns the tool into a discovery | Finding: 2007 = 22,224 NOAA-20-equivalent hotspots, about 2.3 times 2021 (9,545) and 2.4 times 2023 (9,376); whole-year blind-test error 8 % (worst year 11 %). August 2007 = 11,606 (8,554 to 14,659) against 6,893 (2021) and 5,736 (2023) | [ ] |
 | 29 | "Why now": S-NPP has ended, and Terra and Aqua are planned to stop in 2027 | R + I: the problem is urgent this year, for every long fire record | The challenge section | [ ] |
 | 30 | "Use our data": the open address of the calendar function | C + I: others can build on it | Address: ____ | [ ] |
 | 31 | New measured ratios for the Mediterranean, which we found published nowhere | C + Best Use of Science | Ratio: June to September 2.63 by day, 4.96 by night; rest of the year 3.36 by day, 11.52 by night (range ____ to ____) | [ ] |
