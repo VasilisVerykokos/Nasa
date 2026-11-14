@@ -26,12 +26,18 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | NASA FIRMS, MODIS Collection 6.1 active fire product (Terra and Aqua), yearly country files, Greece 2000 to 2025 | Hotspots before 2012, and the MODIS side of the factor F1 | https://firms.modaps.eosdis.nasa.gov |
 | NASA FIRMS, VIIRS 375 m active fire products (S-NPP 2012 to 2025, NOAA-20 2018 to 2025), yearly country files, Greece | Hotspots from 2012; the factors F1 and F2 | https://firms.modaps.eosdis.nasa.gov |
 | EFFIS Statistics Portal, yearly burned area for Greece, 2006 to 2025 | Proof 4: our yearly record against an independent one | https://forest-fire.emergency.copernicus.eu/apps/effis.statistics/estimates |
+| Copernicus Emergency Management Service, activation EMSR686 (Evros 2023): burned-area products and area of interest | Dates and burned area of the Evros fire; the Evros preset box | https://mapping.emergency.copernicus.eu/activations/EMSR686/ |
+| Copernicus Emergency Management Service, activation EMSR527 and its bulletin on fire events in the Mediterranean (North Evia 2021) | Start date and burned area of the North Evia fire | https://mapping.emergency.copernicus.eu/activations/EMSR527/ |
+| Natural Earth, 1:10m Admin 0 Countries (public domain) | The Greece outline: clipping and the coverage outline | https://www.naturalearthdata.com |
 
 ## Papers and guides
 
 | Reference | Used for |
 |---|---|
 | MODIS Collection 6 and 6.1 Active Fire Product User's Guide, version 1.0 (https://earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf) | The MODIS confidence classes (table 11): we drop the low class, below 30 |
+| NASA Space Apps Challenge 2026, "Harmonization of MODIS and VIIRS Hot Spots" (https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) | The task, and NASA's wording of the goal |
+| FIRMS FAQ, NASA Earthdata (https://www.earthdata.nasa.gov/data/tools/firms/faq) | What a hotspot is, satellite dates, the limits of hotspot data |
+| NASA VIIRS Land, Active Fire Product (https://viirsland.gsfc.nasa.gov/Products/NASA/FireESDR.html) | The two VIIRS fire products (750 m and 375 m) |
 
 ## Services
 
