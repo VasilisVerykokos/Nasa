@@ -289,12 +289,12 @@ The method corrects totals, not single fires. The challenge asks for the first k
 | 3 | Two real fires: daily hotspots against Copernicus burned-area maps. Evros has ten dated maps, including the jump from 8,529 ha to 72,344 ha between 21 and 23 August 2023. Evia grew from 7,313 ha to 50,909 ha between 5 and 11 August 2021. | The record follows real events day by day. |
 | 4 | Yearly harmonized hotspots against EFFIS burned area for Greece, 2006 to 2025 | Tests the pre-2012 estimates against an independent record. 2007 (271,715 ha, the worst year) lies in the MODIS-only era. |
 | 5 | NOAA-20 against S-NPP × F2, monthly, 2019 to 2025 | The last join is clean. |
-| 6 (optional, Person B) | What the factor is made of. On days when Aqua and S-NPP pass the same place within 5 to 10 minutes, the fire is the same and only the sensor differs. Measure, on cells of about 0.1°, the share of VIIRS fire cells that Aqua also saw, and the pixel ratio in cells both saw. | Splits the gap into sensitivity and resolution. The quick check found that Aqua saw about 1 in 4 of the places where VIIRS saw fire, and that VIIRS gave about 2.4 to 2.8 pixels per MODIS pixel where both saw it. |
+| 6 (optional, Person B) | What the factor is made of. On days when Aqua and S-NPP pass the same place within 5 to 10 minutes, the fire is the same and only the sensor differs. Measure, on cells of about 0.1°, the share of VIIRS fire cells that Aqua also saw, and the pixel ratio in cells both saw. | Splits the gap into sensitivity and resolution. The quick check found that Aqua saw about 1 in 4 of the places where VIIRS saw fire, and that VIIRS gave about 2.4 to 2.8 pixels per MODIS pixel where both saw it. **Done 14 Nov, 20:15:** `pipeline/proof6_coincident.py` writes `web/public/proof/proof6_coincident.json`, with its limits inside; it reproduces the quick check exactly (22.1% and 23.0%; 2.83 and 2.41). The chart on the method page is still to draw. |
 | 7 (optional, Person B) | The grid test of section 4, as a small chart | Shows that we tried the obvious alternative and measured why it fails. **Done 14 Nov, 19:50:** `pipeline/proof7_grid.py` writes `web/public/proof/proof7_grid.json`; the chart on the method page is still to draw. |
 
 **Proofs 6 and 7 are Person B's.** She already ran both as quick checks on her machine. To count as proof, each must become a script in the repository that uses the pipeline's own cleaning step, so the filters cannot drift apart. They explain the factor; they do not replace it. Limits of proof 6 to state with it: Aqua only (Terra has no near-simultaneous passes), no large fires in the sample, a small sample (119 days in 8 years at the 5-minute limit), and a pass that detected nothing leaves no row, so the 1-in-4 figure is probably optimistic.
 
-**Expected values for proof 6** (quick check, Greece, Feb 2012 to Dec 2019, second machine only; targets, not numbers for the page).
+**Expected values for proof 6** (quick check, Greece, Feb 2012 to Dec 2019, second machine only; targets, not numbers for the page). Since 14 Nov, 20:15, the second table below comes from `pipeline/proof6_coincident.py`, which reproduces it exactly; the first table (matches within 2 km) stays a quick check.
 
 Matches per MODIS hotspot: an S-NPP hotspot on the same day within about 2 km.
 
@@ -319,7 +319,7 @@ The same pass, compared on cells of about 0.1°:
 | Cells where Aqua saw fire that S-NPP also saw | 70% | 70% |
 | S-NPP ÷ Aqua pixels in cells both saw | 2.83 | 2.41 |
 
-The day counts differ (119 and 147) because the first table counts days with a matched hotspot and the second counts days with any coincident pass. Sample at 5 minutes: 597 Aqua hotspots by day, 85 by night. The script's last step compares the coincidence ratio with the monthly S-NPP ÷ Aqua ratio (section 9.7); agreement would be independent evidence that F1 measures the sensor.
+The day counts differ (119 and 147) because the first table counts days with a matched hotspot and the second counts days with any coincident pass. Sample at 5 minutes: 597 Aqua hotspots by day, 85 by night. The script's last step compares the coincidence ratio with the monthly S-NPP ÷ Aqua ratio (section 9.7). **Result:** 4.39 on coincident passes against 6.03 over all passes. The coincident ratio is lower, as expected, because a pass where only S-NPP saw fire has no Aqua row and drops out of the sample. So proof 6 shows what the gap is made of (sensitivity, then resolution); it does not confirm the size of F1 on its own. Say it that way on the method page.
 
 All proof charts are saved as small data files inside the website, so the proof page works even if the database is down.
 

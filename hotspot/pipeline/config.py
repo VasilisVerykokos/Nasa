@@ -40,3 +40,8 @@ EFFIS_HA = {2006: 16294, 2007: 271715, 2008: 24988, 2009: 42807, 2010: 6472, 201
 
 # Proof 7, the grid test (plan, sections 4 and 5): cell sizes in degrees, about 1, 5.5, 11 and 28 km north to south
 GRID_CELLS_DEG = [0.01, 0.05, 0.1, 0.25]
+
+# Proof 6, near-simultaneous Aqua and S-NPP passes (plan, section 5)
+COINCIDENCE_MINUTES = [5, 10]  # largest time difference between an Aqua and an S-NPP hotspot of the same pass
+COINCIDENCE_CELL_DEG = 0.1     # common cells, well above the MODIS pixel size
+PASS_GAP_MINUTES = 30          # a longer gap between hotspots starts a new pass; adjacent orbits are about 100 minutes apart

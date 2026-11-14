@@ -17,11 +17,16 @@ from config import FIT_END, FIT_START, GRID_CELLS_DEG, PROOF_DIR
 KM_PER_DEGREE = 111.2  # north to south; east to west a cell is about a fifth narrower at Greek latitudes
 
 
+def cell_index(v: pd.Series, size: float) -> pd.Series:
+    """Grid cell number of each coordinate, counted from the south-west. The rounding keeps a point that lies exactly
+    on a grid line (38.90 for 0.01-degree cells) in the cell it starts. // 1 rounds down, also below zero."""
+    return ((v / size).round(6) // 1).astype(int)
+
+
 def cell_days(d: pd.DataFrame, size: float) -> pd.DataFrame:
-    """One row per (day, cell) with at least one hotspot. Cells are named by their south-west corner.
-    The rounding keeps a point that lies exactly on a grid line (38.90 for 0.01-degree cells) in the cell it starts."""
-    cell = lambda v: ((v / size).round(6) // 1).astype(int)  # noqa: E731  (// 1 rounds down, also below zero)
-    return pd.DataFrame({"day": d["acq_date"], "lat": cell(d["latitude"]), "lon": cell(d["longitude"])}).drop_duplicates()
+    """One row per (day, cell) with at least one hotspot."""
+    return pd.DataFrame({"day": d["acq_date"], "lat": cell_index(d["latitude"], size),
+                         "lon": cell_index(d["longitude"], size)}).drop_duplicates()
 
 
 def grid_test(df: pd.DataFrame, sizes=GRID_CELLS_DEG) -> list[dict]:

@@ -1,0 +1,50 @@
+{
+ "proof": 6,
+ "what": "Aqua against S-NPP on near-simultaneous passes: sensitivity and resolution",
+ "window": {
+  "from": "2012-02-01",
+  "to": "2019-12-31"
+ },
+ "cell_deg": 0.1,
+ "snpp_per_aqua_all_passes": 6.03,
+ "rows": [
+  {
+   "max_minutes": 5,
+   "passes": 147,
+   "days": 147,
+   "aqua_hotspots_day": 597,
+   "aqua_hotspots_night": 85,
+   "snpp_per_aqua": 4.39,
+   "snpp_per_aqua_day": 3.96,
+   "snpp_per_aqua_night": 7.38,
+   "snpp_cells_also_seen_by_aqua_pct": 22.1,
+   "aqua_cells_also_seen_by_snpp_pct": 70.5,
+   "snpp_per_aqua_pixels_in_shared_cells": 2.83,
+   "largest_aqua_pixels_in_a_shared_cell": 15,
+   "terra_hotspots_with_a_match": 4
+  },
+  {
+   "max_minutes": 10,
+   "passes": 280,
+   "days": 277,
+   "aqua_hotspots_day": 1173,
+   "aqua_hotspots_night": 119,
+   "snpp_per_aqua": 4.07,
+   "snpp_per_aqua_day": 3.79,
+   "snpp_per_aqua_night": 6.8,
+   "snpp_cells_also_seen_by_aqua_pct": 23.0,
+   "aqua_cells_also_seen_by_snpp_pct": 70.0,
+   "snpp_per_aqua_pixels_in_shared_cells": 2.41,
+   "largest_aqua_pixels_in_a_shared_cell": 16,
+   "terra_hotspots_with_a_match": 42
+  }
+ ],
+ "limits": [
+  "Aqua only: Terra passes about three hours before VIIRS, so near-simultaneous passes are rare for it (4 Terra hotspots had an S-NPP hotspot within 5 minutes, against 682 Aqua hotspots).",
+  "The ratio on these passes (4.39) is lower than over all passes (6.03), as expected: a pass where only S-NPP saw fire has no Aqua row and drops out. So this proof shows what the gap is made of; it does not measure the factor's size, which comes from monthly totals (plan, section 4).",
+  "No large fires: the most Aqua pixels in one shared cell on one pass is 15.",
+  "A small sample: 147 days with a coincident pass in eight years at the 5-minute limit.",
+  "A pass that detected nothing leaves no row in the files, so only passes where both sensors recorded something are counted. The share of cells Aqua also saw is therefore probably optimistic.",
+  "Both satellites cover Greece on these passes, but a fire near the edge of one swath may lie outside the other's."
+ ]
+}
