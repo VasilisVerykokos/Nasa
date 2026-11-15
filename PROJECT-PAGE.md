@@ -2,7 +2,7 @@
 AI note: written with Claude Code (Claude Opus 5.5) for Person B on 15 Nov 2026, building on Person B's fact-checked draft, from MASTER-PLAN.md,
 PROJECT-PAGE-CHOICES.md, verified-facts.md (VERIFIED facts only), README.md, hotspot/DATASET.md and the files in hotspot/web/public/proof/.
 The team edits, checks and owns the final text. Every number's source is listed in the session notes, not on the page.
-The only open markers are the five [IMAGE n] lines and the video link.
+No open markers. No screenshots and no video: team decision on Sun 15 Nov, 13:55, because the pitch is given live.
 -->
 
 # HOTSPOT
@@ -17,9 +17,6 @@ The only open markers are the five [IMAGE n] lines and the video link.
 - **Method and proof inside the app:** https://hotspots.gr/#method
 - **Code (Apache-2.0):** https://github.com/VasilisVerykokos/Nasa
 - **Open dataset:** https://github.com/VasilisVerykokos/Nasa/releases/tag/dataset-v1
-- **30-second video:** [FILL: public link]
-
-[IMAGE 1: Two screenshots side by side of the live app, All Greece preset, whole record. Left: calendar view "Raw (sensors simply added)". Right: the same calendar in the "Harmonized" view. Crop to the calendar grid and year totals. Caption: "Left: the sensors simply added. Activity seems to jump from 2,524 hotspots in 2011 to 9,245 in 2012. Right: HOTSPOT's harmonized record. 2011 is 8,789 and 2012 is 7,494, with no jump."]
 
 ---
 
@@ -100,8 +97,6 @@ The app also has:
 
 The headline sentence for North Evia (official Copernicus area, EMSR527) reads: **"August 2021 had 3,252 hotspots here, where a normal August has none; the highest August in 26 years."** When the normal is under 5 hotspots, HOTSPOT shows the two plain numbers and no "N times normal", so tiny baselines never produce dramatic ratios.
 
-[IMAGE 2: Live app, North Evia 2021 preset, whole record, "Harmonized" view, desktop width. Capture the headline sentence, the calendar with August 2021 standing out, and the rankings beside it. Caption: "North Evia: August 2021 had 3,252 hotspots where a normal August has none, the highest August in 26 years."]
-
 ### How it works
 
 **1. Clean.** We keep vegetation fires (FIRMS `type = 0`), which include agricultural burns, because the challenge counts them as burning activity. We remove fixed heat sources such as factories, because a site that is hot every day would hide the fire signal. That is our choice, and the method page says so. We also drop low-confidence detections. For MODIS that is exactly the official "low" class, below 30 (MODIS user's guide, table 11).
@@ -134,8 +129,6 @@ The weight sits on each hotspot, so any shape a user draws is summed exactly, an
 
 **Show the arithmetic.** Hover or focus any estimated month and HOTSPOT shows where its number came from. For August 2007 in All Greece: *"Measured by MODIS, converted to VIIRS units: 3,052 MODIS detections × 3.80 = 11,606 (range 8,554 to 14,659)."* A NOAA-20 month says it was measured directly. Every number on the screen traces back to NASA's detections.
 
-[IMAGE 3: Live app, All Greece preset, "Harmonized" view, mouse over the August 2007 cell, tooltip open. Caption: "Show the arithmetic: August 2007 = 3,052 MODIS detections × 3.80 = 11,606 NOAA-20-equivalent hotspots, range 8,554 to 14,659."]
-
 ### Options we weighed
 
 | Question | Options | Chosen | Why |
@@ -162,8 +155,6 @@ Every number below was written by a script in the repository into `hotspot/web/p
 | 5 | **The last join:** NOAA-20 against S-NPP × 1.04, month by month, 2019 to 2025 | Correlation 0.998 over 84 months. For example, August 2021: 6,893 against 6,982. | Strong for month-to-month agreement. The 1.04 was fitted on the same years, so this does not test its size. |
 | 6 | **What the factor is made of:** Aqua against S-NPP on 147 days when they passed within 5 minutes of each other | Aqua saw only 22.1% of the 0.1° cells where S-NPP saw fire: sensitivity, the large part. Where both saw fire, S-NPP gave 2.83 pixels per Aqua pixel: resolution, the small part. | Explains the factor; does not measure its size. On these passes S-NPP saw 4.39 times Aqua, against 6.03 over all passes, because a pass where only VIIRS saw fire leaves no MODIS row. Aqua only, no large fires in the sample, 147 days in eight years. |
 | 7 | **The obvious alternative,** a common grid, February 2012 to December 2019 | As hotspots the ratio is 3.41. As grid cells with fire per day it is 2.62 to 2.87, for cells of about 1 to 28 km. Only 8.8% to 20.4% of VIIRS fire cells were also seen by MODIS. | Rules out the grid. It cannot bring back fires MODIS never saw. |
-
-[IMAGE 4: Live app, https://hotspots.gr/#method, the proof 2 (blind test) chart: predicted against real hotspots for 2017, 2018 and 2019. Caption: "Blind test: trained on 2012 to 2016 only, HOTSPOT predicted the next three years from MODIS alone, within 7.8% on average (worst year 11.2%)."]
 
 ### Limits
 
@@ -238,8 +229,6 @@ Early warning and emergency responders, scientists, land managers and firefighte
 1. **More countries.** The pipeline takes the country as a setting, so the Mediterranean means running it and checking the proofs for each country.
 2. **NASA's VIIRS 750 m continuity product as a bridge,** to separate the resolution effect cleanly: MODIS against 750 m, then 750 m against 375 m on the same satellite.
 3. **An alert** when an area goes above its normal for the month.
-
-[IMAGE 5: Live app, Evros 2023 preset, whole record, "Harmonized" view; click the August 2023 cell so its hotspots appear as dots on the map. Capture the map with the dots and legend, and the headline sentence for August 2023. Caption: "Click a month and see the detections behind its number: Evros, August 2023."]
 
 ---
 

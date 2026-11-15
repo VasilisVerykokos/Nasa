@@ -60,7 +60,7 @@ Full list with sources: facts file, section 1.
 | Rule | What we do |
 |---|---|
 | No work before Saturday 09:00 | A brand-new repository created after 09:00. No AEGIS code is reused. |
-| Demo is a 30-second video OR at most 7 slides | Going over means no Global Judging. We make a 30-second video. |
+| Demo is a 30-second video OR at most 7 slides | Going over means no Global Judging. **No video (team decision, Sun 13:55): the pitch is given live.** If the submission form asks for a demo, it gets the slides, at most 7. |
 | Everything in English, all links public, no login | Test every link in a private browser window before submitting. |
 | Every source, library and dataset is cited | `REFERENCES.md` is filled in as we go, not at the end. |
 | Open source | Apache-2.0 licence file from the first commit. |
@@ -821,7 +821,7 @@ The first real calendar is due at **Saturday 17:00**. Section 10 shows the same 
 
 The Presentation criterion asks whether the team told "the story of the project: the challenge, the solution, and why is it important". The page follows those three acts, in that order, with those words as headings.
 
-**Draft: `PROJECT-PAGE.md` in the repository root** (Person B, 14 Nov, 20:10). It uses only script numbers and VERIFIED facts; `[NOT BUILT YET]`, `[CHECK]` and `[FILL]` markers show what must be built, checked or filled before submitting. Person A fills the "Use our data" address and checks "How it works" and "Proof". **Final text 15 Nov, 13:00** (Person B): Summary plus the three acts; open items are only the five `[IMAGE n]` screenshots and the video link; what was left off and why is in the decision log (Sun 13:00).
+**Draft: `PROJECT-PAGE.md` in the repository root** (Person B, 14 Nov, 20:10). It uses only script numbers and VERIFIED facts; `[NOT BUILT YET]`, `[CHECK]` and `[FILL]` markers show what must be built, checked or filled before submitting. Person A fills the "Use our data" address and checks "How it works" and "Proof". **Final text 15 Nov, 13:00** (Person B): Summary plus the three acts; **Sun 13:55:** no screenshots and no video (the pitch is given live), so the page has no open items; what was left off and why is in the decision log (Sun 13:00 and 13:55).
 
 | Act | Section | Content | Criterion it serves |
 |---|---|---|---|
@@ -865,6 +865,8 @@ The Presentation criterion asks whether the team told "the story of the project:
 
 ### 30-second video
 
+**Dropped Sun 13:55 (team decision): no video. The pitch is given live.** The script below is kept for reference only.
+
 | Seconds | On screen |
 |---|---|
 | 0 to 5 | The naive merge chart with its fake jump in 2012 |
@@ -895,7 +897,7 @@ Only local winners go to Global Judging, so the pitch matters as much as the pag
 **Rules for the pitch**
 
 - One person speaks, one person drives the app. Decide who on Sunday morning.
-- Have screenshots ready in case the live app or the network fails.
+- Have screenshots ready in case the live app or the network fails. **Sun 13:55: no screenshots.** Suggested fallback: the live site already open in a second tab, and on a phone using mobile data.
 - Be ready for questions. `JUDGE-QUESTIONS.md` in this folder lists about 40 likely ones with draft answers and a status for each. Keep it current while building, fill its blanks from the pipeline run, and answer every one aloud once before the pitch.
 - Rehearse out loud twice with a timer, in the Sunday 13:00 to 15:00 slot.
 

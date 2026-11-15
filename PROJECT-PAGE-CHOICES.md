@@ -96,7 +96,7 @@ If an optional item is not built, leave it off the page. Never describe somethin
 | 42 | Partner data named: Copernicus EMS (EMSR527, EMSR686) and EFFIS | [x] |
 | 43 | References: every dataset, paper, library and service, copied from `REFERENCES.md` | [x] |
 | 44 | AI use: copied from `AI_USE.md` | [x] |
-| 45 | Demo link: the video is 30 seconds or less and plays without login | [ ] |
+| 45 | Demo link: the video is 30 seconds or less and plays without login. **Dropped Sun 13:55: no video, the pitch is given live.** | – |
 | 46 | Project link: the live app and the public repository | [x] |
 | 47 | Everything in English; no NASA logos; nobody under 18 | [x] |
 
