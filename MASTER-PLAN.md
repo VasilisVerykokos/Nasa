@@ -151,7 +151,7 @@ Every choice and what it gains us is listed in `PROJECT-PAGE-CHOICES.md` in this
 
 | # | Addition | Serves | Time | When |
 |---|---|---|---|---|
-| A | **Publish the harmonized dataset.** One downloadable file of all Greek hotspots with weights, the factor table, and a one-page description of every column, attached to a GitHub release. | Impact ("help many"), Best Use of Data | 30 min | **Person B**, Sunday 05:00 to 07:00. The pipeline already writes the file; B writes the description and makes the release. |
+| A | **Publish the harmonized dataset.** **Done 15 Nov:** `pipeline/export_dataset.py`, `DATASET.md`, release `dataset-v1`.  One downloadable file of all Greek hotspots with weights, the factor table, and a one-page description of every column, attached to a GitHub release. | Impact ("help many"), Best Use of Data | 30 min | **Person B**, Sunday 05:00 to 07:00. The pipeline already writes the file; B writes the description and makes the release. |
 | B | **Show the method works elsewhere.** Run the pipeline on one more country (Portugal or Cyprus) and report its proof numbers. If its checks pass, load it into the app too. | Impact ("many, or a few"), Validity ("can it work in the real world") | 1 hour | Person A, only when every must-have works |
 
 A needs none of Person A's time, so do it always. B is the best answer to "only Greece?", but it comes after every must-have.

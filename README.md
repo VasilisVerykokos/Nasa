@@ -106,6 +106,8 @@ It returns 313 rows; August 2021 reads:
 
 **Limits:** each request may run for at most 10 seconds (all of Greece takes about 6). The database is on Supabase's free plan, whose monthly data allowance is shared with the website, so please keep requests modest; the answer is small. If the database ever moves, this address changes and this section will be updated.
 
+**The whole dataset in one file.** Every cleaned Greek hotspot of 2000 to 2025 with its weight, the factor table and a description of every column are a GitHub release: https://github.com/VasilisVerykokos/Nasa/releases/tag/dataset-v1 (the files are made by `pipeline/export_dataset.py`; the column description is [hotspot/DATASET.md](hotspot/DATASET.md)).
+
 ## Rebuild everything
 
 You need Python 3.13, Node 26 with npm 11, a free Supabase project with the PostGIS extension switched on (Database → Extensions, schema `extensions`), and a free NASA FIRMS MAP_KEY. On Windows, start Python with `py -3.13`; elsewhere use `python3.13`.
@@ -131,6 +133,7 @@ You need Python 3.13, Node 26 with npm 11, a free Supabase project with the Post
    py -3.13 pipeline/proof3_fires.py          # proof 3
    py -3.13 pipeline/proof6_coincident.py     # proof 6
    py -3.13 pipeline/proof7_grid.py           # proof 7
+   py -3.13 pipeline/export_dataset.py       # the open dataset (CSV files) -> pipeline/data/release/
    py -3.13 pipeline/load_db.py               # load 2000 to 2025 into the database
    py -3.13 pipeline/check_db.py              # call the public calendar address and compare it with the pipeline
    py -3.13 pipeline/update_daily.py          # add the current year from the FIRMS API; run once a day

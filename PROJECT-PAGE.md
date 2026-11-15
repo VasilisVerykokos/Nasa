@@ -206,8 +206,8 @@ We found no published VIIRS-to-MODIS ratio of hotspot counts for the Mediterrane
 ### Use it and build on it
 
 - **Open code**, Apache-2.0, with the steps to rebuild everything from NASA's public files in the README. [CHECK: the README's rebuild steps were tested on a clean machine (MASTER-PLAN section 18.6).]
-- **Open data:** every hotspot download carries its weight. [NOT BUILT YET: the full harmonized dataset for Greece with a description of every column, as a GitHub release.]
-- [FILL: "Use our data": the web address of the `calendar` function, what to send and what comes back (Person A).]
+- **Open data:** every hotspot download carries its weight. The full harmonized dataset for Greece, 2000 to 2025 (153,804 hotspots, with a description of every column), is a GitHub release: https://github.com/VasilisVerykokos/Nasa/releases/tag/dataset-v1
+- **Use our data:** the calendar behind the app is a public web address anyone can call for any area in Greece. The address, the key, what to send and what comes back are in the README, section "Use our data".
 
 **Next steps** [CHECK: the team picks three of these four]
 
