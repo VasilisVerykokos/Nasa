@@ -60,7 +60,7 @@ Full list with sources: facts file, section 1.
 | Rule | What we do |
 |---|---|
 | No work before Saturday 09:00 | A brand-new repository created after 09:00. No AEGIS code is reused. |
-| Demo is a 30-second video OR at most 7 slides | Going over means no Global Judging. **No video (team decision, Sun 13:55): the pitch is given live.** If the submission form asks for a demo, it gets the slides, at most 7. |
+| Demo is a 30-second video OR at most 7 slides | Going over means no Global Judging. **No video (team decision, Sun 13:55): the pitch is given live.** The demo is the team's 7 slides (Sun 14:00). |
 | Everything in English, all links public, no login | Test every link in a private browser window before submitting. |
 | Every source, library and dataset is cited | `REFERENCES.md` is filled in as we go, not at the end. |
 | Open source | Apache-2.0 licence file from the first commit. |
@@ -1002,7 +1002,7 @@ Nobody but the organisers can certify compliance. This list covers every rule in
 | Submit before the local deadline (Sunday 15:00) | First submission by 13:00 | [ ] |
 | Team of 1 to 6, all registered at the same Local Event | Two members | [ ] |
 | At least one NASA data source | FIRMS, named on the page | [ ] |
-| Demo: 30-second video or at most 7 slides | Video timed before upload | [ ] |
+| Demo: 30-second video or at most 7 slides | No video; the demo is the 7 slides, on a link that opens without login | [ ] |
 | Everything in English | Page, video, README, app text | [ ] |
 | All links public, no login | Tested in a private window | [ ] |
 | Every source, library, dataset and service cited | `REFERENCES.md` copied to the page | [ ] |

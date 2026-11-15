@@ -60,3 +60,4 @@ A dated log of AI help (plan, section 16). One line per piece of AI-assisted cod
 | 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Removed the soft right-edge fade (shadow) from the calendar box in both themes (`web/src/index.css`); `web/content/ui-text.md` updated. |
 | 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | The page now opens on the All Greece preset instead of North Evia 2021 (`web/src/components/AreaPicker.tsx`). |
 | 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Recorded the decision to drop the video and the screenshots: removed the video line and the five `[IMAGE n]` placeholders from `PROJECT-PAGE.md`; updated the plan, the choices list and the decision log. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Recorded that the demo is the team's 7 slides in the plan, the choices list and the judge questions. |
