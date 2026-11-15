@@ -12,6 +12,8 @@ import HeadlineCard from './components/HeadlineCard'
 import MethodPage from './components/MethodPage'
 import { DatabaseMessage, NoHotspots, OutsideGreece, Unreachable } from './components/Messages'
 import Rankings from './components/Rankings'
+import SeasonChart from './components/SeasonChart'
+import YearTrend from './components/YearTrend'
 import ThisMonthCard from './components/ThisMonthCard'
 import { outsideGreece } from './lib/geo'
 import type { CalendarRow } from './lib/stats'
@@ -80,6 +82,8 @@ export default function App() {
                 <ThisMonthCard rows={result.rows} meta={meta?.values ?? {}} />
                 <CalendarHeatmap rows={result.rows} label={selection?.label ?? ''} meta={meta?.values ?? {}} {...(range ? yearsOf(range) : {})} />
                 <Rankings rows={result.rows} />
+                <YearTrend rows={result.rows} meta={meta?.values ?? {}} />
+                <SeasonChart rows={result.rows} />
                 {selection && <ExportBar rows={result.rows} label={selection.label} area={selection.area} range={range} />}
               </>}
         </main>
