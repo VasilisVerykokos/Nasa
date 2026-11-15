@@ -44,6 +44,11 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
       drawMarker: false, drawCircleMarker: false, drawPolyline: false, drawCircle: false, drawText: false,
       editMode: false, dragMode: false, cutPolygon: false, removalMode: false, rotateMode: false,
     })
+    // Geoman's tool buttons are bare icons; give them names for screen readers and a tooltip for the mouse.
+    for (const [icon, name] of [['rectangle', 'Draw a rectangle'], ['polygon', 'Draw a polygon']]) {
+      const a = box.current!.querySelector(`.leaflet-pm-icon-${icon}`)?.closest('a')
+      if (a) { a.title = name; a.setAttribute('aria-label', name) }
+    }
     m.on('pm:create', e => show({ area: (e.layer as L.Polygon).toGeoJSON().geometry as Place['area'], label: 'Drawn area' }, e.layer))
     show(initial ?? { area: PRESETS[0].area, label: PRESETS[0].name, preset: PRESETS[0].id })
     return () => { m.remove(); map.current = null; shape.current = null }
@@ -86,8 +91,10 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
       </div>
       <div ref={box} className="map" role="region" aria-label="Map. Draw a polygon or rectangle with the tools at the top left, or use the form below." />
       {children}
+      {/* Closed unless the address carries a point, so the answer comes sooner on a phone. */}
+      <details className="point" open={!!initial?.point}>
+      <summary>Or type a point</summary>
       <form onSubmit={submitPoint} noValidate>
-        <h3>Or type a point</h3>
         <label>Latitude <input inputMode="decimal" value={point.lat} onChange={e => setPoint({ ...point, lat: e.target.value })} aria-describedby="point-hint" /></label>
         <label>Longitude <input inputMode="decimal" value={point.lon} onChange={e => setPoint({ ...point, lon: e.target.value })} aria-describedby="point-hint" /></label>
         <label>Radius (km) <input aria-describedby="point-hint" inputMode="decimal" value={point.radius} onChange={e => setPoint({ ...point, radius: e.target.value })} /></label>
@@ -95,6 +102,7 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
         <button type="submit">Use this point</button>
         {error && <p role="alert" className="error">{error}</p>}
       </form>
+      </details>
     </section>
   )
 }

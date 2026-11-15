@@ -29,8 +29,8 @@ export default function Rankings({ rows }: { rows: CalendarRow[] }) {
         </ol>
       </div>
       <div>
-        <h4>Peak season</h4>
-        <p>{season ?? 'None: a normal year here has no hotspots.'}</p>
+        <h4>Peak season in a normal year</h4>
+        <p>{season ?? 'Not named: a normal year here has fewer than 5 hotspots, too few to show a season.'}</p>
       </div>
       {partial.length > 0 && (
         <p className="note">

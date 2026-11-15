@@ -17,7 +17,7 @@ export default function YearTrend({ rows, meta }: Props) {
   const range = Array.isArray(meta.uncertainty) ? (meta.uncertainty as Range) : null
   const est = (y: number) => y < ESTIMATE_BEFORE
   const span = (v: number) => (range ? [v * (1 + range[0]), v * (1 + range[1])] : null)
-  const max = Math.max(1, ...t.years.map(y => span(y.total)?.[1] ?? y.total))
+  const max = Math.max(1, ...t.years.map(y => (est(y.year) ? span(y.total)?.[1] : null) ?? y.total)) // only estimated years draw a range line
   const step = (W - L - R) / Math.max(t.years.length, 1)
   const x = (i: number) => L + i * step
   const y = (v: number) => TOP + (H - TOP - B) * (1 - v / max)
@@ -52,7 +52,8 @@ export default function YearTrend({ rows, meta }: Props) {
             fontFamily="system-ui, sans-serif" fontSize={10} style={{ display: 'block', width: '100%', maxWidth: 640, height: 'auto' }}>
             <defs>
               <pattern id="yt-est" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                <line x1="0" y1="0" x2="0" y2="4" stroke="#fff" strokeOpacity="0.6" />
+                <line x1="0.5" y1="0" x2="0.5" y2="4" stroke="#000" strokeOpacity="0.3" />
+                <line x1="2" y1="0" x2="2" y2="4" stroke="#fff" strokeOpacity="0.55" />
               </pattern>
             </defs>
             <rect width={W} height={H} fill="#fff" />

@@ -15,7 +15,7 @@ export default function ThisMonthCard({ rows, meta, today = new Date() }: Props)
   const name = `${MONTH_NAMES[last.month - 1]} ${last.year}`
   return (
     <section className="so-far" aria-labelledby="so-far-heading">
-      <h3 id="so-far-heading" className="badge">So far</h3>
+      <h3 id="so-far-heading" className="badge">This month so far</h3>
       {stale && <p>{`The newest days could not be loaded. Showing ${name}, the latest complete month.`}</p>}
       <p className="sentence">{t.sentence}</p>
       <p className="help">

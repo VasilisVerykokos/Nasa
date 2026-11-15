@@ -1,43 +1,109 @@
-/* AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Bare skeleton styles; the visual design is still open (WIREFRAME.md, decisions 9 and 10). */
+/* AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Page styles: type scale, spacing, controls and the two themes (WIREFRAME.md, decisions 9 and 10). */
 :root {
   --bg: #fff;
+  --surface: #f7f4f1; /* buttons */
+  --panel: #fbf0e7; /* the headline answer */
   --text: #1a1a1a;
-  --muted: #555;
+  --muted: #575757;
   --accent: #b5400a;
   --error: #b00020;
-  --line: #ddd;
+  --line: #e3ddd7;
+  --line-strong: #857b72; /* input and button edges, 3:1 or more on the page */
   --link: #0645ad;
   --c1: #e66101; /* chart colours */
   --c2: #2f6fc4;
   --space: 16px;
-  color-scheme: light dark; /* buttons, inputs and scrollbars follow the theme */
+  /* Type roles: meta (help, captions), body, h3, h2, the answer. */
+  --fs-meta: 0.875rem;
+  --fs-body: 1rem;
+  --fs-h3: 1.1875rem;
+  --fs-h2: 1.25rem;
+  --fs-answer: 1.5rem;
+  color-scheme: light dark; /* scrollbars and date pickers follow the theme */
   font: 16px/1.5 system-ui, sans-serif;
   color: var(--text);
   background: var(--bg);
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #161616; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #444; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; }
+  :root { --bg: #161616; --surface: #232323; --panel: #2b1f18; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #383838; --line-strong: #7d7d7d; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; }
 }
 body { margin: 0; background: var(--bg); }
-a { color: var(--link); }
+a { color: var(--link); text-underline-offset: 0.15em; }
+::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+h1, h2, h3, h4 { line-height: 1.25; text-wrap: balance; }
+p, li { text-wrap: pretty; }
+
+/* Header: brand, views and the data stamp on one line (they wrap on a phone). */
+header { display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; min-height: 56px; padding: 4px var(--space); border-bottom: 1px solid var(--line); }
+header h1 { margin: 0; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.06em; color: var(--accent); }
+header nav a { display: inline-block; padding: 10px 0; color: inherit; }
+header nav a[aria-current] { font-weight: 700; }
+.data-stamp { margin: 0 0 0 auto; font-size: var(--fs-meta); color: var(--muted); }
+
 /* The calendar picture keeps its own white background in both themes: its colour ramps and hatches are made for it, and it is also the downloaded image. */
-header { padding: 8px var(--space); border-bottom: 1px solid var(--line); }
-header h1 { margin: 0; font-size: 20px; }
-.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space); padding: var(--space); } /* minmax(0, ...) lets the columns shrink below their content, so the wide calendar scrolls inside its own box instead of widening the page */
-@media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); } }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px var(--space); padding: var(--space); } /* minmax(0, ...) lets the columns shrink below their content, so the wide calendar scrolls inside its own box instead of widening the page */
+@media (min-width: 900px) {
+  .layout { grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 32px; }
+  /* The map stays in view while the results scroll, so a month clicked low on the calendar shows its dots at once. */
+  .layout > aside { position: sticky; top: 0; align-self: start; max-height: 100dvh; overflow-y: auto; padding-bottom: var(--space); }
+}
+aside h2 { font-size: var(--fs-h2); margin: 0 0 8px; }
+aside section + section { margin-top: 24px; }
 .map { height: 360px; margin: 8px 0; }
-.map-legend p { margin: 4px 0; }
-.presets { display: flex; flex-wrap: wrap; gap: 8px; }
-button { min-height: 44px; padding: 0 12px; font: inherit; }
-form label { display: block; margin: 4px 0; }
-input { font: inherit; width: 8em; }
+@media (max-width: 600px) { .map { height: 240px; } } /* a shorter map on a phone, so the answer comes sooner */
+.map-legend p { margin: 4px 0; font-size: var(--fs-meta); }
+.presets, .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+
+/* Controls */
+button, select, input:not([type="radio"], [type="checkbox"]) {
+  min-height: 44px; box-sizing: border-box; font: inherit; color: var(--text);
+  border: 1px solid var(--line-strong); border-radius: 6px; background: var(--bg);
+}
+button { padding: 0 14px; background: var(--surface); cursor: pointer; }
+button:hover:not(:disabled) { border-color: var(--text); }
+button:disabled { cursor: progress; opacity: 0.7; }
+select { padding: 0 8px; }
+input:not([type="radio"], [type="checkbox"]) { padding: 0 8px; width: 8em; }
+input[type="date"] { width: auto; }
+input[type="radio"] { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+form label, .date-range label { display: inline-flex; align-items: center; gap: 8px; margin: 4px 16px 4px 0; }
+.point summary { font-weight: 600; }
+.point form { padding-top: 4px; }
+.date-range .hint { margin-top: 8px; }
+.date-range summary h2 { display: inline; margin: 0; }
 .error { color: var(--error); }
-main h2 { margin-top: 0; }
+.error:empty { display: none; }
+
+/* Results: the answer leads, sections are spaced well apart, headings sit closer to what they name. */
+main h2 { margin: 0 0 12px; font-size: var(--fs-h2); font-weight: 700; }
+main h2:focus { outline: none; } /* focus is moved here by script only, to show the result */
+main section + section { margin-top: 48px; }
+main h3 { margin: 0 0 12px; font-size: var(--fs-h3); font-weight: 700; }
+main h4 { margin: 0 0 6px; font-size: var(--fs-body); font-weight: 600; }
+.headline { padding: 20px 24px; border-radius: 10px; background: var(--panel); }
+.headline .sentence { margin: 0; font-size: var(--fs-answer); line-height: 1.3; font-weight: 500; max-width: 34ch; }
+.headline p + p { margin: 10px 0 0; }
+.headline .help { margin-top: 16px; }
+main section.so-far { margin-top: 24px; }
+.so-far .sentence { margin: 0; font-size: 1.125rem; font-weight: 500; }
+.help, .hint, .note { font-size: var(--fs-meta); color: var(--muted); }
+.help, .note { margin: 8px 0 0; max-width: 68ch; }
+.hint { margin: 4px 0; }
+.rankings > div { display: inline-block; vertical-align: top; min-width: 11rem; margin: 0 24px 16px 0; }
+.rankings ol { margin: 0; padding-left: 1.5em; font-variant-numeric: tabular-nums; }
+.rankings p { margin: 0; }
+.trend > p:first-of-type, .season label { margin: 0 0 8px; }
+.trend button, .season button { margin-bottom: 8px; }
+/* White sheets in both themes. In dark mode they get a white margin and round corners, so they read as pictures instead of text touching a slab edge. */
+@media (prefers-color-scheme: dark) {
+  .heatmap svg, .trend svg, .season svg { box-sizing: border-box; padding: 10px; background: #fff; border-radius: 8px; }
+}
+
 .calendar { overflow-x: auto; } /* the calendar scrolls inside its box, never the page */
 .calendar table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .calendar th, .calendar td { padding: 2px 6px; text-align: right; border-bottom: 1px solid var(--line); }
-.calendar caption { text-align: left; color: var(--muted); }
+.calendar caption { text-align: left; color: var(--muted); font-size: var(--fs-meta); }
 .hm-scroll { overflow-x: auto; } /* on a phone the calendar slides inside this box; the page itself never scrolls sideways */
 .heatmap svg { display: block; width: 100%; min-width: 560px; max-width: 640px; height: auto; margin-top: 8px; } /* 560: labels about 14 px */
 /* Soft fade at the right edge while more calendar is hidden; the text line above the box is the main cue. */
@@ -46,25 +112,28 @@ main h2 { margin-top: 0; }
 .hm-fade[data-more="true"]::after { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) { .hm-fade::after { transition: opacity 0.2s; } }
 .heatmap rect:focus { outline: none; } /* the SVG draws its own black frame around the focused cell */
-.switch { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
-.switch legend { float: left; margin-right: 8px; }
-.switch label { min-height: 44px; display: inline-flex; align-items: center; gap: 4px; }
+.switch { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; }
+.switch legend { float: left; margin-right: 4px; font-weight: 600; }
+.switch label { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; }
 .hm-info { min-height: 3em; }
+.downloads .actions { margin-top: 4px; }
+
 /* Method and proof view */
-header nav a { display: inline-block; padding: 10px 0; color: inherit; }
-header nav a[aria-current] { font-weight: 700; }
-.method { max-width: 760px; min-width: 0; }
+.method { max-width: 68ch; min-width: 0; margin: 0 auto; }
 .method code { overflow-wrap: anywhere; } /* long codes such as the public key wrap instead of widening the page */
 .scroll td, .scroll th { white-space: nowrap; } /* data tables keep their rows on one line and slide inside their box */
 .method table, .scroll table { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .method th, .method td { padding: 2px 8px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
-.method caption { text-align: left; color: var(--muted); }
+.method caption { text-align: left; color: var(--muted); font-size: var(--fs-meta); }
 .method > div > table { display: block; overflow-x: auto; } /* Markdown tables scroll inside their own box */
+.method h2 { margin: 2.5em 0 0.5em; }
+.method h3 { margin: 2em 0 0.5em; }
 .scroll { overflow-x: auto; margin: 16px 0; }
-.finding { border-left: 4px solid var(--accent); padding: 4px 12px; }
+.finding { padding: 4px 20px 8px; border-radius: 8px; background: var(--panel); }
+.finding > :first-child, .finding > :first-child > :first-child { margin-top: 16px; }
 .chart { margin: 24px 0; }
 .chart svg[role="img"] { display: block; width: 100%; height: auto; }
-.legend { list-style: none; padding: 0; margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 14px; }
+.legend { list-style: none; padding: 0; margin: 8px 0 4px; display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: var(--fs-meta); }
 .legend li { display: inline-flex; align-items: center; gap: 4px; }
 details summary { padding: 10px 0; cursor: pointer; } /* tall enough to tap; stays a list item so it keeps its triangle */
 .page { padding: var(--space); }
@@ -72,7 +141,6 @@ details summary { padding: 10px 0; cursor: pointer; } /* tall enough to tap; sta
 .hm-inner { position: relative; min-width: 560px; max-width: 640px; } /* the same size limits as the picture inside it */
 .hm-tip { position: absolute; z-index: 2; box-sizing: border-box; padding: 6px 8px; font-size: 14px; line-height: 1.35; color: var(--text); background: var(--bg); border: 1px solid var(--text); border-radius: 4px; pointer-events: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.hint { color: var(--muted); margin: 4px 0; }
 /* Code blocks and wide tables scroll inside their own box, never the page. */
 .method pre { overflow-x: auto; max-width: 100%; }
 .method table { max-width: 100%; }

@@ -106,11 +106,12 @@ export function topYears(rows: CalendarRow[], n = 5) {
   return completeYears(rows).map(year => ({ year, total: t.get(year)! })).sort((a, b) => b.total - a.total || a.year - b.year).slice(0, n)
 }
 
-/** Peak season: highest-normal months that together hold PEAK_SEASON_SHARE of a normal year, as "July to September". Null if the normal year is empty. */
+/** Peak season: highest-normal months that together hold PEAK_SEASON_SHARE of a normal year, as "July to September".
+ * Null if a normal year has fewer than SMALL_NORMAL hotspots: a season from one or two hotspots is noise (North Evia's normal year is 2, which named "November"). */
 export function peakSeason(rows: CalendarRow[]): string | null {
   const normals = MONTHS.map((_, i) => normalFor(rows, i + 1).median)
   const total = normals.reduce((a, b) => a + b, 0)
-  if (total === 0) return null
+  if (total < SMALL_NORMAL) return null
   const picked = new Set<number>()
   let sum = 0
   for (const m of [...normals.keys()].sort((a, b) => normals[b] - normals[a] || a - b)) {

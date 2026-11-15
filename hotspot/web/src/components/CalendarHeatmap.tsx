@@ -135,7 +135,9 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
           fontFamily="system-ui, sans-serif" fontSize={11} onMouseLeave={() => setShown(false)}>
           <defs>
             <pattern id="hm-est" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-              <line x1="0" y1="0" x2="0" y2="4" stroke="#fff" strokeOpacity="0.5" />
+              {/* A dark and a light stripe, so the hatching shows on pale and on dark cells alike. */}
+              <line x1="0.5" y1="0" x2="0.5" y2="4" stroke="#000" strokeOpacity="0.3" />
+              <line x1="2" y1="0" x2="2" y2="4" stroke="#fff" strokeOpacity="0.55" />
             </pattern>
             <pattern id="hm-none" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
               <rect width="4" height="4" fill="#e6e6e6" /><line x1="0" y1="0" x2="0" y2="4" stroke="#aaa" />

@@ -5,7 +5,8 @@ export function OutsideGreece() {
 }
 
 export function NoHotspots() {
-  return <p>No hotspots were found in this area from November 2000 to today. Try a larger area.</p>
+  // The coverage check is a wide box, so a place just outside Greece (for example İzmir) can land here: say so instead of only "larger area".
+  return <p>No hotspots were found in this area from November 2000 to today. Try a larger area. HOTSPOT covers Greece only, so places outside Greece show no hotspots.</p>
 }
 
 // The full text in ui-text.md adds "so you are looking at the saved North Evia example". That part waits for the saved example (plan, section 9.5).

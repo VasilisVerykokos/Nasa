@@ -38,12 +38,19 @@ export default function App() {
 
   // The date range changes only what the screen shows, never the calendar call or the statistics (plan 9.4); it is not in any effect below.
   // The address can carry the area and the dates (share link). Read once; a bad address gives null and the default view.
-  const [start] = useState(() => decodeShare(location.hash))
+  const [start, setStart] = useState(() => decodeShare(location.hash))
   const [range, setRange] = useState<Range | null>(start?.range ?? null)
+  const [gen, setGen] = useState(0) // raised by a pasted share link: rebuilds the picker and the dates from `start`
+  const written = useRef('') // the share text App last put in the address
   // Two views, chosen by the address: #method shows "Method and proof", anything else the calendar. No router needed.
   const [hash, setHash] = useState(location.hash)
   useEffect(() => {
-    const onHash = () => { setHash(location.hash); window.scrollTo(0, 0) }
+    const onHash = () => {
+      setHash(location.hash); window.scrollTo(0, 0)
+      // A share link pasted into this open tab. Back from #method lands on the address App wrote itself, which needs nothing.
+      const s = location.hash.slice(1) === written.current ? null : decodeShare(location.hash)
+      if (s) { setStart(s); setRange(s.range); setSelection(null); setGen(g => g + 1) }
+    }
     addEventListener('hashchange', onHash)
     return () => removeEventListener('hashchange', onHash)
   }, [])
@@ -57,6 +64,7 @@ export default function App() {
   useEffect(() => {
     if (!selection || method) return
     const q = encodeShare(selection, range, through)
+    written.current = q
     history.replaceState(null, '', q ? `#${q}` : location.pathname + location.search)
   }, [selection, range, through, method])
   const heading = useRef<HTMLHeadingElement>(null)
@@ -97,12 +105,14 @@ export default function App() {
       </header>
       {method ? <main className="page"><MethodPage /></main> :<div className="layout">
         <aside aria-label="Area and dates">
-          <AreaPicker onChange={setSelection} initial={selection ?? start?.place} points={counted} outlines={meta?.outlines ?? NO_OUTLINES}>
+          <AreaPicker key={`area-${gen}`} onChange={setSelection} initial={selection ?? start?.place} points={counted} outlines={meta?.outlines ?? NO_OUTLINES}>
             <MapLegend month={month} outline={(meta?.outlines.length ?? 0) > 0} onClear={() => setPick(null)}
               dots={shown === 'failed' ? 'failed' : shown && counted ? { count: counted.length, capped: shown.length >= POINT_CAP } : null} />
           </AreaPicker>
-          <DateRange through={through} onChange={setRange} initial={range} /></aside>
-        <main aria-live="polite">
+          <DateRange key={`dates-${gen}`} through={through} onChange={setRange} initial={range} /></aside>
+        {/* Not one big live region: that read the whole results column out. This short line says a new result is ready; alerts speak for themselves. */}
+        <main aria-busy={result === 'loading' && !outside}>
+          <p className="sr-only" role="status">{selection && !outside && result !== 'loading' && !('error' in result) ? `Results for ${selection.label}.` : ''}</p>
           {selection && <h2 ref={heading} tabIndex={-1}>{selection.label}</h2>}
           {outside ? <OutsideGreece />
             : result === 'loading' ? <p>Loading the calendar…</p>

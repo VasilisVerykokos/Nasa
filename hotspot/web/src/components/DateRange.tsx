@@ -9,6 +9,8 @@ export default function DateRange({ through, onChange, initial }: Props) {
   const [from, setFrom] = useState(through ? RECORD_START : '')
   const [to, setTo] = useState(through ?? '')
   const [message, setMessage] = useState('')
+  // Open on wide screens and whenever the address set dates; on a phone it starts closed, so the answer comes sooner.
+  const [open] = useState(() => !!initial || typeof matchMedia !== 'function' || matchMedia('(min-width: 601px)').matches)
 
   const reset = (end: string, r: Range = defaultRange(end)) => {
     setFrom(r.from); setTo(r.to); setMessage(''); onChange(r)
@@ -28,12 +30,14 @@ export default function DateRange({ through, onChange, initial }: Props) {
 
   return (
     <section aria-labelledby="dates-heading" className="date-range">
-      <h2 id="dates-heading">Date range</h2>
+      <details open={open || !!message}>
+      <summary><h2 id="dates-heading">Date range</h2></summary>
       <label>From <input type="date" value={from} min="2000-11-01" max={through} onChange={e => edit(e.target.value, to)} aria-invalid={!!message} aria-describedby="dates-message" /></label>
       <label>To <input type="date" value={to} min="2000-11-01" max={through} onChange={e => edit(from, e.target.value)} aria-invalid={!!message} aria-describedby="dates-message" /></label>
       <button type="button" onClick={() => reset(through)}>Whole record</button>
       <p className="hint">These dates change which years you see. "Normal" is always worked out from the whole record.</p>
       <p id="dates-message" role="alert" aria-live="assertive" className="error">{message}</p>
+      </details>
     </section>
   )
 }

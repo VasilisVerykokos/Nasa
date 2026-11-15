@@ -117,6 +117,11 @@ describe('peakSeason', () => {
   it('is null for an area with no hotspots', () => {
     expect(peakSeason(makeRows(2001, 1, 2003, 1, Array(12).fill(0), { 2001: 1, 2002: 1, 2003: 1 }))).toBeNull()
   })
+  it('is null when a normal year has fewer than 5 hotspots, and named from 5 up', () => {
+    const few = (n: number) => makeRows(2001, 1, 2003, 1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, n, 0], { 2001: 1, 2002: 1, 2003: 1 })
+    expect(peakSeason(few(4))).toBeNull()
+    expect(peakSeason(few(5))).toBe('November')
+  })
 })
 
 describe('differenceFromNormal', () => {

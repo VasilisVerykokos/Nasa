@@ -1,5 +1,5 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Heatmap colours and the "show the arithmetic" text (plan 4 step 7, 9.5). Words: web/content/ui-text.md.
-import { interpolateCividis } from 'd3-scale-chromatic'
+import { interpolateYlOrRd } from 'd3-scale-chromatic'
 import type { CalendarRow } from '../stats'
 
 export const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -14,8 +14,8 @@ export const sensorOf = (year: number, month: number) => {
   return k < SNPP_START ? 'modis' : k < NOAA20_START ? 'snpp' : 'noaa20'
 }
 
-/** Counts: cividis on a square-root scale, so the few huge months do not wash out the rest. Above `max`: the top colour. */
-export const countColor = (v: number, max: number) => interpolateCividis(max > 0 ? Math.sqrt(Math.min(Math.max(v, 0) / max, 1)) : 0)
+/** Counts: ColorBrewer YlOrRd (pale yellow to dark red, colour-blind safe) on a square-root scale, so the few huge months do not wash out the rest. Above `max`: the top colour. */
+export const countColor = (v: number, max: number) => interpolateYlOrRd(max > 0 ? Math.sqrt(Math.min(Math.max(v, 0) / max, 1)) : 0)
 
 export type View = 'count' | 'diff' | 'raw'
 

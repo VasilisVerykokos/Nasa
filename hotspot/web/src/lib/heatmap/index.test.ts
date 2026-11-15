@@ -1,5 +1,5 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the heatmap colour scales and the "show the arithmetic" text for the three periods.
-import { interpolateCividis } from 'd3-scale-chromatic'
+import { interpolateYlOrRd } from 'd3-scale-chromatic'
 import { describe, expect, it } from 'vitest'
 import type { CalendarRow } from '../stats'
 import { arithmetic, cellColor, countColor, describeMonth, describeRaw, diffColor, rawOf } from '.'
@@ -8,11 +8,11 @@ const row = (year: number, month: number, value: number, counts: Partial<Calenda
   ({ year, month, value, modis: 0, snpp: 0, noaa20: 0, provisional: 0, ...counts })
 
 describe('colour scales', () => {
-  it('counts: 0 is the start of cividis, the maximum its end, a quarter of the maximum its middle (square root)', () => {
-    expect(countColor(0, 400)).toBe(interpolateCividis(0))
-    expect(countColor(400, 400)).toBe(interpolateCividis(1))
-    expect(countColor(100, 400)).toBe(interpolateCividis(0.5))
-    expect(countColor(5, 0)).toBe(interpolateCividis(0)) // an area with no hotspots never divides by zero
+  it('counts: 0 is the start of YlOrRd, the maximum its end, a quarter of the maximum its middle (square root)', () => {
+    expect(countColor(0, 400)).toBe(interpolateYlOrRd(0))
+    expect(countColor(400, 400)).toBe(interpolateYlOrRd(1))
+    expect(countColor(100, 400)).toBe(interpolateYlOrRd(0.5))
+    expect(countColor(5, 0)).toBe(interpolateYlOrRd(0)) // an area with no hotspots never divides by zero
   })
   it('difference: normal is the near-white centre, below is blue, above is orange, the ends are the full colours', () => {
     expect(diffColor(0, 50)).toBe('rgb(242, 242, 242)')
@@ -32,7 +32,7 @@ describe('raw view (sensors simply added)', () => {
     const top = row(2021, 8, 400, { noaa20: 400 })
     expect(cellColor('raw', row(2019, 7, 90, { snpp: 250, noaa20: 150 }), 400, 0, 1)).toBe(cellColor('count', top, 400, 0, 1))
     expect(cellColor('raw', row(2013, 8, 100, { modis: 40, snpp: 60 }), 400, 0, 1)).toBe(countColor(100, 400))
-    expect(cellColor('raw', row(2019, 8, 300, { modis: 300, snpp: 500, noaa20: 400 }), 400, 0, 1)).toBe(interpolateCividis(1))
+    expect(cellColor('raw', row(2019, 8, 300, { modis: 300, snpp: 500, noaa20: 400 }), 400, 0, 1)).toBe(interpolateYlOrRd(1))
   })
   it('hover text gives the three counts and their sum, then the harmonized value', () => {
     const r = describeRaw(row(2021, 8, 3252, { modis: 1210, snpp: 3988, noaa20: 3252, provisional: 0 }), false)

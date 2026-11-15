@@ -23,10 +23,10 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 |---|---|
 | Section heading | Area |
 | Preset buttons | North Evia 2021 · Evros 2023 · All Greece |
-| Drawing tools | Polygon · Rectangle |
+| Drawing tools | Icons; their names (tooltip and screen readers): Draw a rectangle · Draw a polygon |
 | Hint under the map | Draw one shape. Drawing again replaces the old one. |
 | Map label for screen readers | Map. Draw a polygon or rectangle with the tools at the top left, or type a point below. |
-| Form heading | Or type a point |
+| Form heading | Or type a point (a fold-out, closed unless the address carries a point) |
 | Fields | Latitude · Longitude · Radius (km). No placeholders: a grey example looks like a real value. |
 | Hint under the fields | For example latitude 38.9, longitude 23.25, radius 20 km. Draws a circle on the map. |
 | Area name after typing | The numbers as typed, for example "38.0, 23.25, radius 10 km". |
@@ -59,7 +59,7 @@ Only detections with a weight above 0 are drawn: the sensor that counts that mon
 
 | Where | Text |
 |---|---|
-| Section heading | Date range |
+| Section heading | Date range (a fold-out: open on wide screens, closed on phones unless the address set dates) |
 | Fields | From · To |
 | Hint | These dates change which years you see. "Normal" is always worked out from the whole record. |
 | Button | Whole record |
@@ -98,7 +98,7 @@ The three forms the code makes, all correct as written:
 
 | Where | Text |
 |---|---|
-| Badge | So far |
+| Heading | This month so far |
 | Sentence | Made by `thisMonthSoFar()`, for example "November 2026 so far has 2 hotspots here, against a normal of 1." (Normal 0: "... has 2 hotspots here, where a normal November has none.") |
 | Help line | Normal here is the median of the same first {12} days of the month, 2001 to 2025. The month is not finished, so its count can still rise, and it is not ranked. (The second sentence is left out when the "API failed" line shows.) |
 | API failed | The newest days could not be loaded. Showing {October 2026}, the latest complete month. |
@@ -146,9 +146,10 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | Where | Text |
 |---|---|
 | Section heading | Rankings |
-| Column headings | Top 5 months · Top 5 years · Peak season |
+| Column headings | Top 5 months · Top 5 years · Peak season in a normal year |
 | Row form | 1. Aug 2021 · 3,252 |
 | Peak season | {July to September} |
+| Peak season, normal year under 5 hotspots | Not named: a normal year here has fewer than 5 hotspots, too few to show a season. |
 | Peak season line | holds {74}% of a normal year's hotspots. **Not shown yet:** `peakSeason()` returns only the months. Person A can make it return the share too. |
 | Note | {2000} and {2026} are partial years and are left out of the top years. (Not "not ranked": their finished months still appear in the top 5 months.) |
 
@@ -174,7 +175,7 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | When | Text |
 |---|---|
 | Outside Greece | This area is outside the covered region. HOTSPOT covers Greece only. Pick a preset or draw inside Greece. |
-| No hotspots | No hotspots were found in this area from November 2000 to today. Try a larger area. |
+| No hotspots | No hotspots were found in this area from November 2000 to today. Try a larger area. HOTSPOT covers Greece only, so places outside Greece show no hotspots. |
 | Database unreachable | We could not reach the database, so you are looking at the saved North Evia example. Try again in a minute. **Until the saved example exists, the page says only:** We could not reach the database. Try again in a minute. |
 | Button with it | Try again |
 | Shape too complex | Comes from the database and is already written for people ("The area has 812 corner points; the limit is 500..."). Show it as it is. |
