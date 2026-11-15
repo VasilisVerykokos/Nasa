@@ -117,7 +117,7 @@ You need Python 3.13, Node 26 with npm 11, a free Supabase project with the Post
    ```bash
    git clone https://github.com/VasilisVerykokos/Nasa.git
    cd Nasa/hotspot
-   py -3.13 -m pip install pandas requests "psycopg[binary]" pytest
+   py -3.13 -m pip install pandas scipy requests "psycopg[binary]" pytest
    ```
 
 2. Copy `.env.example` to `.env` and fill in: `SUPABASE_URL`, `SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_KEY` (not used by the current scripts), `SUPABASE_DB_PASSWORD`, `SUPABASE_DB_HOST`, `SUPABASE_DB_USER`, `FIRMS_MAP_KEY`. Create `web/.env` with `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` (the same URL and publishable key). Never commit either file.

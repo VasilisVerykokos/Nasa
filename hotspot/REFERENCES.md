@@ -19,6 +19,7 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | psycopg 3 | Connects the Python scripts to the database | LGPL-3.0 | https://www.psycopg.org |
 | Python 3.13 | The data pipeline | PSF License | https://www.python.org |
 | pandas | Reads, cleans, counts and weights the hotspots in the pipeline | BSD-3-Clause | https://pandas.pydata.org |
+| SciPy | Rank correlation (Spearman) for proof 4, called by pandas | BSD-3-Clause | https://scipy.org |
 | Requests | Downloads the current year from the NASA FIRMS Area API (`pipeline/update_daily.py`) | Apache-2.0 | https://requests.readthedocs.io |
 | pytest | Tests for the pipeline | MIT | https://pytest.org |
 
