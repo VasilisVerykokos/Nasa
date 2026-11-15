@@ -46,6 +46,8 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | NASA Space Apps Challenge 2026, "Harmonization of MODIS and VIIRS Hot Spots" (https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) | The task, and NASA's wording of the goal |
 | FIRMS FAQ, NASA Earthdata (https://www.earthdata.nasa.gov/data/tools/firms/faq) | What a hotspot is, satellite dates, the limits of hotspot data |
 | NASA VIIRS Land, Active Fire Product (https://viirsland.gsfc.nasa.gov/Products/NASA/FireESDR.html) | The two VIIRS fire products (750 m and 375 m) |
+| Mann, H. B. (1945). Nonparametric tests against trend. *Econometrica* 13(3), 245–259. https://doi.org/10.2307/1907187 | The Mann-Kendall trend test in `web/src/lib/trend` |
+| Sen, P. K. (1968). Estimates of the regression coefficient based on Kendall's tau. *Journal of the American Statistical Association* 63(324), 1379–1389. https://doi.org/10.1080/01621459.1968.10480934 | Sen's slope in `web/src/lib/trend` |
 
 ## Services
 

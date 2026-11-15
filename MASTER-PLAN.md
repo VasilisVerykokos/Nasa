@@ -821,7 +821,7 @@ The first real calendar is due at **Saturday 17:00**. Section 10 shows the same 
 
 The Presentation criterion asks whether the team told "the story of the project: the challenge, the solution, and why is it important". The page follows those three acts, in that order, with those words as headings.
 
-**Draft: `PROJECT-PAGE.md` in the repository root** (Person B, 14 Nov, 20:10). It uses only script numbers and VERIFIED facts; `[NOT BUILT YET]`, `[CHECK]` and `[FILL]` markers show what must be built, checked or filled before submitting. Person A fills the "Use our data" address and checks "How it works" and "Proof".
+**Draft: `PROJECT-PAGE.md` in the repository root** (Person B, 14 Nov, 20:10). It uses only script numbers and VERIFIED facts; `[NOT BUILT YET]`, `[CHECK]` and `[FILL]` markers show what must be built, checked or filled before submitting. Person A fills the "Use our data" address and checks "How it works" and "Proof". **Final text 15 Nov, 13:00** (Person B): Summary plus the three acts; open items are only the five `[IMAGE n]` screenshots and the video link; what was left off and why is in the decision log (Sun 13:00).
 
 | Act | Section | Content | Criterion it serves |
 |---|---|---|---|
