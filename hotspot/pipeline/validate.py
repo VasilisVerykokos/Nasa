@@ -1,6 +1,6 @@
 # AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
-"""Proofs 1, 2, 4 and 5 (plan, section 5) as small data files for the website, a printed report, and the sanity
-checks of plan section 9.7. The run stops before writing anything if a check fails."""
+"""Proofs 1, 2, 4 and 5 as small data files for the website, a printed report, and the sanity
+checks of the method. The run stops before writing anything if a check fails."""
 import json
 
 import pandas as pd
@@ -113,7 +113,7 @@ if __name__ == "__main__":
     print(f"\nProof 5, S-NPP x F2 against NOAA-20, fire-season months 2019-2025: mean miss {proof5_err:.1f}% "
           f"(F2 was fitted on these years, so this shows the month-to-month spread, not a blind error)")
     print("\nAugusts, harmonized, highest first:", augusts.head(6).round(0).astype(int).to_dict())
-    print("\nSanity checks (plan, section 9.7):")
+    print("\nSanity checks:")
     for name, ok in checks.items():
         print(f"  {'PASS' if ok else 'FAIL'}  {name}")
     if not all(checks.values()):

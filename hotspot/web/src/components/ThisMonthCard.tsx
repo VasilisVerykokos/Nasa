@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 12: this month so far against the normal for the same days. Words: web/content/ui-text.md, "This month so far".
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 12: this month so far against the normal for the same days.
 import { MONTH_NAMES } from '../lib/heatmap'
 import { type CalendarRow, completeYears, currentMonth, thisMonthSoFar } from '../lib/stats'
 

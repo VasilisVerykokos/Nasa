@@ -1,4 +1,4 @@
-# AI note: written with Claude Code (Claude Opus 5.5) for Person B, under the team's direction and review.
+# AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
 # Proof 6 on tiny made-up data with answers counted by hand.
 import sys
 from pathlib import Path

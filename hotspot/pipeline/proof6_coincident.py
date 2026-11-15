@@ -1,11 +1,11 @@
-# AI note: written with Claude Code (Claude Opus 5.5) for Person B, under the team's direction and review.
-"""Proof 6 (plan, section 5): what the MODIS-to-VIIRS factor is made of.
+# AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
+"""Proof 6: what the MODIS-to-VIIRS factor is made of.
 
 On passes where Aqua and S-NPP saw Greece within a few minutes of each other, the fires are the same and only the
 sensor differs. On common cells of about 0.1 degree the script measures:
   - sensitivity: the share of cells with S-NPP fire that Aqua also saw;
   - resolution: S-NPP pixels per Aqua pixel in the cells both saw.
-It explains the factor; it does not replace it (F1 is fitted on monthly totals, plan section 4).
+It explains the factor; it does not replace it (F1 is fitted on monthly totals).
 Uses the project's own cleaning step (clean.load_all).
 
 Run from this folder:  py -3.13 proof6_coincident.py   ->  web/public/proof/proof6_coincident.json
@@ -18,13 +18,13 @@ from clean import load_all
 from config import (COINCIDENCE_CELL_DEG, COINCIDENCE_MINUTES, FIT_END, FIT_START, PASS_GAP_MINUTES, PROOF_DIR)
 from proof7_grid import cell_index
 
-# Stated next to the result, as the plan asks (section 5). The numbers in braces come from the run.
+# Stated next to the result. The numbers in braces come from the run.
 LIMITS = [
     "Aqua only: Terra passes about three hours before VIIRS, so near-simultaneous passes are rare for it "
     "({terra} Terra hotspots had an S-NPP hotspot within {minutes} minutes, against {aqua} Aqua hotspots).",
     "The ratio on these passes ({coincident}) is lower than over all passes ({all_passes}), as expected: a pass where "
     "only S-NPP saw fire has no Aqua row and drops out. So this proof shows what the gap is made of; it does not "
-    "measure the factor's size, which comes from monthly totals (plan, section 4).",
+    "measure the factor's size, which comes from monthly totals.",
     "No large fires: the most Aqua pixels in one shared cell on one pass is {largest}.",
     "A small sample: {days} days with a coincident pass in eight years at the {minutes}-minute limit.",
     "A pass that detected nothing leaves no row in the files, so only passes where both sensors recorded something "

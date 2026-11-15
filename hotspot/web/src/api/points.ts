@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The `month_points` database function (plan, section 9.4), for the dots of one month on the map.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The `month_points` database function, for the dots of one month on the map.
 import type { Polygon } from '../lib/geo'
 
 const URL = import.meta.env.VITE_SUPABASE_URL

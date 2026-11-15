@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Sonnet 5.5) for Person B, reviewed by the team. Checks the date fields, their labels and the "Whole record" button.
+// AI note: written with Claude Code (Claude Sonnet 5.5), reviewed by the team. Checks the date fields, their labels and the "Whole record" button.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, it } from 'vitest'
 import DateRange from './DateRange'

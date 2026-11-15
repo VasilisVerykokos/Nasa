@@ -1,5 +1,5 @@
 # AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
-"""Give every cleaned hotspot a NOAA-20-equivalent weight, using the splice table of plan section 4, step 5."""
+"""Give every cleaned hotspot a NOAA-20-equivalent weight, using the splice table (step 5 of the method)."""
 import pandas as pd
 
 from config import AQUA_START, NOAA20_START, SNPP_START
@@ -54,7 +54,7 @@ if __name__ == "__main__":
     factors = fit(df)
     print(factors.to_string(index=False, float_format="%.3f"))
     ta = factors[factors["name"] == "F1 Terra + Aqua"]
-    print(f"\nF1 pooled over seasons and day+night (for comparison with the plan only, not used): "
+    print(f"\nF1 pooled over seasons and day+night (for comparison only, not used): "
           f"{ta['numerator'].sum()} / {ta['denominator'].sum()} = {ta['numerator'].sum() / ta['denominator'].sum():.3f}")
     print("\nYearly totals. Raw counts per sensor, naive sum of all three, each older sensor converted to NOAA-20 units,")
     print("and the harmonized record (sum of weights):")

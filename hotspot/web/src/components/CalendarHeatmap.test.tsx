@@ -43,7 +43,7 @@ it('says what the scroll box hides: wide when content is wider than the box, mor
   expect(scrollState({ scrollWidth: 0, clientWidth: 0, scrollLeft: 0 })).toEqual({ wide: false, more: false }) // hidden in table view
 })
 
-it('keeps the cue text out of the first draw, before the box is measured, and the cue line is the one worded in ui-text.md', () => {
+it('keeps the cue text out of the first draw, before the box is measured, and the cue line is the agreed wording', () => {
   expect(html()).not.toContain(SCROLL_CUE)
   expect(SCROLL_CUE).toBe('Scroll sideways for September to December and the year totals.')
 })

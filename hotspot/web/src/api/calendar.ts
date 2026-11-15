@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The `calendar` database function (plan, section 9.4).
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The `calendar` database function.
 import type { Polygon } from '../lib/geo'
 import type { CalendarRow } from '../lib/stats'
 

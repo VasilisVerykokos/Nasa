@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the CSV builder, the calendar CSV columns, the month span and the file names.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the CSV builder, the calendar CSV columns, the month span and the file names.
 import { describe, expect, it } from 'vitest'
 import type { CalendarRow } from '../stats'
 import { calendarCsv, fileName, firstDay, lastDay, span, toCsv } from '.'

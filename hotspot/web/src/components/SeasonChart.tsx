@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Should-have 4: the normal year against one chosen year, a plain React SVG line chart with "Show as table". Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Should-have 4: the normal year against one chosen year, a plain React SVG line chart with "Show as table".
 import { useId, useState } from 'react'
 import { fmtCount } from '../lib/heatmap'
 import { defaultYear, seasonSeries } from '../lib/season'

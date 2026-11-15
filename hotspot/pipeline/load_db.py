@@ -1,5 +1,5 @@
 # AI note: written with Claude Code (Claude Sonnet 5.5), under the team's direction and review.
-"""Empty and reload hotspots, factors, coverage and meta in Supabase, in one transaction (plan, sections 9.2 and 9.3).
+"""Empty and reload hotspots, factors, coverage and meta in Supabase, in one transaction.
 
 Run from the hotspot folder:  py -3.13 pipeline/load_db.py     Prints row counts only, never a secret.
 It holds the yearly files only (to 2025): run pipeline/update_daily.py straight after it to put the current year back."""

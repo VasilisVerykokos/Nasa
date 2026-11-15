@@ -41,7 +41,7 @@
  ],
  "limits": [
   "Aqua only: Terra passes about three hours before VIIRS, so near-simultaneous passes are rare for it (4 Terra hotspots had an S-NPP hotspot within 5 minutes, against 682 Aqua hotspots).",
-  "The ratio on these passes (4.39) is lower than over all passes (6.03), as expected: a pass where only S-NPP saw fire has no Aqua row and drops out. So this proof shows what the gap is made of; it does not measure the factor's size, which comes from monthly totals (plan, section 4).",
+  "The ratio on these passes (4.39) is lower than over all passes (6.03), as expected: a pass where only S-NPP saw fire has no Aqua row and drops out. So this proof shows what the gap is made of; it does not measure the factor's size, which comes from monthly totals.",
   "No large fires: the most Aqua pixels in one shared cell on one pass is 15.",
   "A small sample: 147 days with a coincident pass in eight years at the 5-minute limit.",
   "A pass that detected nothing leaves no row in the files, so only passes where both sensors recorded something are counted. The share of cells Aqua also saw is therefore probably optimistic.",

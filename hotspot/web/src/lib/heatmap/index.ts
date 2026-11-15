@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Heatmap colours and the "show the arithmetic" text (plan 4 step 7, 9.5). Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Heatmap colours and the "show the arithmetic" text.
 import { interpolateYlOrRd } from 'd3-scale-chromatic'
 import type { CalendarRow } from '../stats'
 

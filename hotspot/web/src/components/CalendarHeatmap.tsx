@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 3: calendar heatmap (years × months) as a plain React SVG, so ExportBar can save it as an image. Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 3: calendar heatmap (years × months) as a plain React SVG, so ExportBar can save it as an image.
 import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { MONTH_NAMES, type Range, type View, cellColor, countColor, describeMonth, describeRaw, diffColor, fmtCount, rawOf, sensorOf } from '../lib/heatmap'
 import { type CalendarRow, completeYears, currentMonth, differenceFromNormal, normalFor, yearTotals } from '../lib/stats'

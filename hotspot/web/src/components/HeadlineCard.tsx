@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Headline card (must-have 4): one plain sentence comparing a month with its normal. Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Headline card (must-have 4): one plain sentence comparing a month with its normal.
 import { type CalendarRow, compare, completeYears, currentMonth, headline, topMonths } from '../lib/stats'
 
 const fmt = (v: number) => Math.round(v).toLocaleString('en-US')

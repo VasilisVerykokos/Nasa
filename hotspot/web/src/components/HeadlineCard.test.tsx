@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the headline card's sentence, its number line and its help line.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the headline card's sentence, its number line and its help line.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, it } from 'vitest'
 import type { CalendarRow } from '../lib/stats'

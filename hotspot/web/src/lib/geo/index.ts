@@ -11,7 +11,7 @@ const boxPolygon = (b: Box): Polygon => ({
 /** Rectangle around Greece, from pipeline/evidence/greece.geojson (lon 19.63 to 28.24, lat 34.82 to 41.75), rounded outwards. */
 const ALL_GREECE: Box = { west: 19.6, south: 34.8, east: 28.3, north: 41.8 }
 
-/** The coverage check is wider, as in the plan (about 19 to 30 E, 34 to 42 N), so a point just south of Crete or off the coast still counts as Greece; the database returns 0 hotspots for open sea. */
+/** The coverage check is wider (about 19 to 30 E, 34 to 42 N), so a point just south of Crete or off the coast still counts as Greece; the database returns 0 hotspots for open sea. */
 export const GREECE: Box = { west: 19, south: 34, east: 30, north: 42 }
 
 /** Plan section 9.5. Both boxes are the official Copernicus areas of interest (EMSR527 AOI01 "Evia", EMSR686 Aristino; pipeline/evidence). */

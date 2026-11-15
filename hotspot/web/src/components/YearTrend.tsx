@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Should-have 2: yearly totals as a plain React SVG bar chart, the trend sentence and "Show as table". Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Should-have 2: yearly totals as a plain React SVG bar chart, the trend sentence and "Show as table".
 import { useState } from 'react'
 import { countColor, fmtCount, type Range } from '../lib/heatmap'
 import type { CalendarRow } from '../lib/stats'

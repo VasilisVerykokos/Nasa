@@ -1,5 +1,5 @@
 # AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
-"""Proof 3 (plan, section 5): two real fires, daily harmonized hotspots against the Copernicus burned-area maps.
+"""Proof 3: two real fires, daily harmonized hotspots against the Copernicus burned-area maps.
 
 For North Evia 2021 and Evros 2023, sums the hotspot weights per day inside the official Copernicus box, and for each
 mapped date the hotspots since the previous map next to the burned area added since then. Both fires are in the NOAA-20

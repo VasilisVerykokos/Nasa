@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the order of the top months and years, the peak season and the partial-year note.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the order of the top months and years, the peak season and the partial-year note.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, it } from 'vitest'
 import type { CalendarRow } from '../lib/stats'

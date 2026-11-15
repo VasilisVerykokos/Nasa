@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Sonnet 5.5) for Person B, reviewed by the team. Must-have 2: From and To dates. Words: web/content/ui-text.md, "Date range".
+// AI note: written with Claude Code (Claude Sonnet 5.5), reviewed by the team. Must-have 2: From and To dates.
 import { useEffect, useState } from 'react'
 import { checkRange, defaultRange, RECORD_START, type Range } from '../lib/dates'
 

@@ -59,7 +59,7 @@ export function Method({ proofs: p, env }: { proofs: Proofs; env: Env }) {
   )
 }
 
-/** Must-have 9: August 2007 against August 2021 and 2023, with the blind-test range (decision log, Sat 18:21). */
+/** Must-have 9: August 2007 against August 2021 and 2023, with the blind-test range. */
 export function Finding({ p }: { p: Proofs }) {
   const f = p.finding_augusts
   const aug = (y: number): number | undefined => f?.augusts.find((r: any) => r.year === y)?.harmonized
@@ -109,7 +109,7 @@ function FactorTable({ rows }: { rows: any[] }) {
   )
 }
 
-function SpliceTable() { // plan, section 4, step 5; the dates are in pipeline/config.py
+function SpliceTable() { // the dates are in pipeline/config.py
   const rows = [['Nov 2000 to Jun 2002', 'MODIS, Terra only', 'F1 (Terra only) × F2'], ['Jul 2002 to Jan 2012', 'MODIS, Terra + Aqua', 'F1 (Terra + Aqua) × F2'],
     ['Feb 2012 to Dec 2018', 'VIIRS S-NPP', 'F2'], ['Jan 2019 to today', 'VIIRS NOAA-20', '1']]
   return (

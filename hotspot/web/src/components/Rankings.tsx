@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Rankings (must-have 5): top 5 months, top 5 years, peak season. Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Rankings (must-have 5): top 5 months, top 5 years, peak season.
 import { type CalendarRow, completeYears, peakSeason, topMonths, topYears } from '../lib/stats'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

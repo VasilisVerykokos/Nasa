@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. The `hotspots_export` database call (plan, section 9.4), read page by page.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The `hotspots_export` database call, read page by page.
 import type { Polygon } from '../lib/geo'
 
 const URL = import.meta.env.VITE_SUPABASE_URL

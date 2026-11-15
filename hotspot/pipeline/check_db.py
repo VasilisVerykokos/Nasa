@@ -1,5 +1,5 @@
 # AI note: written with Claude Code (Claude Sonnet 5.5), under the team's direction and review.
-"""Call calendar() the way the website does (HTTPS POST, publishable key only) and check the answers (plan, section 9.7).
+"""Call calendar() the way the website does (HTTPS POST, publishable key only) and check the answers.
 
 Run from the hotspot folder:  py -3.13 pipeline/check_db.py"""
 import json

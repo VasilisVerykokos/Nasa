@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The lines under the map: the clicked month's dots (should-have 3) and the coverage outline (should-have 8). Words: web/content/ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The lines under the map: the clicked month's dots (should-have 3) and the coverage outline (should-have 8).
 import { useRef } from 'react'
 import { POINT_CAP } from '../api/points'
 import { MONTH_NAMES, sensorOf } from '../lib/heatmap'

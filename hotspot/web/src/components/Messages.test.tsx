@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks each message shows the words from ui-text.md.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks each message shows the wording the page uses.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, it } from 'vitest'
 import { DatabaseMessage, NoHotspots, OutsideGreece, Unreachable } from './Messages'

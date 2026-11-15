@@ -1,5 +1,5 @@
 -- AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
--- Tables, indexes, security and the four API functions (plan, sections 9.3 and 9.4). Safe to run more than once.
+-- Tables, indexes, security and the four API functions. Safe to run more than once.
 -- PostGIS lives in the "extensions" schema, so every PostGIS name is written as extensions.<name>.
 
 -- ---------- Tables ----------

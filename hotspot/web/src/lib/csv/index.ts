@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. CSV builders and file names for the downloads (must-have 6).
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. CSV builders and file names for the downloads (must-have 6).
 import { type CalendarRow, normalFor } from '../stats'
 
 const cell = (v: unknown) => {
@@ -48,7 +48,7 @@ export function lastDay(ym: string) {
   return `${ym}-${pad(new Date(Date.UTC(y, m, 0)).getUTCDate())}`
 }
 
-/** "hotspot-calendar_north-evia-2021_2000-11_2026-11.csv" (ui-text.md, Downloads). The hotspots file is "hotspots_north-evia-2021_...", so the word is not doubled. */
+/** "hotspot-calendar_north-evia-2021_2000-11_2026-11.csv". The hotspots file is "hotspots_north-evia-2021_...", so the word is not doubled. */
 export function fileName(kind: 'calendar' | 'hotspots', label: string, from: string, to: string, ext = 'csv') {
   const area = label.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'area'
   return `${kind === 'hotspots' ? 'hotspots' : `hotspot-${kind}`}_${area}_${from}_${to}.${ext}`

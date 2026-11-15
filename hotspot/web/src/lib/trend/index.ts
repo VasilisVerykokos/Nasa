@@ -1,7 +1,7 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Should-have 2: yearly totals and a Mann-Kendall test with Sen's slope (two-sided, 5% level).
 import { type CalendarRow, completeYears, yearTotals } from '../stats'
 
-/** Years before this are MODIS estimates (plan, section 4). */
+/** Years before this are MODIS estimates. */
 export const ESTIMATE_BEFORE = 2012
 export const ALPHA = 0.05
 

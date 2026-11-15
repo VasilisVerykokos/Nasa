@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. The `get_meta` database call (plan, section 9.4).
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. The `get_meta` database call.
 const URL = import.meta.env.VITE_SUPABASE_URL
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY // the public (publishable) key
 

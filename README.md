@@ -106,7 +106,22 @@ It returns 313 rows; August 2021 reads:
 
 **Limits:** each request may run for at most 10 seconds (all of Greece takes about 6). The database is on Supabase's free plan, whose monthly data allowance is shared with the website, so please keep requests modest; the answer is small. If the database ever moves, this address changes and this section will be updated.
 
-**The whole dataset in one file.** Every cleaned Greek hotspot of 2000 to 2025 with its weight, the factor table and a description of every column are a GitHub release: https://github.com/VasilisVerykokos/Nasa/releases/tag/dataset-v1 (the files are made by `pipeline/export_dataset.py`; the column description is [hotspot/DATASET.md](hotspot/DATASET.md)).
+**The whole dataset in one file.** Every cleaned Greek hotspot of 2000 to 2025 with its weight, the factor table and a description of every column are a GitHub release: https://github.com/VasilisVerykokos/Nasa/releases/tag/dataset-v1 (the files are made by `hotspot/pipeline/export_dataset.py`).
+
+**What is in the files.** `hotspot_greece_harmonized_2000-2025.csv` has one row per hotspot (153,804 rows); `hotspot_greece_factors.csv` has the 9 measured conversion factors the weights come from.
+
+| Column | Meaning |
+|---|---|
+| `acq_date`, `acq_time` | Date (`YYYY-MM-DD`) and time (`HHMM`) of the satellite pass, UTC |
+| `latitude`, `longitude` | Centre of the flagged pixel (WGS 84), not the exact place of the fire |
+| `source`, `satellite` | `MODIS` (Terra, Aqua), `SNPP` (S-NPP) or `NOAA20` (NOAA-20) |
+| `daynight` | `D` day pass, `N` night pass |
+| `confidence` | NASA's rating, unchanged: MODIS 30 to 100, VIIRS `n` or `h` |
+| `frp` | Fire radiative power in MW, as given by FIRMS |
+| `weight` | NOAA-20-equivalent hotspots (one NOAA-20 hotspot = 1). Each sensor counts only in its own period (MODIS to Jan 2012, S-NPP 2012 to 2018, NOAA-20 from 2019); other rows have weight 0. Sum `weight` to compare any months across all 26 years |
+| `country` | Always `Greece` |
+
+Only vegetation fires are kept, and low-confidence detections are removed. Weights before February 2012 are estimates, good to about ±26% for a single fire-season month.
 
 ## Rebuild everything
 
@@ -155,18 +170,12 @@ GitHub Actions (`.github/workflows/pages.yml`) tests, builds and publishes the w
 - **NASA FIRMS:** MODIS Collection 6.1 and VIIRS 375 m (S-NPP, NOAA-20) active fire products, yearly country files and the Area API. https://firms.modaps.eosdis.nasa.gov
 - **Partner data, used to test the method:** Copernicus Emergency Management Service burned-area maps (activations EMSR527, North Evia 2021, and EMSR686, Evros 2023) and EFFIS yearly burned area for Greece.
 - Natural Earth (the Greece outline); © OpenStreetMap contributors (the background map).
-- Every dataset, paper, library and service: [hotspot/REFERENCES.md](hotspot/REFERENCES.md).
 
 HOTSPOT is not endorsed by NASA.
 
 ## AI use
 
-The code was written with Claude Code, under the team's direction and review. Every tool and what it was used for is logged in [hotspot/AI_USE.md](hotspot/AI_USE.md), and each AI-written file says so in its first line.
-
-## Team
-
-- ____________________
-- ____________________
+The code was written with Claude Code, under the team's direction and review. Each AI-written file says so in its first line.
 
 ## Licence
 

@@ -1,5 +1,5 @@
 # AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
-"""F1 (S-NPP / MODIS) and F2 (NOAA-20 / S-NPP): one factor per country, from counts over shared months (plan, section 4).
+"""F1 (S-NPP / MODIS) and F2 (NOAA-20 / S-NPP): one factor per country, from counts over shared months.
 F1 is split by season (fire season against the rest of the year) and by day/night; a cell with too few MODIS
 detections falls back to a pooled factor. F2 is one number."""
 import pandas as pd
@@ -44,7 +44,7 @@ def _f1_cell(name, s, dn, snpp, modis, start, end, minimum):
 def fit(df: pd.DataFrame, fit_start=FIT_START, fit_end=FIT_END, f2_start=F2_START, f2_end=F2_END,
         min_detections=MIN_DETECTIONS) -> pd.DataFrame:
     """Cleaned table -> one row per factor with the counts it came from. Satellites are never added together,
-    except Terra + Aqua, which are one MODIS record (plan, section 4, step 2)."""
+    except Terra + Aqua, which are one MODIS record."""
     modis = df[df["source"] == "MODIS"]
     snpp = df[df["source"] == "SNPP"]
     snpp_fit = _count(snpp, fit_start, fit_end)

@@ -1,8 +1,8 @@
-<!-- AI note: drafted with Claude Code (Claude Opus 5.5) on 14 Nov 2026 from "HOTSPOT Mockup.pdf", the earlier limits.md draft and MASTER-PLAN.md sections 4, 5 and 12, checked against verified-facts.md and the decision log. Person B owns the words. -->
+<!-- AI note: drafted with Claude Code (Claude Opus 5.5) on 14 Nov 2026 and reviewed by the team. -->
 
 # HOTSPOT: text of the "Method and proof" page
 
-For Person A. Sections in the order of the page. `{slot: file}` means the number is read from that proof file, which a script in the repository wrote. Do not type those numbers into the page by hand. Every other number here is a VERIFIED fact from `verified-facts.md`.
+Sections in the order of the page. `{slot: file}` means the number is read from that proof file, which a script in the repository wrote. Do not type those numbers into the page by hand. Every other number here is a verified fact.
 
 ---
 
@@ -156,4 +156,4 @@ curl -s -X POST "{calendar address}" \
 - Li, Zhang, Kondragunta et al. (2018). Comparison of fire radiative power estimates from VIIRS and MODIS observations. *JGR Atmospheres* 123, 4545–4563. doi:10.1029/2017JD027823
 - Kaur, Hüser, Zhang, Gehrke and Kaiser (2019). Correcting swath-dependent bias of MODIS FRP observations with quantile mapping. *Remote Sensing* 11, 1205. doi:10.3390/rs11101205
 
-The full list, with every library and service the project uses, is in `REFERENCES.md` in the repository. HOTSPOT is open source under the Apache-2.0 licence and is not endorsed by NASA.
+The libraries and services the project uses are listed in the repository README and its package files. HOTSPOT is open source under the Apache-2.0 licence and is not endorsed by NASA.

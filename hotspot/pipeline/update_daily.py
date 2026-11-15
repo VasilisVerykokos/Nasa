@@ -1,5 +1,5 @@
 # AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
-"""The current year (plan, section 4, step 6, and section 9.6): NOAA-20 hotspots from the FIRMS Area API.
+"""The current year: NOAA-20 hotspots from the FIRMS Area API.
 
 Each run fetches every day from API_START to NASA's newest day, 5 days per request: standard data (SP) as far as NASA
 has it, near-real-time (NRT) after that. It cleans them like the yearly files (NRT rows have no `type`, so a factory
@@ -137,7 +137,7 @@ if __name__ == "__main__":
         c.execute(f"create temp table new_rows on commit drop as select {COLS} from public.hotspots limit 0")
         with c.cursor() as cur, cur.copy(f"copy new_rows ({COLS}) from stdin") as cp:
             for r in rows.itertuples(index=False):
-                # NOAA-20 from 2019 on is the record's unit, so its weight is 1 (plan, section 4, step 5)
+                # NOAA-20 from 2019 on is the record's unit, so its weight is 1
                 cp.write_row((r.acq_date.date(), r.acq_time, r.latitude, r.longitude, "NOAA20", r.satellite, r.daynight,
                               none_if_nan(r.confidence), none_if_nan(r.frp), 1.0, r.quality, COUNTRY))
         c.execute("create temp table neighbours on commit drop as select extensions.st_setsrid(extensions.st_geomfromgeojson("

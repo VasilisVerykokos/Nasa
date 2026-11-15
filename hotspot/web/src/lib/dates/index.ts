@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Sonnet 5.5) for Person B, reviewed by the team. Date-range rules (must-have 2): default, validation, years shown.
+// AI note: written with Claude Code (Claude Sonnet 5.5), reviewed by the team. Date-range rules (must-have 2): default, validation, years shown.
 export type Range = { from: string; to: string } // both "YYYY-MM-DD"
 
 export const RECORD_START = '2000-11-01'

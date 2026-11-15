@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Downloads (must-have 6): calendar CSV, calendar image and hotspots CSV. Words: web/content/ui-text.md, "Downloads".
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Downloads (must-have 6): calendar CSV, calendar image and hotspots CSV.
 // "Copy link" (should-have 5) copies the page address, which App keeps up to date with the area and the dates.
 import { useState } from 'react'
 import { fetchHotspots, TooManyHotspots } from '../api/hotspots'

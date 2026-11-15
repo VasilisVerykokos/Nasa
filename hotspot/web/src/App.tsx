@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Page skeleton: map column on the left, results on the right (WIREFRAME.md).
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Page skeleton: map column on the left, results on the right.
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { fetchCalendar } from './api/calendar'
 import { fetchMeta, type Outline } from './api/meta'
@@ -36,7 +36,7 @@ export default function App() {
   const shown = month && dots?.for === month ? dots.points : null // null: still loading (an answer for an older month counts as loading)
   const counted = useMemo(() => (Array.isArray(shown) ? shown.filter(p => p.weight > 0) : null), [shown]) // weight 0: outside its sensor's period, not part of the month
 
-  // The date range changes only what the screen shows, never the calendar call or the statistics (plan 9.4); it is not in any effect below.
+  // The date range changes only what the screen shows, never the calendar call or the statistics; it is not in any effect below.
   // The address can carry the area and the dates (share link). Read once; a bad address gives null and the default view.
   const [start, setStart] = useState(() => decodeShare(location.hash))
   const [range, setRange] = useState<Range | null>(start?.range ?? null)

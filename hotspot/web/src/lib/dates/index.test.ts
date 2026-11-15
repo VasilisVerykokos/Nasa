@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Sonnet 5.5) for Person B, reviewed by the team. Checks the date-range rules and that dates never trigger a calendar call.
+// AI note: written with Claude Code (Claude Sonnet 5.5), reviewed by the team. Checks the date-range rules and that dates never trigger a calendar call.
 import { expect, it, vi } from 'vitest'
 import app from '../../App.tsx?raw'
 import { fetchCalendar } from '../../api/calendar'

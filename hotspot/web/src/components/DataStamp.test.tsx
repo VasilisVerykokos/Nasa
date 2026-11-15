@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the data stamp's three states and the "updated daily" rule.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the data stamp's three states and the "updated daily" rule.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, it } from 'vitest'
 import DataStamp from './DataStamp'

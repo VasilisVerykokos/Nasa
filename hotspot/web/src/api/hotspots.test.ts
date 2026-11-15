@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the export reads every page, with and without a Supabase limit on rows per answer.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the export reads every page, with and without a Supabase limit on rows per answer.
 import { afterEach, expect, it, vi } from 'vitest'
 
 const area = { type: 'Polygon' as const, coordinates: [[[23, 38.7], [23.5, 38.7], [23.5, 39], [23, 38.7]] as [number, number][]] }

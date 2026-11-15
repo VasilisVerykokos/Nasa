@@ -1,10 +1,10 @@
-# AI note: written with Claude Code (Claude Sonnet 5.5) for Person B, under the team's direction and review.
+# AI note: written with Claude Code (Claude Sonnet 5.5), under the team's direction and review.
 """Write the open dataset: every cleaned Greek hotspot of the yearly NASA files (Nov 2000 to Dec 2025) with its weight,
 and the factor table. Uses the project's own cleaning and weighting, so the file matches the website's database.
 
 Run from the hotspot folder:  py -3.13 pipeline/export_dataset.py
 Writes pipeline/data/release/hotspot_greece_harmonized_2000-2025.csv and hotspot_greece_factors.csv (ignored by Git;
-they are attached to a GitHub release, with DATASET.md as their column description)."""
+they are attached to a GitHub release)."""
 from pathlib import Path
 
 from clean import load_all

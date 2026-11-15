@@ -1,5 +1,5 @@
-# AI note: written with Claude Code (Claude Opus 5.5) for Person B, under the team's direction and review.
-"""Proof 7 (plan, section 5): does a common grid harmonize MODIS and VIIRS?
+# AI note: written with Claude Code (Claude Opus 5.5), under the team's direction and review.
+"""Proof 7: does a common grid harmonize MODIS and VIIRS?
 
 Over the factor's fit window, counts MODIS (Terra + Aqua) and S-NPP first as hotspots, then as active cell-days
 (grid cells with at least one hotspot on a day) for each cell size in config. If gridding were the answer, the

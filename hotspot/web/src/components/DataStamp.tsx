@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Data stamp: "Data through {date}, updated daily". Words: web/content/ui-text.md, "Header and footer".
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Data stamp: "Data through {date}, updated daily".
 
 const DAY = 86_400_000
 const toDate = (v: unknown) => {

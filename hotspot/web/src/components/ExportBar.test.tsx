@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Checks the download buttons and the file-name hint for the current area.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Checks the download buttons and the file-name hint for the current area.
 import { renderToStaticMarkup } from 'react-dom/server'
 import { expect, it } from 'vitest'
 import type { Polygon } from '../lib/geo'

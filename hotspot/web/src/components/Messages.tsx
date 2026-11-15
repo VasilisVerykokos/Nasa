@@ -1,4 +1,4 @@
-// AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Messages (must-have 8): what the page says instead of a calendar. Words: web/content/ui-text.md, section "Messages".
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Messages (must-have 8): what the page says instead of a calendar.
 
 export function OutsideGreece() {
   return <p role="alert">This area is outside the covered region. HOTSPOT covers Greece only. Pick a preset or draw inside Greece.</p>
@@ -9,7 +9,7 @@ export function NoHotspots() {
   return <p>No hotspots were found in this area from November 2000 to today. Try a larger area. HOTSPOT covers Greece only, so places outside Greece show no hotspots.</p>
 }
 
-// The full text in ui-text.md adds "so you are looking at the saved North Evia example". That part waits for the saved example (plan, section 9.5).
+// The full wording adds "so you are looking at the saved North Evia example". That part waits for the saved example.
 export function Unreachable({ onRetry }: { onRetry: () => void }) {
   return (
     <div role="alert">

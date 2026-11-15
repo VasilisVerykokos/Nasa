@@ -1,9 +1,9 @@
-// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Statistics rules of MASTER-PLAN section 9.5.
+// AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team.
 
 /** `so_far`: the month's value for days 1 to D only, D = day of the newest hotspot (db/schema.sql). */
 export type CalendarRow = { year: number; month: number; value: number; modis: number; snpp: number; noaa20: number; provisional: number; so_far?: number }
 
-/** Share of a normal year the peak season must hold (decision log, JUDGE-QUESTIONS.md). */
+/** Share of a normal year the peak season must hold. */
 export const PEAK_SEASON_SHARE = 0.6
 /** Below this normal, show two plain numbers instead of "N times". */
 export const SMALL_NORMAL = 5
@@ -12,7 +12,7 @@ const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 
 const key = (r: { year: number; month: number }) => r.year * 12 + r.month
 
-// Relies on calendar() returning a row for every month, zeros included (db/schema.sql, decision log Sat 17:26).
+// Relies on calendar() returning a row for every month, zeros included (db/schema.sql).
 /** The latest month in the data: the current month, still in progress ("so far"). */
 export const currentMonth = (rows: CalendarRow[]) => rows.reduce((a, b) => (key(b) > key(a) ? b : a))
 
@@ -72,7 +72,7 @@ export function headline(rows: CalendarRow[], year: number, month: number): stri
 }
 
 /** Must-have 12: the latest month against the median of the same first days of that month in complete years
- * (`so_far`, decision log Sat 17:55; the whole month if `so_far` is missing). `finished`: the data stopped, so it is not "so far". */
+ * (`so_far`; the whole month if `so_far` is missing). `finished`: the data stopped, so it is not "so far". */
 export function thisMonthSoFar(rows: CalendarRow[], finished = false) {
   const { year, month } = currentMonth(rows)
   const c = compare(rows, year, month)
