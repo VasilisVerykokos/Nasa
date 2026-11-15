@@ -25,3 +25,6 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# Dataset release files (written by pipeline/export_dataset.py, attached to the GitHub release)
+hotspot/pipeline/data/release/
