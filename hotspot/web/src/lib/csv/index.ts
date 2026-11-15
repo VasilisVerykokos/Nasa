@@ -48,8 +48,8 @@ export function lastDay(ym: string) {
   return `${ym}-${pad(new Date(Date.UTC(y, m, 0)).getUTCDate())}`
 }
 
-/** "hotspot-calendar_north-evia-2021_2000-11_2026-11.csv" (ui-text.md, Downloads). */
+/** "hotspot-calendar_north-evia-2021_2000-11_2026-11.csv" (ui-text.md, Downloads). The hotspots file is "hotspots_north-evia-2021_...", so the word is not doubled. */
 export function fileName(kind: 'calendar' | 'hotspots', label: string, from: string, to: string, ext = 'csv') {
   const area = label.toLowerCase().normalize('NFKD').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'area'
-  return `hotspot-${kind}_${area}_${from}_${to}.${ext}`
+  return `${kind === 'hotspots' ? 'hotspots' : `hotspot-${kind}`}_${area}_${from}_${to}.${ext}`
 }

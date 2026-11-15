@@ -37,6 +37,6 @@ describe('span, days and file names', () => {
   })
   it('names files with the area and the dates', () => {
     expect(fileName('calendar', 'North Evia 2021', '2000-11', '2026-11')).toBe('hotspot-calendar_north-evia-2021_2000-11_2026-11.csv')
-    expect(fileName('hotspots', '  ', '2000-11', '2026-11')).toBe('hotspot-hotspots_area_2000-11_2026-11.csv')
+    expect(fileName('hotspots', '  ', '2000-11', '2026-11')).toBe('hotspots_area_2000-11_2026-11.csv')
   })
 })
