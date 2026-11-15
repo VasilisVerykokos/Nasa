@@ -135,7 +135,7 @@ export default function App() {
       </div>}
       <footer>
         <span>Data: NASA FIRMS, Copernicus EMS, EFFIS, Natural Earth, OpenStreetMap</span>
-        <span>Apache-2.0 · Not endorsed by NASA</span>
+        <span><a href="https://github.com/VasilisVerykokos/Nasa">Code on GitHub</a> · Contact: <a href="mailto:verykokosvasileios@gmail.com">verykokosvasileios@gmail.com</a>, <a href="mailto:diamantiampentouli@gmail.com">diamantiampentouli@gmail.com</a> · Apache-2.0 · Not endorsed by NASA</span>
       </footer>
     </>
   )
