@@ -37,6 +37,24 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 | Error, longitude | Longitude must be a number from -180 to 180, for example 23.25. |
 | Error, radius | Radius must be more than 0 and at most 300 km. |
 
+## Month on the map (should-have 3) and coverage outline (should-have 8)
+
+Lines under the map. The first line is announced to screen readers (`role="status"`).
+
+| When | Text |
+|---|---|
+| No month chosen | Click a month on the calendar to see its hotspots on this map. |
+| Loading | Loading the hotspots of {August 2021}… |
+| Done | {142} hotspots in {August 2021}. Each dot is one {VIIRS / MODIS} detection, all the same size (not weighted). Dots before February 2012 are MODIS, later ones VIIRS. |
+| Done, limit reached (add) | The map limit of 20,000 rows was reached, so some hotspots are missing. |
+| Failed | The hotspots of {August 2021} could not be loaded. Try again in a minute. |
+| Button | Clear month (focus then moves to the line above) |
+| Outline | Outline: the area HOTSPOT covers (Greece). Shown only when `get_meta` has an outline. |
+| Calendar hint, added | Click a month, or press Enter, to show its hotspots on the map. |
+| Calendar grid name, added | Press Enter to show a month on the map. |
+
+Only detections with a weight above 0 are drawn: the sensor that counts that month. From 2019 the number of dots equals the calendar's number; before, the calendar's number is converted and the dots are not. A new area clears the month. The headline card follows the chosen month.
+
 ## Date range
 
 | Where | Text |
@@ -67,7 +85,7 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 | Small label above | None. The area name is already the heading above the card. |
 | Sentence | Made by `headline()` in `web/src/lib/stats`. Its three forms are below. |
 | Line under the sentence | {3,252} hotspots against a normal of {208}. Shown only after the "N times" form: the other two forms already give both numbers. |
-| Which month | Until a month can be clicked on the calendar, the card shows the area's highest month among the years in the date range (the whole record if no range is set). "Normal" and the rank still use the whole record. |
+| Which month | The month clicked on the calendar. With none clicked, the area's highest month among the years in the date range (the whole record if no range is set). "Normal" and the rank still use the whole record. |
 | Help line | A hotspot is a spot a satellite saw as hot, usually a fire. Normal is the middle value (median) for that calendar month, 2001 to 2025. |
 
 The three forms the code makes, all correct as written:

@@ -2,8 +2,15 @@
 const URL = import.meta.env.VITE_SUPABASE_URL
 const KEY = import.meta.env.VITE_SUPABASE_ANON_KEY // the public (publishable) key
 
-/** The `meta` part of get_meta, as key → value. The data stamp reads `data_through` (a date) and `last_update` (a time). */
-export async function fetchMeta(): Promise<Record<string, unknown>> {
+export type Outline = GeoJSON.Polygon | GeoJSON.MultiPolygon
+
+/** get_meta's `coverage` (country → GeoJSON) as a list of outlines; anything that is not a polygon is skipped. */
+export const outlinesOf = (coverage: unknown): Outline[] =>
+  Object.values(coverage && typeof coverage === 'object' ? coverage : {})
+    .filter((g): g is Outline => (g?.type === 'Polygon' || g?.type === 'MultiPolygon') && Array.isArray(g.coordinates))
+
+/** `meta` as key → value (the data stamp reads `data_through`, a date, and `last_update`, a time) and the coverage outlines. */
+export async function fetchMeta(): Promise<{ values: Record<string, unknown>; outlines: Outline[] }> {
   if (!URL || !KEY) throw new Error('The database address is not set up (VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY).')
   const res = await fetch(`${URL}/rest/v1/rpc/get_meta`, {
     method: 'POST',
@@ -11,5 +18,6 @@ export async function fetchMeta(): Promise<Record<string, unknown>> {
     body: '{}',
   })
   if (!res.ok) throw new Error(`The database answered with error ${res.status}.`)
-  return (await res.json()).meta ?? {}
+  const json = await res.json()
+  return { values: json.meta ?? {}, outlines: outlinesOf(json.coverage) }
 }

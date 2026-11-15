@@ -10,6 +10,7 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | React | The website's interface | MIT | https://react.dev |
 | TypeScript | Typed JavaScript for the website | Apache-2.0 | https://www.typescriptlang.org |
 | Vitest | Tests for the website's statistics | MIT | https://vitest.dev |
+| jsdom | A fake browser for the website tests that click the calendar (tests only, not shipped) | MIT | https://github.com/jsdom/jsdom |
 | Leaflet | The map on the website | BSD-2-Clause | https://leafletjs.com |
 | Leaflet-Geoman (free edition) | Drawing a polygon or rectangle on the map | MIT | https://geoman.io |
 | d3-scale-chromatic | The cividis colour ramp of the calendar heatmap (cividis: Nuñez, Anderton and Renslow 2018, PLOS ONE, https://doi.org/10.1371/journal.pone.0199239) | ISC | https://github.com/d3/d3-scale-chromatic |

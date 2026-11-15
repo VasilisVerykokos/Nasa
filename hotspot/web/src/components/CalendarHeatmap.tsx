@@ -5,7 +5,9 @@ import { type CalendarRow, completeYears, currentMonth, differenceFromNormal, no
 import CalendarTable from './CalendarTable'
 
 type Cell = { name: string; text: string; fill?: string; label?: string; est?: boolean; prov?: boolean; soFar?: boolean; none?: boolean }
-type Props = { rows: CalendarRow[]; label: string; meta: Record<string, unknown>; fromYear?: number; toYear?: number }
+type Month = { year: number; month: number }
+/** selected/onSelect: should-have 3, a clicked month (or Enter on it) shows its hotspots on the map. */
+type Props = { rows: CalendarRow[]; label: string; meta: Record<string, unknown>; fromYear?: number; toYear?: number; selected?: Month | null; onSelect?: (m: Month) => void }
 
 // Layout in SVG units; the SVG scales to its box, so it fits a phone without sideways scrolling.
 const L = 52, CW = 26, CH = 16, G = 2, TW = 64, TOP = 58, W = L + 12 * CW + TW
@@ -23,7 +25,7 @@ const date = (v: unknown) => {
 }
 
 /** fromYear/toYear only choose the years shown; colours and normals always use the whole record. */
-export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinity, toYear = Infinity }: Props) {
+export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinity, toYear = Infinity, selected, onSelect }: Props) {
   const [view, setView] = useState<View>('count')
   const raw = view === 'raw'
   const [table, setTable] = useState(false)
@@ -86,9 +88,14 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
   const bottom = y(grid.length)
   const H = bottom + 96
   const through = date(meta.data_through)
+  // Only real months can be picked: not year totals, not the normal row, not months outside the record.
+  const pickable = (r: number, c: number) => !!onSelect && r < years.length && c < 12 && !grid[r].cells[c].none
+  const pick = (r: number, c: number) => { if (pickable(r, c)) onSelect!({ year: years[r], month: c + 1 }) }
+  const [sr, sc] = selected ? [years.indexOf(selected.year), selected.month - 1] : [-1, -1] // -1: none, or its year is outside the date range
 
   function onKey(e: KeyboardEvent) {
     if (e.key === 'Escape') return setShown(false)
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); return pick(pr, pc) }
     const step = KEYS[e.key] ?? (e.key === 'Home' ? [0, -12] : e.key === 'End' ? [0, 12] : null)
     if (!step) return
     e.preventDefault()
@@ -148,14 +155,14 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
             <text x={W - 2} y={TOP - 5} textAnchor="end">Year total</text>
             {grid.map((row, r) => <text key={row.head} x={L - 6} y={y(r) + CH - 5} textAnchor="end">{row.head}</text>)}
           </g>
-          <g role="grid" aria-label={`Calendar of ${raw ? 'raw detections, sensors simply added,' : 'hotspots'} per month. Use the arrow keys to move between months.`} onKeyDown={onKey}
+          <g role="grid" aria-label={`Calendar of ${raw ? 'raw detections, sensors simply added,' : 'hotspots'} per month. Use the arrow keys to move between months.${onSelect ? ' Press Enter to show a month on the map.' : ''}`} onKeyDown={onKey}
             onBlur={e => e.currentTarget.contains(e.relatedTarget as Node) || setShown(false)}>
             {grid.map((row, r) => (
               <g role="row" key={row.head}>
                 {row.cells.map((c, col) => (
-                  <rect key={col} id={`hm-${r}-${col}`} role="gridcell" aria-label={c.name} tabIndex={r === pr && col === pc ? 0 : -1}
+                  <rect key={col} id={`hm-${r}-${col}`} role="gridcell" aria-label={c.name} aria-selected={pickable(r, col) ? r === sr && col === sc : undefined} tabIndex={r === pr && col === pc ? 0 : -1}
                     x={x(col)} y={y(r)} width={col === 12 ? TW - G : CW - G} height={CH - G}
-                    fill={c.none ? 'url(#hm-none)' : c.fill ?? '#fff'} onFocus={e => show(r, col, e.currentTarget)} onMouseEnter={e => show(r, col, e.currentTarget)} onClick={e => show(r, col, e.currentTarget)} />
+                    fill={c.none ? 'url(#hm-none)' : c.fill ?? '#fff'} onFocus={e => show(r, col, e.currentTarget)} onMouseEnter={e => show(r, col, e.currentTarget)} onClick={e => { show(r, col, e.currentTarget); pick(r, col) }} />
                 ))}
               </g>
             ))}
@@ -169,6 +176,7 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
                 {c.label && <text x={x(col) + TW - G - 4} y={y(r) + CH - 5} textAnchor="end" fill="#1a1a1a">{c.label}</text>}
               </g>
             )))}
+            {sr >= 0 && <rect x={x(sc) + 1} y={y(sr) + 1} width={CW - G - 2} height={CH - G - 2} fill="none" stroke="#0b57d0" strokeWidth={2} />}
             {shown && <rect x={x(pc) - 1} y={y(pr) - 1} width={(pc === 12 ? TW : CW) - G + 2} height={CH - G + 2} fill="none" stroke="#000" strokeWidth={2} />}
           </g>
           <g aria-hidden="true" transform={`translate(0 ${bottom + 14})`} fill="#333">
@@ -197,7 +205,7 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
         </div>
         </div>
         </div>
-        <p className="hint hm-info">Point at a month, tap it, or press Tab and use the arrow keys, to see how its number was made.</p>
+        <p className="hint hm-info">Point at a month, tap it, or press Tab and use the arrow keys, to see how its number was made.{onSelect && ' Click a month, or press Enter, to show its hotspots on the map.'}</p>
         {/* The tooltip is hidden from screen readers; this line says the same text instead. */}
         <p className="sr-only" aria-live="polite">{shown ? `${grid[pr].cells[pc].text} Press another cell to compare.` : ''}</p>
       </div>

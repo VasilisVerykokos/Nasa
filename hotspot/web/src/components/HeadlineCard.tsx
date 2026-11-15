@@ -6,7 +6,7 @@ const fmt = (v: number) => Math.round(v).toLocaleString('en-US')
 type Props = { rows: CalendarRow[]; label: string; year?: number; month?: number; fromYear?: number; toYear?: number }
 
 export default function HeadlineCard({ rows, fromYear, toYear, ...picked }: Props) {
-  // Until a month can be clicked on the calendar (should-have 3), the card shows the area's highest month among the shown years (the whole record if no range is set).
+  // The month clicked on the calendar (should-have 3); with none, the area's highest month among the shown years (the whole record if no range is set).
   const top = topMonths(rows, 1, fromYear, toYear)[0] ?? currentMonth(rows)
   const year = picked.year ?? top.year
   const month = picked.month ?? top.month
