@@ -67,7 +67,7 @@ Both are in the audience the challenge names: early warning and emergency respon
 ### Why now
 
 - **S-NPP stopped delivering data on 2 November 2026.** Our record continues on NOAA-20, which is why NOAA-20 is the unit of the record.
-- **The MODIS satellites are drifting.** Terra made its final orbit correction on 27 February 2020 and Aqua on 8 March 2021. They now pass at different times of day than before, so their newest data no longer compare with their old data. [CHECK: add "and are planned to stop in 2027" only if verified-facts.md marks it VERIFIED. Today it is second-hand.]
+- **The MODIS satellites are drifting.** Terra made its final orbit correction on 27 February 2020 and Aqua on 8 March 2021. They now pass at different times of day than before, so their newest data no longer compare with their old data.
 - **Without harmonization, the 26 years since 2000 can't be compared with each other.** HOTSPOT joins them now, while the instruments still overlap.
 
 ---
@@ -85,7 +85,7 @@ Both are in the audience the challenge names: early warning and emergency respon
 | "which years had more burning activity" | Year totals and the top 5 years |
 | "compare the burning activity of the current month against the historical median" | One plain sentence for any month, for example "August 2021 was 15.6 times the normal August here, the highest August in 26 years" (North Evia: 3,252 hotspots against a normal of 208). The "this month so far" card does the same for the current month. |
 | "anomalies against multi-year averages" | A "difference from normal" view of the calendar (each month against the median of that calendar month). The calendar CSV carries the median and the mean of every calendar month. |
-| "accessible color ramps" | Every cell shows its number on hover, focus (arrow keys) or tap, and the whole calendar can be shown as a table that a screen reader can read. Estimated, missing and provisional months are marked with patterns as well as colour. [CHECK: say "colour-blind-safe" only after testing the colours with a colour-blindness simulator.] |
+| "accessible color ramps" | Every cell shows its number on hover, focus (arrow keys) or tap, and the whole calendar can be shown as a table that a screen reader can read. Estimated, missing and provisional months are marked with patterns as well as colour. The colours are the ColorBrewer YlOrRd ramp, which ColorBrewer lists as colour-blind safe. |
 | "download analytics and visualizations" | The calendar as CSV and as an image |
 | "A downloadable CSV File of hot spots detected during a search" | Every hotspot in the area, with all its columns and its harmonization weight |
 
@@ -97,7 +97,7 @@ The page also says clearly when an area lies outside Greece, when it had no hots
 
 **1. Clean.** We keep vegetation fires, including agricultural burns, which the challenge counts as burning activity. We remove low-confidence detections (for MODIS, exactly the official "low" class, below 30) and fixed heat sources such as factories, which would hide the fire signal. This matters more than it looks: 16.9% of S-NPP rows and 14.5% of NOAA-20 rows are not vegetation fires, against 1.6% of MODIS rows (`pipeline/clean.py`).
 
-**2. Never add satellites that see the same thing.** What must stay constant across the record is the number of looks per day. Terra and Aqua pass at different times, so together they give four looks a day, and we add them. S-NPP and NOAA-20 see nearly the same fires: over 2019 to 2025, NOAA-20 recorded 1.04 hotspots for every S-NPP hotspot. Adding them would count most fires twice, so we use one at a time. [CHECK: "they share one orbit, about 25 minutes apart" is still second-hand in verified-facts.md; add it only if verified.]
+**2. Never add satellites that see the same thing.** What must stay constant across the record is the number of looks per day. Terra and Aqua pass at different times, so together they give four looks a day, and we add them. S-NPP and NOAA-20 see nearly the same fires: over 2019 to 2025, NOAA-20 recorded 1.04 hotspots for every S-NPP hotspot. Adding them would count most fires twice, so we use one at a time.
 
 **3. Measure the MODIS-to-VIIRS factor ourselves.** We compare S-NPP with MODIS over February 2012 to December 2019, the years both flew before the MODIS orbits drifted. The factor differs by day and night and by season (`web/public/proof/factors.json`):
 
@@ -205,7 +205,7 @@ We found no published VIIRS-to-MODIS ratio of hotspot counts for the Mediterrane
 
 ### Use it and build on it
 
-- **Open code**, Apache-2.0, with the steps to rebuild everything from NASA's public files in the README. [CHECK: the README's rebuild steps were tested on a clean machine (MASTER-PLAN section 18.6).]
+- **Open code**, Apache-2.0, with the steps to rebuild everything from NASA's public files in the README. We followed the README from a fresh copy of the repository: the tests, the proofs and the dataset export run as written.
 - **Open data:** every hotspot download carries its weight. The full harmonized dataset for Greece, 2000 to 2025 (153,804 hotspots, with a description of every column), is a GitHub release: https://github.com/VasilisVerykokos/Nasa/releases/tag/dataset-v1
 - **Use our data:** the calendar behind the app is a public web address anyone can call for any area in Greece. The address, the key, what to send and what comes back are in the README, section "Use our data".
 
@@ -222,7 +222,7 @@ We found no published VIIRS-to-MODIS ratio of hotspot counts for the Mediterrane
 
 - NASA FIRMS, MODIS Collection 6.1 active fire product (Terra and Aqua), yearly country files for Greece, 2000 to 2025
 - NASA FIRMS, VIIRS 375 m active fire products (S-NPP and NOAA-20), yearly country files for Greece
-- [CHECK: NASA FIRMS Area API for 2026, if the 2026 data is loaded]
+- NASA FIRMS Area API: VIIRS NOAA-20 375 m, standard and near-real-time data for 2026, updated daily
 - MODIS Collection 6 and 6.1 Active Fire Product User's Guide; FIRMS FAQ; NASA VIIRS Land, Active Fire Product page
 
 ## Space agency partner and other data
@@ -234,8 +234,114 @@ We found no published VIIRS-to-MODIS ratio of hotspot counts for the Mediterrane
 
 ## References
 
-[FILL: copy `hotspot/REFERENCES.md` here in full on Sunday: every dataset, paper, library and service.]
+Every dataset, paper, library and service the project uses (plan, section 9.8).
+
+### Libraries
+
+| Name | Used for | Licence | Link |
+|---|---|---|---|
+| Vite | Builds and serves the website | MIT | https://vite.dev |
+| React | The website's interface | MIT | https://react.dev |
+| TypeScript | Typed JavaScript for the website | Apache-2.0 | https://www.typescriptlang.org |
+| Vitest | Tests for the website's statistics | MIT | https://vitest.dev |
+| jsdom | A fake browser for the website tests that click the calendar (tests only, not shipped) | MIT | https://github.com/jsdom/jsdom |
+| Leaflet | The map on the website | BSD-2-Clause | https://leafletjs.com |
+| Leaflet-Geoman (free edition) | Drawing a polygon or rectangle on the map | MIT | https://geoman.io |
+| d3-scale-chromatic | The YlOrRd colour ramp of the calendar heatmap and year chart (ColorBrewer, Cynthia Brewer, Penn State, https://colorbrewer2.org; colour-blind safe) | ISC | https://github.com/d3/d3-scale-chromatic |
+| marked 15.0.12 | Turns `web/content/method.md` into the text of the "Method and proof" view | MIT | https://marked.js.org |
+| PostgreSQL | The database that holds the hotspots and runs the four functions | PostgreSQL License | https://www.postgresql.org |
+| PostGIS | Map maths in the database: tests each hotspot against the drawn area | GPL-2.0-or-later | https://postgis.net |
+| psycopg 3 | Connects the Python scripts to the database | LGPL-3.0 | https://www.psycopg.org |
+| Python 3.13 | The data pipeline | PSF License | https://www.python.org |
+| pandas | Reads, cleans, counts and weights the hotspots in the pipeline | BSD-3-Clause | https://pandas.pydata.org |
+| SciPy | Rank correlation (Spearman) for proof 4, called by pandas | BSD-3-Clause | https://scipy.org |
+| Requests | Downloads the current year from the NASA FIRMS Area API (`pipeline/update_daily.py`) | Apache-2.0 | https://requests.readthedocs.io |
+| pytest | Tests for the pipeline | MIT | https://pytest.org |
+
+### Datasets
+
+| Name | Used for | Link |
+|---|---|---|
+| NASA FIRMS, MODIS Collection 6.1 active fire product (Terra and Aqua), yearly country files, Greece 2000 to 2025 | Hotspots before 2012, and the MODIS side of the factor F1 | https://firms.modaps.eosdis.nasa.gov |
+| NASA FIRMS, VIIRS 375 m active fire products (S-NPP 2012 to 2025, NOAA-20 2018 to 2025), yearly country files, Greece | Hotspots from 2012; the factors F1 and F2 | https://firms.modaps.eosdis.nasa.gov |
+| NASA FIRMS Area API and data-availability API, VIIRS NOAA-20 375 m, standard (VIIRS_NOAA20_SP) and near-real-time (VIIRS_NOAA20_NRT), 2026 | The current year, from 1 Jan 2026 to the newest day; rerun daily by `pipeline/update_daily.py` | https://firms.modaps.eosdis.nasa.gov/api/area/ |
+| EFFIS Statistics Portal, yearly burned area for Greece, 2006 to 2025 | Proof 4: our yearly record against an independent one | https://forest-fire.emergency.copernicus.eu/apps/effis.statistics/estimates |
+| Copernicus Emergency Management Service, activation EMSR686 (Evros 2023): burned-area products and area of interest | Dates and burned area of the Evros fire; the Evros preset box | https://mapping.emergency.copernicus.eu/activations/EMSR686/ |
+| Copernicus Emergency Management Service, activation EMSR527 and its bulletin on fire events in the Mediterranean (North Evia 2021) | Start date and burned area of the North Evia fire; the North Evia preset box (area of interest AOI01 "Evia", read from the Delineation Monitoring 3 vector files) | https://mapping.emergency.copernicus.eu/activations/EMSR527/ |
+| Natural Earth, 1:10m Admin 0 Countries (public domain) | The Greece outline: clipping and the coverage outline. Its land neighbours (Albania, North Macedonia, Bulgaria, Turkey; `pipeline/evidence/neighbours.geojson`) keep the 2026 clip from crossing a border | https://www.naturalearthdata.com |
+
+### Papers and guides
+
+| Reference | Used for |
+|---|---|
+| MODIS Collection 6 and 6.1 Active Fire Product User's Guide, version 1.0 (https://earthdata.nasa.gov/s3fs-public/2023-09/MODIS_C6_C6.1_Fire_User_Guide_1.0.pdf) | The MODIS confidence classes (table 11): we drop the low class, below 30 |
+| NASA Space Apps Challenge 2026, "Harmonization of MODIS and VIIRS Hot Spots" (https://www.spaceappschallenge.org/2026/challenges/modis-and-viirs-hot-spots/) | The task, and NASA's wording of the goal |
+| FIRMS FAQ, NASA Earthdata (https://www.earthdata.nasa.gov/data/tools/firms/faq) | What a hotspot is, satellite dates, the limits of hotspot data |
+| NASA VIIRS Land, Active Fire Product (https://viirsland.gsfc.nasa.gov/Products/NASA/FireESDR.html) | The two VIIRS fire products (750 m and 375 m) |
+
+### Services
+
+| Name | Used for | Link |
+|---|---|---|
+| Supabase | Hosts the PostgreSQL + PostGIS database and the secure web address the website calls | https://supabase.com |
+| OpenStreetMap tiles (© OpenStreetMap contributors, ODbL) | The background map | https://www.openstreetmap.org/copyright |
+| GitHub Pages and GitHub Actions | Build and host the website on every push to `main`; GitHub Actions also runs the daily update (`.github/workflows/daily-update.yml`) | https://pages.github.com |
 
 ## Use of artificial intelligence
 
-The code was written with Claude Code, under the team's direction and review. Every AI-assisted file carries a one-line note at its top, and every session is logged in `hotspot/AI_USE.md`. The team decided the method and can explain every step of it. AI tools used: Claude and Claude Code (planning, source checking, code, quick counts), Gemini (literature search, fact-checked), ChatGPT (a plain-language explanation of the topic in Greek; its suggestions were checked and not adopted). [CHECK: add Impeccable only if it was used.] No AI-generated images are used. [FILL: copy `hotspot/AI_USE.md` here in full on Sunday.]
+The code was written with Claude Code, under the team's direction and review. Every AI-assisted file carries a one-line note at its top, and every session is logged in `hotspot/AI_USE.md`. The team decided the method and can explain every step of it. AI tools used: Claude and Claude Code (planning, source checking, code, quick counts), Gemini (literature search, fact-checked), ChatGPT (a plain-language explanation of the topic in Greek; its suggestions were checked and not adopted). Impeccable (design review of the screen). No AI-generated images are used.
+
+### AI use log
+
+A dated log of AI help (plan, section 16). One line per piece of AI-assisted code or text.
+
+| Date | Tool | Used for |
+|---|---|---|
+| 13 Nov 2026 | Gemini | Literature search on the sensors and the two fires. Results were fact-checked; see `verified-facts.md`. |
+| 13 Nov 2026 | Claude | Checking sources in a browser; compiling `verified-facts.md`. |
+| 13 to 14 Nov 2026 | Claude | Discussion of the approach, a quick feasibility look at the public Greek FIRMS files, drafting the master plan. |
+| 14 Nov 2026 | Claude | Checking the plan against the judging criteria and the organisers' design steps; drafting `PROJECT-PAGE-CHOICES.md` and `JUDGE-QUESTIONS.md`. |
+| 14 Nov 2026 | ChatGPT | A plain-language explanation of the topic in Greek for the second team member. Its suggestions (VIIRS 750 m as the main source, a 1 km grid, an alert system) were checked and not adopted. |
+| 14 Nov 2026 | Claude | Fact-check of the ChatGPT conversation against NASA pages; quick counts on the Greece files (ratios, grid test, near-simultaneous passes); planning notes; re-running the counts on the first machine. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5) | `pipeline/config.py`, `pipeline/clean.py`, `pipeline/tests/test_clean.py` (from the AI notes in those files). |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | First run of the cleaning step; per-row confidence rule and unknown-satellite check in `clean.py`; `pipeline/factors.py`, `pipeline/harmonize.py`, `pipeline/tests/test_harmonize.py`; first factors and yearly totals. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | `pipeline/validate.py` and `pipeline/tests/test_validate.py` (blind test, proofs 1, 2, 4 and 5 as files in `web/public/proof/`, sanity checks); a one-off check of a season split (not adopted); pipeline entries in `REFERENCES.md`. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | Season split in `pipeline/factors.py`, `harmonize.py`, `validate.py` and their tests, after the team chose to adopt it; `season` column in the `factors` table of `db/schema.sql`. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | Minimum-detections fallback in `pipeline/factors.py` and its tests, after a review finding; re-run of the proofs. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | `db/schema.sql` (tables, security, the four database functions) and `db/apply_and_test.py` (applies it to Supabase and tests it with made-up rows); paging fix in `web/src/api/hotspots.ts` with its test. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | `web/` set up with Vite, React, TypeScript and Vitest; `web/src/lib/stats/index.ts` (normal, comparison, headline, rankings, peak season, difference from normal, this month so far) and its tests `index.test.ts`. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | `.github/workflows/pages.yml` (test, build, publish); `web/src/lib/geo` (circle from point + radius, presets, Greece check) and its tests; `web/src/components/AreaPicker.tsx` (Leaflet map with drawing, presets, point form); page skeleton in `App.tsx` and `index.css`. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | `pipeline/evidence/`: the Evros 2023 and Evia 2021 Copernicus files and the EFFIS yearly table, typed from `verified-facts.md`; `greece.geojson`, cut from the Natural Earth 1:10m countries file; the repository-layout entry in the plan. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | `WIREFRAME.md`: draft desktop and phone wireframes, component states, UI best-practice list from web research. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Design artifact "HOTSPOT Mockup": high-fidelity desktop, phone and Method and proof screens built from `WIREFRAME.md`. The numbers on it are invented layout data. Printed to `design/hotspot-mockup.pdf` and committed on 14 Nov, 18:45, for Person A. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5) | `web/src/api/calendar.ts` (the `calendar` database call); `web/src/components/CalendarTable.tsx` (plain calendar with year totals and the normal year) and its test; loading, error, "no hotspots" and "outside Greece" messages in `App.tsx`. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Read the official North Evia area from the Copernicus EMSR527 vector files and updated `pipeline/evidence/copernicus_evia_2021.json`; quick checks of the old and new Evia box and of the Greece outline against FIRMS's 2025 file (throwaway scripts, not in the repository); `web/content/ui-text.md` (every screen label and message) and `web/content/method.md` (method page text, merging the earlier `limits.md` draft), from the mockup and the plan, checked against `verified-facts.md`; matching edits to the planning files. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Fixed the secrets in `.env.example` (restored the template, local excludes); merged `FOR-MASTER-PLAN.md` into the planning files and updated the teammate `CLAUDE.md`; `web/src/components/HeadlineCard.tsx` (must-have 4) and `Rankings.tsx` (must-have 5) with their tests, placed in `App.tsx`; wording fixes in `web/content/ui-text.md`; the Vitest drive-letter workaround in the plan. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | `web/src/components/Messages.tsx` (must-have 8: outside Greece, no hotspots, database unreachable with a "Try again" button, the database's own messages) and its test; the matching lines in `App.tsx`; wording note in `web/content/ui-text.md`; two decision-log rows. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | `web/src/api/meta.ts` (the `get_meta` call) and `web/src/components/DataStamp.tsx` (data stamp, "updated daily" only after a recent update) with its test; the matching lines in `App.tsx`; the `meta` key names in the plan and the decision log; a throwaway check of the live `get_meta` answer (not in the repository). |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | `web/src/components/ExportBar.tsx` (must-have 6: calendar CSV and hotspots CSV), `web/src/lib/csv` (CSV builder, month span, file names) and `web/src/api/hotspots.ts` (paged `hotspots_export` call), with tests; the matching lines in `App.tsx`; CSV columns in the plan; decision-log rows; throwaway checks of the live database functions (not in the repository). |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Proof 7: `pipeline/proof7_grid.py` (grid test on the project's cleaning step, writes `web/public/proof/proof7_grid.json`) and `pipeline/tests/test_proof7_grid.py`; the grid sizes in `config.py`; the script's numbers in the plan, the facts file, the judge questions, the project-page choices and `web/content/method.md`. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Fix in `web/src/api/hotspots.ts`: the export now pages through `hotspots_export`'s own `page` input (the first version would have cut files at 10,000 rows); `web/src/api/hotspots.test.ts` with a fake database; corrections in the plan, the decision log and `web/content/ui-text.md`. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person A | `pipeline/load_db.py` (empties and reloads the four tables in one transaction) and `pipeline/check_db.py` (calls `calendar` over HTTPS with the public key and checks it against the pipeline); the matching decision-log rows. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Calendar heatmap (must-have 3): `web/src/components/CalendarHeatmap.tsx` (SVG grid, two views, marks, legend, keyboard grid, "Show as table") and `web/src/lib/heatmap` (colour scales and the "show the arithmetic" text), with tests; "Download calendar (image)" in `ExportBar.tsx` (must-have 6); the one-line change in `App.tsx`; d3-scale-chromatic in `REFERENCES.md`; decision-log rows. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | "So far" card (must-have 12): `web/src/components/ThisMonthCard.tsx` with its test; `thisMonthSoFar()` in `web/src/lib/stats` now uses the same-days normal (`so_far`); phone layout of the heatmap (slides inside its box); "detection"/"detections" fix; the matching lines in `App.tsx`, `ui-text.md` and the decision log. Browser check of the heatmap run by Claude in Chrome. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | `TESTING.md` (manual checklist, five-minute outsider test script, feedback log, bug list, final pre-submission check) from the plan and `web/content/ui-text.md`; a pointer in the plan and a decision-log row; restored Person A's `AI_USE.md` line that a merge had dropped. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | Proof 6: `pipeline/proof6_coincident.py` (Aqua against S-NPP on passes within 5 and 10 minutes, on the project's cleaning step, limits written into `web/public/proof/proof6_coincident.json`) and `pipeline/tests/test_proof6_coincident.py`; shared `cell_index` in `proof7_grid.py`; three settings in `config.py`; the script's numbers in the plan, the facts file, the judge questions and the project-page choices. |
+| 14 Nov 2026 | Claude Code (Claude Opus 5.5), Person B | `PROJECT-PAGE.md`: draft of the Space Apps project page from the plan, the choices checklist, verified facts and the proof files, with markers for what is not built, not checked or not filled; pointer in the plan, decision-log row; corrected the proof 6 time in the plan files. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Date range (must-have 2): `web/src/components/DateRange.tsx`, rules in `web/src/lib/dates`, tests for both; small changes in `App.tsx` and `ExportBar.tsx` (hotspots CSV uses the dates); wording in `web/content/ui-text.md`; decision-log row. |
+| 14 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Phone-width fix in `web/src/index.css`: the page grid columns can now shrink, so the calendar scrolls inside its own box. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Proof 3: `pipeline/proof3_fires.py` (daily harmonized hotspots for North Evia 2021 and Evros 2023 against the Copernicus burned-area maps, writes `web/public/proof/proof3_fires.json`) and `pipeline/tests/test_proof3_fires.py`; `validate.py` also writes `finding_augusts.json`; "Method and proof" view (must-haves 7 and 9): `web/src/components/MethodPage.tsx` (the finding, method.md text, factor and splice tables, proof charts in plain SVG with "Show as table") and its test, the header link in `App.tsx`, styles in `index.css`; marked in `REFERENCES.md`; decision-log rows. Later the same session: dark theme in `index.css`; the official North Evia box in `web/src/lib/geo` and `pipeline/check_db.py`; the 14,659 rounding fix in the planning files; the current year: `pipeline/update_daily.py` (FIRMS Area API, factory mask, clip to Greece without crossing a border) with `pipeline/tests/test_update_daily.py`, `pipeline/evidence/neighbours.geojson` (from Natural Earth), settings in `config.py`, notes in `load_db.py` and `check_db.py`, and the first load of 2026 into Supabase. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Key-safe error messages in `pipeline/update_daily.py` with a test in `pipeline/tests/test_update_daily.py`; the repository `README.md` rewritten (method, proofs and finding from the proof files, "Use our data" with a curl example run against the live database, rebuild steps); the "Use our data" section of `web/content/method.md` and its address and key slots in `web/src/components/MethodPage.tsx`, with a test; decision-log rows. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Raw-versus-harmonized switch (should-have 1): third view "Raw (sensors simply added)" in `web/src/components/CalendarHeatmap.tsx`; `rawOf`, `cellColor` and `describeRaw` in `web/src/lib/heatmap` with tests; decision-log row. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Fixes from a browser test of the live site, all in `web/`: calendar tooltip at the hovered, focused or tapped cell (`CalendarHeatmap.tsx`, `index.css`); code blocks and wide tables scroll inside their own box; method page wording (proof numbering 3a/3b, "Limits of proof N", the challenge explained, "The proofs"); calendar hint and Raw subtitle; headline month chosen inside the date range and "where a normal August has none" wording (`lib/stats`, `HeadlineCard.tsx`, `App.tsx`) with tests; point form labels, preset clears the point, typed numbers kept, focus to the result heading (`AreaPicker.tsx`); wider Greece coverage box (`lib/geo`) with a test; `content/ui-text.md` updated. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Trend and seasonal chart (should-haves 2 and 4): `web/src/lib/trend` (Mann-Kendall test with Sen's slope), `web/src/lib/season`, `web/src/components/YearTrend.tsx` and `SeasonChart.tsx` (plain SVG, "Show as table"), with tests; wording in `content/ui-text.md`; decision-log rows. Not mounted in `App.tsx` yet. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person A | Daily update on GitHub Actions (should-have 7): `.github/workflows/daily-update.yml`, `pipeline/requirements.txt`, the factory mask saved as `pipeline/evidence/factory_mask.csv` (read by `pipeline/update_daily.py`, rewritten with `--build-mask`), `env()` in `pipeline/load_db.py` falls back to environment variables, temporary tables dropped at commit, two tests in `pipeline/tests/test_update_daily.py`; decision-log rows. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Hotspots download file name no longer says "hotspot" twice (`web/src/lib/csv/index.ts` and its test). |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Fact check of `PROJECT-PAGE.md` against `verified-facts.md` and the proof files: corrected blind-test numbers, removed outdated "not built" markers, softened three claims; decision-log row in `JUDGE-QUESTIONS.md`. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Dataset release (value-add A): `pipeline/export_dataset.py` (writes the harmonized hotspot file and the factor file from the project's own cleaning and weighting) and `DATASET.md` (description of every column). |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person A | Scroll cue on the phone calendar: text line "Scroll sideways for September to December and the year totals." (shown only while the box is narrower than the calendar) and a soft right-edge fade, in `web/src/components/CalendarHeatmap.tsx` and `web/src/index.css`; test in `CalendarHeatmap.test.tsx`; wording in `web/content/ui-text.md`. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person A | Share link (should-have 5): `web/src/lib/share` (write and read the address, with tests), preset ids in `lib/geo`, address kept up to date in `App.tsx`, start values in `AreaPicker.tsx` and `DateRange.tsx`, "Copy link" in `ExportBar.tsx`; wording in `content/ui-text.md`; decision-log row. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person B | Rebuild check of the README from a fresh clone: 53 pipeline tests and 81 web tests pass, proofs 3, 6, 7 and the dataset export run; found that `scipy` was missing from the install line (README) and from `REFERENCES.md`, and added it. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Should-haves 3 and 8: click a calendar month to see its hotspots as dots on the map (`web/src/api/points.ts`, `MapLegend.tsx`, changes to `App.tsx`, `AreaPicker.tsx`, `CalendarHeatmap.tsx`, `HeadlineCard.tsx`), the coverage outline from `get_meta` (`api/meta.ts`); tests `App.test.tsx` and `api/points.test.ts` with `jsdom` (test-only); wording in `content/ui-text.md`; decision-log rows. |
+| 15 Nov 2026 | Claude Code (Claude Sonnet 5.5), Person A | `hotspot/PIPELINE.md`: plain-words walk through the pipeline and the reason for each step, written from the code in `pipeline/` and the plan, section 4. |
+| 15 Nov 2026 | Claude Code (Claude Opus 5.5), Person A | Design review of the website (two review agents and the Impeccable design checker), then the fixes: type scale and headline panel, one-line header, map column that stays in view, fold-out point form and phone date range, 44 px inputs, named draw tools, YlOrRd calendar colours with two-tone hatching, peak season hidden under 5 hotspots, year-chart axis fix, pasted share links load, shorter screen-reader announcements, Method page column (`web/src/index.css`, `App.tsx`, `AreaPicker.tsx`, `DateRange.tsx`, `ExportBar.tsx`, `ThisMonthCard.tsx`, `Rankings.tsx`, `YearTrend.tsx`, `CalendarHeatmap.tsx`, `Messages.tsx`, `lib/heatmap`, `lib/stats` and their tests); wording in `content/ui-text.md`; decision-log rows; `REFERENCES.md`. |
