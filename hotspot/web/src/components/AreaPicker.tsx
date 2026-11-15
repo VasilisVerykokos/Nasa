@@ -23,9 +23,11 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
   const shape = useRef<L.Layer | null>(null)
   const [point, setPoint] = useState(initial?.point ? { lat: String(initial.point.lat), lon: String(initial.point.lon), radius: String(initial.point.r) } : EMPTY)
   const [error, setError] = useState('')
+  const [preset, setPreset] = useState<string | undefined>() // the preset in use, shown pressed; none for a drawn area or typed point
 
   // One shape at a time: a new one replaces the old one.
   const show = (place: Place, layer: L.Layer = L.geoJSON(place.area), focus = false) => {
+    setPreset(place.preset)
     shape.current?.remove()
     shape.current = layer.addTo(map.current!)
     map.current!.fitBounds((layer as L.GeoJSON).getBounds(), { maxZoom: 11 })
@@ -87,7 +89,7 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
       <h2 id="area-heading">Area</h2>
       <div className="presets">
         {PRESETS.map(p => (
-          <button key={p.name} type="button" onClick={() => { show({ area: p.area, label: p.name, preset: p.id }); setPoint(EMPTY); setError('') }}>{p.name}</button>
+          <button key={p.name} type="button" aria-pressed={preset === p.id} onClick={() => { show({ area: p.area, label: p.name, preset: p.id }); setPoint(EMPTY); setError('') }}>{p.name}</button>
         ))}
       </div>
       <div ref={box} className="map" role="region" aria-label="Map. Draw a polygon or rectangle with the tools at the top left, or use the form below." />

@@ -13,6 +13,10 @@
   --link: #0645ad;
   --c1: #e66101; /* chart colours */
   --c2: #2f6fc4;
+  /* Ink blue: actions, selection and focus. Orange is kept for data. */
+  --action: #1f3a5f; /* fill of a selected or primary control */
+  --on-action: #fff; /* text on that fill */
+  --action-line: #1f3a5f; /* outlines, tab underline, focus ring */
   --space: 16px;
   /* Type roles: meta (help, captions), body, h3, h2, the answer. */
   --fs-meta: 0.875rem;
@@ -28,11 +32,11 @@
   background: var(--bg);
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #121212; --card: #1c1c1c; --surface: #262626; --panel: #2b1f18; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #2c2c2c; --line-strong: #7d7d7d; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; }
+  :root { --bg: #121212; --card: #1c1c1c; --surface: #262626; --panel: #2b1f18; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #2c2c2c; --line-strong: #7d7d7d; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; --on-action: #9cc0ff; --action-line: #9cc0ff; }
 }
 body { margin: 0; background: var(--bg); }
 a { color: var(--link); text-underline-offset: 0.15em; }
-::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+::selection { background: color-mix(in srgb, var(--action-line) 28%, transparent); }
 h1, h2, h3 { font-family: var(--font-display); }
 h1, h2, h3, h4 { line-height: 1.25; text-wrap: balance; }
 @media (max-width: 600px) { :root { --fs-answer: 1.5rem; } }
@@ -41,8 +45,12 @@ p, li { text-wrap: pretty; }
 /* Header: brand, views and the data stamp on one line (they wrap on a phone). */
 header { display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; min-height: 56px; padding: 4px var(--space); border-bottom: 1px solid var(--line); }
 header h1 { margin: 0; font-size: 1.375rem; font-weight: 700; letter-spacing: 0.06em; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem; }
-header nav a { display: inline-block; padding: 10px 0; color: inherit; }
-header nav a[aria-current] { font-weight: 600; }
+/* Views as tabs: the current one is underlined in ink blue. */
+header nav { display: flex; gap: 20px; align-self: stretch; }
+header nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 2px; color: var(--muted); text-decoration: none; border-bottom: 2px solid transparent; }
+header nav a:hover { color: var(--text); }
+header nav a[aria-current] { font-weight: 600; color: var(--text); border-bottom-color: var(--action-line); }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 24px; padding: 16px var(--space); border-top: 1px solid var(--line); font-size: 14px; color: var(--muted); }
 .data-stamp { margin: 0 0 0 auto; font-size: var(--fs-meta); color: var(--muted); }
 
 /* The calendar picture keeps its own white background in both themes: its colour ramps and hatches are made for it, and it is also the downloaded image. */
@@ -75,8 +83,14 @@ button:disabled { cursor: progress; opacity: 0.7; }
 select { padding: 0 8px; }
 input:not([type="radio"], [type="checkbox"]) { padding: 0 8px; width: 8em; }
 input[type="date"] { width: auto; }
-input[type="radio"] { width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+input[type="radio"] { width: 18px; height: 18px; margin: 0; accent-color: var(--action); }
+:focus-visible { outline: 3px solid var(--action-line); outline-offset: 2px; }
+/* Presets are pills; the one in use is filled. A drawn area or typed point leaves none pressed. */
+.presets button { border-radius: 999px; padding: 0 16px; }
+/* Filled: the pressed preset and the one primary download. Its edge is --action-line, so in dark mode it keeps a 3:1 rim on the dark card. */
+.presets button[aria-pressed="true"], button.primary { background: var(--action); color: var(--on-action); border-color: var(--action-line); font-weight: 600; }
+button.secondary { background: var(--card); color: var(--action-line); border-color: var(--action-line); }
+button.primary:hover:not(:disabled), button.secondary:hover:not(:disabled), .presets button[aria-pressed="true"]:hover { border-color: var(--action-line); box-shadow: inset 0 0 0 1px var(--action-line); }
 form label, .date-range label { display: inline-flex; align-items: center; gap: 8px; margin: 4px 16px 4px 0; }
 .point summary { font-weight: 600; }
 .point form { padding-top: 4px; }
@@ -122,6 +136,17 @@ main h4 { margin: 0 0 6px; font-size: var(--fs-body); font-weight: 600; }
 .switch { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; }
 .switch legend { float: left; margin-right: 4px; font-weight: 600; }
 .switch label { min-height: 44px; display: inline-flex; align-items: center; gap: 8px; }
+/* Phone: the radios become one segmented control. The radios stay in the label (invisible), so arrows, Tab and screen readers work as before. */
+@media (max-width: 599px) {
+  .switch { gap: 0; align-items: stretch; }
+  .switch legend { float: none; width: 100%; padding: 0; margin: 0 0 6px; }
+  .switch label { position: relative; flex: 1 1 0; justify-content: center; padding: 6px; text-align: center; font-size: var(--fs-meta); line-height: 1.25; border: 1px solid var(--action-line); margin-left: -1px; background: var(--card); color: var(--action-line); cursor: pointer; }
+  .switch label:first-of-type { margin-left: 0; border-radius: 8px 0 0 8px; }
+  .switch label:last-of-type { border-radius: 0 8px 8px 0; }
+  .switch label:has(:checked) { background: var(--action); color: var(--on-action); font-weight: 600; z-index: 1; }
+  .switch label:has(:focus-visible) { outline: 3px solid var(--action-line); outline-offset: 2px; z-index: 2; }
+  .switch input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+}
 .hm-info { min-height: 3em; }
 .downloads .actions { margin-top: 4px; }
 

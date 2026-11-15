@@ -99,7 +99,7 @@ export default function App() {
       <header>
         <h1><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><g fill="#ffeda0"><rect width="6" height="6" rx="1.5" x="0" y="0"/><rect width="6" height="6" rx="1.5" x="9" y="0" fill="#fed976"/><rect width="6" height="6" rx="1.5" x="18" y="0"/><rect width="6" height="6" rx="1.5" x="0" y="9"/><rect width="6" height="6" rx="1.5" x="9" y="9" fill="#feb24c"/><rect width="6" height="6" rx="1.5" x="18" y="9" fill="#fed976"/><rect width="6" height="6" rx="1.5" x="0" y="18" fill="#fed976"/><rect width="6" height="6" rx="1.5" x="9" y="18"/><rect width="6" height="6" rx="1.5" x="18" y="18" fill="#bd0026"/></g></svg>HOTSPOT</h1>
         <nav aria-label="Views">
-          <a href="#" aria-current={method ? undefined : 'page'}>Calendar</a> · <a href="#method" aria-current={method ? 'page' : undefined}>Method and proof</a>
+          <a href="#" aria-current={method ? undefined : 'page'}>Calendar</a><a href="#method" aria-current={method ? 'page' : undefined}>Method and proof</a>
         </nav>
         <DataStamp meta={meta?.values ?? null} now={meta?.at ?? 0} />
       </header>
@@ -133,6 +133,10 @@ export default function App() {
               </>}
         </main>
       </div>}
+      <footer>
+        <span>Data: NASA FIRMS, Copernicus EMS, EFFIS, Natural Earth, OpenStreetMap</span>
+        <span>Apache-2.0 · Not endorsed by NASA</span>
+      </footer>
     </>
   )
 }

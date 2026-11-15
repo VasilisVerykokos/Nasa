@@ -15,7 +15,8 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 | Tabs | Calendar · Method and proof |
 | Data stamp | Data through {12 Nov 2026}, updated daily. ", updated daily" appears only if the last update is at most 2 days old. |
 | Data stamp, date unknown | Data date unavailable |
-| Footer | Data: NASA FIRMS, Copernicus EMS, EFFIS, Natural Earth, OpenStreetMap contributors. Open source under Apache-2.0. Not endorsed by NASA. |
+| Footer, left | Data: NASA FIRMS, Copernicus EMS, EFFIS, Natural Earth, OpenStreetMap |
+| Footer, right | Apache-2.0 · Not endorsed by NASA |
 
 ## Area (left column)
 

@@ -71,13 +71,13 @@ export default function ExportBar({ rows, label, area, range }: Props) {
     <section className="downloads" aria-labelledby="downloads-heading">
       <h3 id="downloads-heading">Download</h3>
       <div className="actions">
-      <button type="button" onClick={() => save(fileName('calendar', label, from, to), calendarCsv(rows))}>Download calendar (CSV)</button>
-      <button type="button" onClick={() => {
+      <button type="button" className="primary" onClick={() => save(fileName('calendar', label, from, to), calendarCsv(rows))}>Download calendar (CSV)</button>
+      <button type="button" className="secondary" onClick={() => {
         const svg = document.getElementById('calendar-image')
         if (svg instanceof SVGSVGElement) saveImage(svg, fileName('calendar', label, from, to, 'png'))
       }}>Download calendar (image)</button>
-      <button type="button" onClick={downloadHotspots} disabled={busy}>{busy ? 'Preparing…' : 'Download hotspots (CSV)'}</button>
-      <button type="button" onClick={copyLink}>Copy link</button>
+      <button type="button" className="secondary" onClick={downloadHotspots} disabled={busy}>{busy ? 'Preparing…' : 'Download hotspots (CSV)'}</button>
+      <button type="button" className="secondary" onClick={copyLink}>Copy link</button>
       </div>
       <p role="status" className="hint">{copied}</p>
       {manual && <label>Copy this link: <input readOnly value={manual} onFocus={e => e.target.select()} autoFocus /></label>}
