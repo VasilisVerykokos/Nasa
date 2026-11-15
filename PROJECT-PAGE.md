@@ -15,7 +15,7 @@ HOW TO USE THIS DRAFT
 
 *Harmonized Observations of Thermal Sensors for Pyro-Occurrence Trends*
 
-**NASA has watched fires from space since 2000 with two different instruments, MODIS and VIIRS. VIIRS sees far more fire than MODIS, so a simple fire record jumps in 2012, when VIIRS starts, even where nothing changed on the ground. HOTSPOT removes that jump. It gives every NASA fire detection over Greece a measured weight, so 26 years read on one scale. Pick any area, by drawing it or typing a point, and see a calendar of fire activity, month by month since November 2000, compared with the normal for each month. Every number traces back to NASA's detections, and we tested the method on years it never saw.**
+**NASA has watched fires from space since 2000 with two different instruments, MODIS and VIIRS. VIIRS sees far more fire than MODIS, so a simple fire record jumps in 2012, when VIIRS starts, even where nothing changed on the ground. HOTSPOT removes that jump. It gives every vegetation-fire detection over Greece a measured weight, so 26 years read on one scale. Pick any area, by drawing it or typing a point, and see a calendar of fire activity, month by month since November 2000, compared with the normal for each month. Every number traces back to NASA's detections, and we tested the method on years it never saw.**
 
 - **Live app:** https://vasilisverykokos.github.io/Nasa/
 - **Code (Apache-2.0):** https://github.com/VasilisVerykokos/Nasa
@@ -59,14 +59,14 @@ Both are in the audience the challenge names: early warning and emergency respon
 | "How does this fire compare with the worst on record here?" | The harmonized record, the top months and years, and our finding about 2007 |
 | "My area, not the whole country" | Draw any shape, or type a point and a radius |
 | "Can I put it in my report?" | Downloads of the calendar and of the hotspots themselves |
-| "Can I trust this number?" | Seven proofs and stated limits, on this page |
+| "Can I trust this number?" | Seven proofs and stated limits, on this page. Hover any month to see how its number was made. |
 | "Will it still work next year?" | The record ends on NOAA-20, which continues after S-NPP |
 | "Can I use the data in my own research?" | The hotspots CSV with a weight on every row, and the open code |
-| "Is this month unusual here?" | [NOT BUILT YET: the "this month so far" card and the "difference from normal" view] |
+| "Is this month unusual here?" | A "this month so far" card that compares the first days of the current month with the median of the same days in earlier years, and a "difference from normal" view of the calendar |
 
 ### Why now
 
-- **S-NPP stopped delivering data on 2 November 2026.** Any record that continues has to continue on NOAA-20.
+- **S-NPP stopped delivering data on 2 November 2026.** Our record continues on NOAA-20, which is why NOAA-20 is the unit of the record.
 - **The MODIS satellites are drifting.** Terra made its final orbit correction on 27 February 2020 and Aqua on 8 March 2021. They now pass at different times of day than before, so their newest data no longer compare with their old data. [CHECK: add "and are planned to stop in 2027" only if verified-facts.md marks it VERIFIED. Today it is second-hand.]
 - **Without harmonization, the 26 years since 2000 can't be compared with each other.** HOTSPOT joins them now, while the instruments still overlap.
 
@@ -79,14 +79,14 @@ Both are in the audience the challenge names: early warning and emergency respon
 | The challenge asks for | HOTSPOT |
 |---|---|
 | "a map where users can draw the area of interest, or an option to enter latitude and longitude" | Both: draw a polygon or rectangle, or type latitude, longitude and radius. Presets for North Evia 2021, Evros 2023 and all of Greece. |
-| "select a region and a specific date range" | [NOT BUILT YET: from and to months] |
-| Hotspots "from the early 2000s to the present" | A calendar of years × months from November 2000, with a total for each year. [CHECK: "to the present" only once 2026 is loaded; today the data runs to 31 December 2025.] |
+| "select a region and a specific date range" | A from and to month. The range chooses which years the screen shows; "normal" is always worked out from the whole record. |
+| Hotspots "from the early 2000s to the present" | A calendar of years × months from November 2000, with a total for each year. It runs to the newest day NASA has published (a data stamp on the screen shows the date); the newest months are marked provisional. |
 | "which periods of the year see more fires" | A "normal year" row (the median of each calendar month) and the peak season in words, such as "July to September" |
 | "which years had more burning activity" | Year totals and the top 5 years |
-| "compare the burning activity of the current month against the historical median" | One plain sentence for any month, for example "August 2021 was [FILL] times the normal August here, the highest in [FILL] years." [NOT BUILT YET: the "this month so far" card] |
-| "anomalies against multi-year averages" | [NOT BUILT YET: the "difference from normal" view.] The calendar CSV carries the median and the mean of every calendar month. |
-| "accessible color ramps" | [NOT BUILT YET: colour-blind-safe colours and the number on hover. Today the calendar is a plain table, readable with any screen reader.] |
-| "download analytics and visualizations" | The calendar as CSV. [NOT BUILT YET: the calendar as an image] |
+| "compare the burning activity of the current month against the historical median" | One plain sentence for any month, for example "August 2021 was 15.6 times the normal August here, the highest August in 26 years" (North Evia: 3,252 hotspots against a normal of 208). The "this month so far" card does the same for the current month. |
+| "anomalies against multi-year averages" | A "difference from normal" view of the calendar (each month against the median of that calendar month). The calendar CSV carries the median and the mean of every calendar month. |
+| "accessible color ramps" | Every cell shows its number on hover, focus (arrow keys) or tap, and the whole calendar can be shown as a table that a screen reader can read. Estimated, missing and provisional months are marked with patterns as well as colour. [CHECK: say "colour-blind-safe" only after testing the colours with a colour-blindness simulator.] |
+| "download analytics and visualizations" | The calendar as CSV and as an image |
 | "A downloadable CSV File of hot spots detected during a search" | Every hotspot in the area, with all its columns and its harmonization weight |
 
 The page also says clearly when an area lies outside Greece, when it had no hotspots, or when the connection is lost (with a "Try again" button), and it shows the date the data runs to.
@@ -121,7 +121,7 @@ Before July 2002 only Terra flew, so that period has its own, larger factor.
 
 Because the weight sits on each hotspot, any shape the user draws is exact, and the download is itself a harmonized dataset.
 
-**Measured, then converted.** Values before 2012 are MODIS measurements converted to VIIRS units, so they are estimates, with a range of about ±26% (the blind-test error on fire-season months, proof 2). Comparisons inside the MODIS years barely depend on the factor, because both months are multiplied by nearly the same number. [NOT BUILT YET: on hover, each estimated month shows its arithmetic, in the form "412 MODIS detections, converted to VIIRS units, = about 1,401 (range …)".]
+**Measured, then converted.** Values before 2012 are MODIS measurements converted to VIIRS units, so they are estimates, with a range of about ±26% (the blind-test error on fire-season months, proof 2). Comparisons inside the MODIS years barely depend on the factor, because both months are multiplied by nearly the same number. On hover, each estimated month shows its arithmetic, for example "August 2007: about 13,138 hotspots, an estimate (range 9,722 to 16,554). Measured by MODIS: 3,052 detections, converted to VIIRS units."
 
 ### Options we weighed
 
@@ -129,7 +129,7 @@ Because the weight sits on each hotspot, any shape the user draws is exact, and 
 |---|---|---|---|
 | How to make the sensors comparable | Add them; count grid cells instead of hotspots; a factor measured on the shared years | The factor | Adding fakes a jump of 4.5 times in 2012. A common grid only lowers the ratio from 3.41 to between 2.62 and 2.87, whatever the cell size (proof 7). |
 | Which years to fit on | All shared years; 2012 to 2019 | 2012 to 2019 | The MODIS orbits drift after 2020 |
-| One factor, or several | One for the whole year; day and night; day and night by season | Day and night by season | In the blind test, one factor for the whole year over-predicted summer months. The season split cut the fire-season error from 37.4% to 26.3%. |
+| One factor, or several | One for the whole year; day and night; day and night by season | Day and night by season | In the blind test, day and night factors alone gave a fire-season error of 37.4%. The season split cut the fire-season error from 37.4% to 26.3%. |
 | Which VIIRS product | 375 m; 750 m | 375 m | FIRMS distributes the 375 m product, which sees smaller fires. The 750 m product, built for continuity with MODIS, would still need a factor. It is our proposed next step. |
 | Unit of the record | MODIS-equivalent; NOAA-20-equivalent | NOAA-20-equivalent | It is the instrument that continues |
 | What "normal" means | Mean; median | Median, with the mean in the CSV | One extreme year should not move "normal" |
@@ -144,8 +144,8 @@ Every number below was produced by a script in the repository.
 | # | Test | Result |
 |---|---|---|
 | 1 | Simple sum against harmonized record, 2000 to 2025 | The simple sum jumps 4.5 times in 2012. The harmonized record does not (image 1). |
-| 2 | **Blind test:** fit the factor on 2012 to 2016 only, predict 2017 to 2019 from MODIS alone, compare with what VIIRS really counted | Whole years: off by 13.0%, 0.4% and 7.6% (average 7.0%). Fire-season months: 26.3% on average. Single 1° squares: 27.4%. |
-| 3 | [NOT BUILT YET: North Evia 2021 and Evros 2023, day by day, against the Copernicus burned-area maps. Delete this row if not done.] | |
+| 2 | **Blind test:** fit the factor on 2012 to 2016 only, predict 2017 to 2019 from MODIS alone, compare with what VIIRS really counted | Whole years: off by 11.2%, 3.0% and 9.3% (average 7.8%). Fire-season months: 26.3% on average. Single 1° squares: 26.3%. (`proof2_blind_test.json`) |
+| 3 | North Evia 2021 and Evros 2023, day by day, against the Copernicus burned-area maps | Timing, not size. Evros: hotspots peaked on 22 August 2023 (1,410), inside the biggest burned-area jump, 8,529 to 72,344 ha between the 21 and 23 August maps. North Evia: hotspots from 4 to 11 August 2021, peak on 5 August (752). Hotspots are not burned area (`proof3_fires.json`). |
 | 4 | Harmonized yearly hotspots against official EFFIS burned area for Greece, 2006 to 2025 | Rank correlation 0.70 (Pearson 0.89). 2007 is the worst year in both. Before 2012 our record is an estimate, so this tests it against an independent source. |
 | 5 | NOAA-20 against S-NPP × 1.04, month by month, 2019 to 2025 | Correlation 0.998: the last join is clean |
 | 6 | Aqua against S-NPP on 147 days when they passed within 5 minutes of each other | Aqua saw only 22% of the places where S-NPP saw fire (sensitivity, the large part). Where both saw a fire, S-NPP gave 2.8 pixels per Aqua pixel (resolution, the small part). |
@@ -153,7 +153,7 @@ Every number below was produced by a script in the repository.
 
 Proof 6 explains the factor but does not measure its size. On those passes the ratio is 4.4, against 6.0 over all passes, because a pass where only VIIRS saw fire leaves no MODIS record. Its other limits: Aqua only, no large fires in the sample, and 147 days in eight years.
 
-[IMAGE 3: the blind test, predicted against real hotspots for 2017 to 2019. Caption: "Trained on 2012 to 2016 only, the method predicted the next three years within 13%." Source: `web/public/proof/proof2_blind_test.json`.]
+[IMAGE 3: the blind test, predicted against real hotspots for 2017 to 2019. Caption: "Trained on 2012 to 2016 only, the method predicted the next three years within 12%." Source: `web/public/proof/proof2_blind_test.json`.]
 
 ### What we tested and changed
 
@@ -166,7 +166,7 @@ Proof 6 explains the factor but does not measure its size. On those passes the r
 
 - Values before 2012 are estimates. Small or cool fires that MODIS never saw can't be recovered. The factor corrects totals, not single fires.
 - The factor is an average over fire types. An area dominated by one type, such as agricultural burns, is corrected less exactly.
-- A small area varies more than the whole country: 27.4% blind-test error for single 1° squares.
+- A small area varies more than the whole country: 26.3% blind-test error for single 1° squares.
 - MODIS and VIIRS pass at different times of day. Clouds and thick smoke hide fires from both.
 - A hotspot is the centre of a flagged pixel, not the exact position of a fire.
 - Hotspots are not burned area. NASA does not recommend them for estimating it, and a fast fire can burn a lot between two passes.
@@ -189,11 +189,11 @@ Early warning and emergency responders, scientists, land managers and firefighte
 
 1. **Planning:** when does the dangerous period normally start and end here? Patrols and readiness can follow the "normal year" row.
 2. **After a fire:** how does this event compare with the worst on record here, across the change of instrument? The rankings and the finding below answer it.
-3. **Alert:** is this month unusual for this area? [NOT BUILT YET: the "this month so far" card. Delete this point if it is not built.]
+3. **Alert:** is this month unusual for this area? The "this month so far" card answers it.
 
 ### What is new
 
-**A finding nobody could make before.** Was 2007 worse than 2021 or 2023 in Greece? MODIS and VIIRS counts couldn't be compared, so nobody could say. On one scale, 2007 had about **22,224** NOAA-20-equivalent hotspots, about **2.3 times 2021** (9,545) and **2.4 times 2023** (9,376). Even if 2007 were 30% lower, it would still be more than one and a half times either year. EFFIS burned area also ranks 2007 first (271,715 ha). For 2021 and 2023 the order differs: by hotspots they are nearly equal, while by burned area 2023 is clearly larger (174,773 ha against 130,744 ha). The Evros fire of 2023 burned fast, growing from 8,529 ha to 72,344 ha between 21 and 23 August, and left fewer hotspots per hectare.
+**A finding nobody could make before.** Was 2007 worse than 2021 or 2023 in Greece? MODIS and VIIRS counts couldn't be compared, so nobody could say. On one scale, 2007 had about **22,224** NOAA-20-equivalent hotspots, about **2.3 times 2021** (9,545) and **2.4 times 2023** (9,376). Even if 2007 were 30% lower, it would still be more than one and a half times either year. EFFIS burned area also ranks 2007 first (271,715 ha). For 2021 and 2023 the order differs: by hotspots they are nearly equal, while by burned area 2023 is clearly larger (174,773 ha against 130,744 ha). The Evros fire of 2023 grew from 8,529 ha to 72,344 ha between 21 and 23 August, and 2023 has fewer hotspots per hectare burned than 2021.
 
 | What exists | What it lacks | What HOTSPOT adds |
 |---|---|---|
@@ -201,7 +201,7 @@ Early warning and emergency responders, scientists, land managers and firefighte
 | Public fire dashboards | [CHECK: which ones start in 2012? Check each on its own website, or delete this row.] | The twelve years before 2012, on the same scale |
 | Any chart of hotspot counts | No way to see how a number was made | The factor table, the weights in every download, and seven proofs on this page |
 
-[CHECK: "no published VIIRS-to-MODIS ratio for the Mediterranean": keep only if verified-facts.md marks it VERIFIED.]
+We found no published VIIRS-to-MODIS ratio of hotspot counts for the Mediterranean (verified-facts.md, section 4.5). We did not search exhaustively, so we do not say none exists.
 
 ### Use it and build on it
 
