@@ -49,4 +49,4 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 |---|---|---|
 | Supabase | Hosts the PostgreSQL + PostGIS database and the secure web address the website calls | https://supabase.com |
 | OpenStreetMap tiles (© OpenStreetMap contributors, ODbL) | The background map | https://www.openstreetmap.org/copyright |
-| GitHub Pages and GitHub Actions | Build and host the website on every push to `main` | https://pages.github.com |
+| GitHub Pages and GitHub Actions | Build and host the website on every push to `main`; GitHub Actions also runs the daily update (`.github/workflows/daily-update.yml`) | https://pages.github.com |

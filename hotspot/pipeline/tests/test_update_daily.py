@@ -11,6 +11,7 @@ import requests
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import update_daily  # noqa: E402
+from config import RAW_DIR  # noqa: E402
 from update_daily import clean_api, factory_cells, windows  # noqa: E402
 
 KEY = "abc123secretkey"
@@ -70,3 +71,16 @@ def test_sp_rows_use_their_own_type_and_the_time_is_padded():
     assert kept["acq_time"].tolist() == ["2348"]  # type 2 rows and the low-confidence row dropped
     kept = clean_api(api_rows(with_type=True).assign(type=0, confidence="n"), mask=set())
     assert kept["acq_time"].tolist() == ["0104", "1130", "2348", "0001"]
+
+
+def test_the_mask_file_round_trips(tmp_path):
+    mask = {(3850, 2350), (3646, 2538)}
+    update_daily.write_mask(mask, tmp_path / "m.csv")
+    assert update_daily.read_mask(tmp_path / "m.csv") == mask
+
+
+@pytest.mark.skipif(not (RAW_DIR / "modis").exists(), reason="archive files are not on this machine")
+def test_the_committed_mask_matches_the_archive():
+    from config import SOURCES
+    raw = pd.concat(update_daily.read_raw(f) for f in SOURCES)
+    assert update_daily.read_mask() == factory_cells(raw), "run: py -3.13 pipeline/update_daily.py --build-mask"

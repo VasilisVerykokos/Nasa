@@ -9,9 +9,12 @@ transaction. Running it twice gives the same result, and NRT days turn into SP d
 Nothing in the database changes if a download fails.
 
 Run once a day from the hotspot folder:  py -3.13 pipeline/update_daily.py     Prints counts only, never a secret.
+The factory mask is read from evidence/factory_mask.csv, so the daily run needs no archive files (GitHub Actions has none).
+Rewrite that file after the yearly files change:  py -3.13 pipeline/update_daily.py --build-mask
 """
 import io
 import json
+import sys
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
@@ -25,7 +28,9 @@ from load_db import COLS, env, none_if_nan
 from proof7_grid import cell_index
 
 API = "https://firms.modaps.eosdis.nasa.gov/api"
-NEIGHBOURS = json.loads((Path(__file__).resolve().parent / "evidence" / "neighbours.geojson").read_text(encoding="utf-8"))
+EVIDENCE = Path(__file__).resolve().parent / "evidence"
+NEIGHBOURS = json.loads((EVIDENCE / "neighbours.geojson").read_text(encoding="utf-8"))
+MASK_FILE = EVIDENCE / "factory_mask.csv"
 NOT_VEGETATION = -1  # the type given to an NRT row in a factory cell, so clean() drops it like any non-vegetation row
 
 
@@ -47,6 +52,14 @@ def factory_cells(raw: pd.DataFrame) -> set:
     """GFED5NRT rule: a 0.01-degree cell with more than MASK_MAX_OTHER non-vegetation detections is a permanent heat source."""
     counts = pd.Series(list(_cells(raw[raw["type"] != VEGETATION_FIRE_TYPE])), dtype=object).value_counts()
     return set(counts[counts > MASK_MAX_OTHER].index)
+
+
+def write_mask(mask: set, path=MASK_FILE) -> None:
+    pd.DataFrame(sorted(mask), columns=["lat_cell", "lon_cell"]).to_csv(path, index=False)
+
+
+def read_mask(path=MASK_FILE) -> set:
+    return set(pd.read_csv(path).itertuples(index=False, name=None))
 
 
 def clean_api(raw: pd.DataFrame, mask: set) -> pd.DataFrame:
@@ -93,6 +106,9 @@ def fetch(key: str, source: str, first: date, last: date) -> pd.DataFrame:
 
 
 if __name__ == "__main__":
+    if "--build-mask" in sys.argv:  # needs pipeline/data/raw; the result is committed
+        write_mask(factory_cells(pd.concat(read_raw(folder) for folder in SOURCES)))
+        sys.exit(f"Wrote {MASK_FILE}")
     import psycopg
 
     e = env()
@@ -100,7 +116,7 @@ if __name__ == "__main__":
     start = date.fromisoformat(API_START)
     sp_end = available(key, API_SOURCES["SP"])[1]
     nrt_start, nrt_end = available(key, API_SOURCES["NRT"])
-    mask = factory_cells(pd.concat(read_raw(folder) for folder in SOURCES))
+    mask = read_mask()
 
     parts, masked = [], 0
     if sp_end >= start:
@@ -118,13 +134,13 @@ if __name__ == "__main__":
     with psycopg.connect(host=e["SUPABASE_DB_HOST"], port=5432, user=e["SUPABASE_DB_USER"],
                          password=e["SUPABASE_DB_PASSWORD"], dbname="postgres", sslmode="require",
                          connect_timeout=15) as c:  # one transaction: commits on success, rolls back on any error
-        c.execute(f"create temp table new_rows as select {COLS} from public.hotspots limit 0")
+        c.execute(f"create temp table new_rows on commit drop as select {COLS} from public.hotspots limit 0")
         with c.cursor() as cur, cur.copy(f"copy new_rows ({COLS}) from stdin") as cp:
             for r in rows.itertuples(index=False):
                 # NOAA-20 from 2019 on is the record's unit, so its weight is 1 (plan, section 4, step 5)
                 cp.write_row((r.acq_date.date(), r.acq_time, r.latitude, r.longitude, "NOAA20", r.satellite, r.daynight,
                               none_if_nan(r.confidence), none_if_nan(r.frp), 1.0, r.quality, COUNTRY))
-        c.execute("create temp table neighbours as select extensions.st_setsrid(extensions.st_geomfromgeojson("
+        c.execute("create temp table neighbours on commit drop as select extensions.st_setsrid(extensions.st_geomfromgeojson("
                   "f->>'geometry'), 4326) geom from jsonb_array_elements(%s::jsonb) f", [json.dumps(NEIGHBOURS["features"])])
         deleted = c.execute("delete from public.hotspots where acq_date >= %s", [start]).rowcount
         # Kept: within CLIP_KM of Greece (the coast of the outline is coarse) and not inside a neighbouring country

@@ -4,6 +4,7 @@
 Run from the hotspot folder:  py -3.13 pipeline/load_db.py     Prints row counts only, never a secret.
 It holds the yearly files only (to 2025): run pipeline/update_daily.py straight after it to put the current year back."""
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -21,7 +22,10 @@ COLS = "acq_date, acq_time, latitude, longitude, source, satellite, daynight, co
 
 
 def env() -> dict:
-    out = {}
+    """Settings from .env; with no .env file (GitHub Actions) the environment variables."""
+    out = dict(os.environ)
+    if not (ROOT / ".env").exists():
+        return out
     for line in (ROOT / ".env").read_text(encoding="utf-8-sig").splitlines():
         if "=" in line and not line.strip().startswith("#"):
             k, v = line.split("=", 1)

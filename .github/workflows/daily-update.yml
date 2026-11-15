@@ -1,0 +1,36 @@
+# AI note: written with Claude Code (Claude Sonnet 5.5), under the team's direction and review. Runs pipeline/update_daily.py once a day.
+name: Daily update
+
+on:
+  schedule:
+    - cron: "17 3 * * *"  # 03:17 UTC every day (off the busy full hour)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: hotspot/pipeline/requirements.txt
+      - run: pip install -r hotspot/pipeline/requirements.txt
+      # Any error makes this step, and so the run, fail: GitHub emails the people who watch the repository.
+      # The script prints counts only; GitHub also hides secret values if they ever appear in a log.
+      - run: python pipeline/update_daily.py
+        working-directory: hotspot
+        env:
+          SUPABASE_DB_HOST: ${{ secrets.SUPABASE_DB_HOST }}
+          SUPABASE_DB_USER: ${{ secrets.SUPABASE_DB_USER }}
+          SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}

@@ -1,0 +1,5 @@
+# AI note: written with Claude Code (Claude Sonnet 5.5), under the team's direction and review.
+# Exactly what update_daily.py imports (it runs daily on GitHub Actions). Tests also need pytest.
+pandas
+requests
+psycopg[binary]
