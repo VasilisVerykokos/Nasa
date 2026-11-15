@@ -2,19 +2,22 @@
 import { useEffect, useState } from 'react'
 import { checkRange, defaultRange, RECORD_START, type Range } from '../lib/dates'
 
-type Props = { through: string | null; onChange: (r: Range) => void }
+type Props = { through: string | null; onChange: (r: Range) => void; initial?: Range | null }
 
-/** `through` is the last day of the record (null while get_meta is loading). `onChange` gets only good ranges; a bad one shows its message and the last good range stays. */
-export default function DateRange({ through, onChange }: Props) {
+/** `through` is the last day of the record (null while get_meta is loading). `initial` (from the address, read once) is used if it fits the record, else the whole record. `onChange` gets only good ranges; a bad one shows its message and the last good range stays. */
+export default function DateRange({ through, onChange, initial }: Props) {
   const [from, setFrom] = useState(through ? RECORD_START : '')
   const [to, setTo] = useState(through ?? '')
   const [message, setMessage] = useState('')
 
-  const reset = (end: string) => {
-    const r = defaultRange(end)
+  const reset = (end: string, r: Range = defaultRange(end)) => {
     setFrom(r.from); setTo(r.to); setMessage(''); onChange(r)
   }
-  useEffect(() => { if (through) reset(through) }, [through]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    if (!through) return
+    const c = initial ? checkRange(initial.from, initial.to, through) : null
+    reset(through, c && 'range' in c ? c.range : undefined)
+  }, [through]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!through) return null
   const edit = (f: string, t: string) => {

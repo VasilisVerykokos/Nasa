@@ -1,5 +1,5 @@
 // AI note: written with Claude Code (Claude Opus 5.5) for Person B, reviewed by the team. Downloads (must-have 6): calendar CSV, calendar image and hotspots CSV. Words: web/content/ui-text.md, "Downloads".
-// "Copy link" waits for the share link (should-have 5); its button is added with it.
+// "Copy link" (should-have 5) copies the page address, which App keeps up to date with the area and the dates.
 import { useState } from 'react'
 import { fetchHotspots, TooManyHotspots } from '../api/hotspots'
 import { calendarCsv, fileName, firstDay, lastDay, span, toCsv } from '../lib/csv'
@@ -39,6 +39,8 @@ type Props = { rows: CalendarRow[]; label: string; area: Polygon; range?: Range 
 export default function ExportBar({ rows, label, area, range }: Props) {
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
+  const [copied, setCopied] = useState('') // announced to screen readers
+  const [manual, setManual] = useState('') // the link in a text box, when the clipboard is not available
   const { from, to } = span(rows) // the calendar CSV always holds the whole record
   const shown = range ?? { from: firstDay(from), to: lastDay(to) } // the hotspots CSV follows the date range
 
@@ -56,6 +58,15 @@ export default function ExportBar({ rows, label, area, range }: Props) {
     }
   }
 
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(location.href)
+      setManual(''); setCopied('Link copied')
+    } catch {
+      setCopied(''); setManual(location.href) // no clipboard, or permission refused
+    }
+  }
+
   return (
     <section className="downloads" aria-labelledby="downloads-heading">
       <h3 id="downloads-heading">Download</h3>
@@ -65,6 +76,9 @@ export default function ExportBar({ rows, label, area, range }: Props) {
         if (svg instanceof SVGSVGElement) saveImage(svg, fileName('calendar', label, from, to, 'png'))
       }}>Download calendar (image)</button>
       <button type="button" onClick={downloadHotspots} disabled={busy}>{busy ? 'Preparing…' : 'Download hotspots (CSV)'}</button>
+      <button type="button" onClick={copyLink}>Copy link</button>
+      <p role="status" className="hint">{copied}</p>
+      {manual && <label>Copy this link: <input readOnly value={manual} onFocus={e => e.target.select()} autoFocus /></label>}
       {message && <p role="alert">{message}</p>}
       <p className="hint">{`Files are named with the area and the dates, for example ${fileName('calendar', label, from, to)}`}</p>
     </section>

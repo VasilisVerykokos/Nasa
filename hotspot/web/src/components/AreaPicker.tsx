@@ -4,25 +4,26 @@ import L from 'leaflet'
 import '@geoman-io/leaflet-geoman-free'
 import 'leaflet/dist/leaflet.css'
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
-import { PRESETS, circle, type Polygon } from '../lib/geo'
+import { PRESETS, circle } from '../lib/geo'
+import type { Place } from '../lib/share'
 
-export type Selection = { area: Polygon; label: string; focus?: boolean } // focus: the typed-point form was submitted, so App moves focus to the result heading
+export type Selection = Place & { focus?: boolean } // focus: the typed-point form was submitted, so App moves focus to the result heading
 const EMPTY = { lat: '', lon: '', radius: '10' }
 
-/** onChange must be stable (a state setter), because the map is built once. */
-export default function AreaPicker({ onChange }: { onChange: (s: Selection) => void }) {
+/** onChange must be stable (a state setter), because the map is built once. `initial` (read once) is the area to start with, from the address; default is the first preset. */
+export default function AreaPicker({ onChange, initial }: { onChange: (s: Selection) => void; initial?: Place }) {
   const box = useRef<HTMLDivElement>(null)
   const map = useRef<L.Map | null>(null)
   const shape = useRef<L.Layer | null>(null)
-  const [point, setPoint] = useState(EMPTY)
+  const [point, setPoint] = useState(initial?.point ? { lat: String(initial.point.lat), lon: String(initial.point.lon), radius: String(initial.point.r) } : EMPTY)
   const [error, setError] = useState('')
 
   // One shape at a time: a new one replaces the old one.
-  const show = (area: Polygon, label: string, layer: L.Layer = L.geoJSON(area), focus = false) => {
+  const show = (place: Place, layer: L.Layer = L.geoJSON(place.area), focus = false) => {
     shape.current?.remove()
     shape.current = layer.addTo(map.current!)
     map.current!.fitBounds((layer as L.GeoJSON).getBounds(), { maxZoom: 11 })
-    onChange({ area, label, focus })
+    onChange({ ...place, focus })
   }
 
   useEffect(() => {
@@ -36,8 +37,8 @@ export default function AreaPicker({ onChange }: { onChange: (s: Selection) => v
       drawMarker: false, drawCircleMarker: false, drawPolyline: false, drawCircle: false, drawText: false,
       editMode: false, dragMode: false, cutPolygon: false, removalMode: false, rotateMode: false,
     })
-    m.on('pm:create', e => show((e.layer as L.Polygon).toGeoJSON().geometry as Polygon, 'Drawn area', e.layer))
-    show(PRESETS[0].area, PRESETS[0].name)
+    m.on('pm:create', e => show({ area: (e.layer as L.Polygon).toGeoJSON().geometry as Place['area'], label: 'Drawn area' }, e.layer))
+    show(initial ?? { area: PRESETS[0].area, label: PRESETS[0].name, preset: PRESETS[0].id })
     return () => { m.remove(); map.current = null; shape.current = null }
   }, []) // build the map once
 
@@ -48,7 +49,7 @@ export default function AreaPicker({ onChange }: { onChange: (s: Selection) => v
     if (point.lon === '' || !(lon >= -180 && lon <= 180)) return setError('Longitude must be a number from -180 to 180.')
     if (!(radius > 0 && radius <= 300)) return setError('Radius must be more than 0 and at most 300 km.')
     setError('')
-    show(circle(lat, lon, radius), `${point.lat.trim()}, ${point.lon.trim()}, radius ${point.radius.trim()} km`, undefined, true) // typed text, so "38.0" stays "38.0"
+    show({ area: circle(lat, lon, radius), label: `${point.lat.trim()}, ${point.lon.trim()}, radius ${point.radius.trim()} km`, point: { lat, lon, r: radius } }, undefined, true) // label is the typed text, so "38.0" stays "38.0"
   }
 
   return (
@@ -56,7 +57,7 @@ export default function AreaPicker({ onChange }: { onChange: (s: Selection) => v
       <h2 id="area-heading">Area</h2>
       <div className="presets">
         {PRESETS.map(p => (
-          <button key={p.name} type="button" onClick={() => { show(p.area, p.name); setPoint(EMPTY); setError('') }}>{p.name}</button>
+          <button key={p.name} type="button" onClick={() => { show({ area: p.area, label: p.name, preset: p.id }); setPoint(EMPTY); setError('') }}>{p.name}</button>
         ))}
       </div>
       <div ref={box} className="map" role="region" aria-label="Map. Draw a polygon or rectangle with the tools at the top left, or use the form below." />

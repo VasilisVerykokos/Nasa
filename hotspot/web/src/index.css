@@ -39,8 +39,11 @@ main h2 { margin-top: 0; }
 .calendar caption { text-align: left; color: var(--muted); }
 .hm-scroll { overflow-x: auto; } /* on a phone the calendar slides inside this box; the page itself never scrolls sideways */
 .heatmap svg { display: block; width: 100%; min-width: 560px; max-width: 640px; height: auto; margin-top: 8px; } /* 560: labels about 14 px */
-.hm-phone { display: none; }
-@media (max-width: 599px) { .hm-phone { display: block; } }
+/* Soft fade at the right edge while more calendar is hidden; the text line above the box is the main cue. */
+.hm-fade { position: relative; }
+.hm-fade::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 32px; pointer-events: none; opacity: 0; background: linear-gradient(to right, transparent, var(--bg)); }
+.hm-fade[data-more="true"]::after { opacity: 1; }
+@media (prefers-reduced-motion: no-preference) { .hm-fade::after { transition: opacity 0.2s; } }
 .heatmap rect:focus { outline: none; } /* the SVG draws its own black frame around the focused cell */
 .switch { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; gap: 4px 16px; }
 .switch legend { float: left; margin-right: 8px; }

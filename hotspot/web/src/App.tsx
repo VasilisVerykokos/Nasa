@@ -7,6 +7,7 @@ import CalendarHeatmap from './components/CalendarHeatmap'
 import DataStamp from './components/DataStamp'
 import DateRange from './components/DateRange'
 import { recordEnd, type Range, yearsOf } from './lib/dates'
+import { decodeShare, encodeShare, isMethodView } from './lib/share'
 import ExportBar from './components/ExportBar'
 import HeadlineCard from './components/HeadlineCard'
 import MethodPage from './components/MethodPage'
@@ -27,7 +28,9 @@ export default function App() {
   const [meta, setMeta] = useState<{ values: Record<string, unknown>; at: number } | null>(null)
 
   // The date range changes only what the screen shows, never the calendar call or the statistics (plan 9.4); it is not in any effect below.
-  const [range, setRange] = useState<Range | null>(null)
+  // The address can carry the area and the dates (share link). Read once; a bad address gives null and the default view.
+  const [start] = useState(() => decodeShare(location.hash))
+  const [range, setRange] = useState<Range | null>(start?.range ?? null)
   // Two views, chosen by the address: #method shows "Method and proof", anything else the calendar. No router needed.
   const [hash, setHash] = useState(location.hash)
   useEffect(() => {
@@ -35,11 +38,18 @@ export default function App() {
     addEventListener('hashchange', onHash)
     return () => removeEventListener('hashchange', onHash)
   }, [])
-  const method = hash === '#method'
+  const method = isMethodView(hash)
   // Once per visit: the data-through date for the stamp, and when it arrived. A failed call shows "Data date unavailable".
   useEffect(() => {
     fetchMeta().then(values => setMeta({ values, at: Date.now() })).catch(() => setMeta({ values: {}, at: Date.now() }))
   }, [])
+  // Keep the address in step with the area and dates (replaceState, so Back is not flooded). Not on the method page, whose address must stay "#method".
+  const through = meta ? recordEnd(meta.values) : null
+  useEffect(() => {
+    if (!selection || method) return
+    const q = encodeShare(selection, range, through)
+    history.replaceState(null, '', q ? `#${q}` : location.pathname + location.search)
+  }, [selection, range, through, method])
   const heading = useRef<HTMLHeadingElement>(null)
   // After the point form is submitted, move to the result heading so the result (or the "outside" message) is seen.
   useEffect(() => { if (selection?.focus) heading.current?.focus() }, [selection])
@@ -67,7 +77,7 @@ export default function App() {
         <DataStamp meta={meta?.values ?? null} now={meta?.at ?? 0} />
       </header>
       {method ? <main className="page"><MethodPage /></main> :<div className="layout">
-        <aside aria-label="Area and dates"><AreaPicker onChange={setSelection} /><DateRange through={meta ? recordEnd(meta.values) : null} onChange={setRange} /></aside>
+        <aside aria-label="Area and dates"><AreaPicker onChange={setSelection} initial={selection ?? start?.place} /><DateRange through={through} onChange={setRange} initial={range} /></aside>
         <main aria-live="polite">
           {selection && <h2 ref={heading} tabIndex={-1}>{selection.label}</h2>}
           {outside ? <OutsideGreece />

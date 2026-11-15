@@ -102,7 +102,7 @@ The three forms the code makes, all correct as written:
 | Normal row | Normal |
 | Partial year mark | {2026}* |
 | Note under the calendar | * {2026} is a partial year, left out of yearly rankings. Normal = the median of each calendar month, 2001 to 2025. |
-| Phone hint | Slide the box sideways for all months. (The year column does not stay in place: the calendar is one picture, so it can be saved as an image. Pinning it would need a second picture.) |
+| Scroll cue (above the calendar) | Scroll sideways for September to December and the year totals. Shown only while the calendar box is narrower than the calendar (a phone). A soft fade on the box's right edge also shows while more is hidden and goes away at the end; the text is the main cue, the fade is extra. (The year column does not stay in place: the calendar is one picture, so it can be saved as an image. Pinning it would need a second picture.) |
 | Legend, counts | Hotspots per month (square-root scale) |
 | Legend, difference | Below normal · Normal · Above normal |
 | Legend, patterns | Estimated before 2012 · No data · Provisional · This month so far |
@@ -146,7 +146,9 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | Nothing to download | No hotspots to download for this area and these dates. |
 
 **CODE:** above 200,000 rows the database stops first, with its own words: "This selection has {N} hotspots; the export limit is 200,000. Choose a smaller area or a shorter date range." The page shows that text as it is. It is clear, so it can stay; to use the "Too many rows" text above instead, Person A changes the message in `db/schema.sql`.
-| Not shown yet | "Copy link" waits for the share link (should-have 5). |
+| Copy link, done | Link copied (small line under the buttons, announced to screen readers) |
+| Copy link, no clipboard | Copy this link: {the address in a text box, already selected} |
+| Bad or changed address | No message. The page opens the default North Evia view. |
 | Hint | Files are named with the area and the dates, for example hotspot-calendar_north-evia-2021_2000-11_2026-11.csv |
 
 ## Messages (must-have 8)

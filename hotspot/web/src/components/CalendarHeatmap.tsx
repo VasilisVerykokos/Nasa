@@ -1,5 +1,5 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 3: calendar heatmap (years × months) as a plain React SVG, so ExportBar can save it as an image. Words: web/content/ui-text.md.
-import { type KeyboardEvent, useRef, useState } from 'react'
+import { type KeyboardEvent, useEffect, useRef, useState } from 'react'
 import { MONTH_NAMES, type Range, type View, cellColor, countColor, describeMonth, describeRaw, diffColor, fmtCount, rawOf, sensorOf } from '../lib/heatmap'
 import { type CalendarRow, completeYears, currentMonth, differenceFromNormal, normalFor, yearTotals } from '../lib/stats'
 import CalendarTable from './CalendarTable'
@@ -12,6 +12,10 @@ const L = 52, CW = 26, CH = 16, G = 2, TW = 64, TOP = 58, W = L + 12 * CW + TW
 const KEYS: Record<string, [number, number]> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }
 const VIEWS: Record<View, string> = { count: 'Hotspots', diff: 'Difference from normal', raw: 'Raw (sensors simply added)' }
 const TIP_W = 240 // tooltip width in pixels
+export const SCROLL_CUE = 'Scroll sideways for September to December and the year totals.'
+/** wide: the content is wider than the box (show the line). more: something is still hidden on the right (show the fade). 1 px slack for rounding. */
+export const scrollState = (b: { scrollWidth: number; clientWidth: number; scrollLeft: number }) =>
+  ({ wide: b.scrollWidth > b.clientWidth + 1, more: b.scrollLeft + b.clientWidth < b.scrollWidth - 1 })
 const clamp = (v: number, hi: number) => Math.max(0, Math.min(v, hi))
 const date = (v: unknown) => {
   const d = typeof v === 'string' ? new Date(v) : null
@@ -27,6 +31,20 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
   const [shown, setShown] = useState(false)
   const [tip, setTip] = useState({ left: 0, top: 0, below: false }) // tooltip place, in pixels inside .hm-inner
   const inner = useRef<HTMLDivElement>(null)
+  const box = useRef<HTMLDivElement>(null)
+  const [cue, setCue] = useState({ wide: false, more: false })
+  const measure = () => {
+    const b = box.current
+    if (b) { const s = scrollState(b); setCue(c => (c.wide === s.wide && c.more === s.more ? c : s)) }
+  }
+  useEffect(() => { // also fires when the table view hides the box and when it comes back
+    const b = box.current
+    if (!b || typeof ResizeObserver === 'undefined') return
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(b)
+    return () => ro.disconnect()
+  }, [])
 
   const at = new Map(rows.map(r => [r.year * 12 + r.month, r]))
   const diff = new Map(differenceFromNormal(rows).map(d => [d.year * 12 + d.month, d.difference]))
@@ -102,8 +120,9 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
       {table && <CalendarTable rows={rows} />}
       {/* Hidden, not removed, in table view: the image download reads this SVG. */}
       <div hidden={table}>
-        <p className="hint hm-phone">Slide the box sideways for all months.</p>
-        <div className="hm-scroll">
+        {cue.wide && <p className="hint">{SCROLL_CUE}</p>}
+        <div className="hm-fade" data-more={cue.more}>
+        <div className="hm-scroll" ref={box} onScroll={measure}>
         <div className="hm-inner" ref={inner}>
         <svg id="calendar-image" xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${W} ${H}`} width={W} height={H}
           fontFamily="system-ui, sans-serif" fontSize={11} onMouseLeave={() => setShown(false)}>
@@ -175,6 +194,7 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
           </g>
         </svg>
         {shown && <div className="hm-tip" aria-hidden="true" style={{ left: tip.left, top: tip.top, width: Math.min(TIP_W, (inner.current?.parentElement?.clientWidth ?? TIP_W) - 8), transform: tip.below ? undefined : 'translateY(-100%)' }}>{grid[pr].cells[pc].text}</div>}
+        </div>
         </div>
         </div>
         <p className="hint hm-info">Point at a month, tap it, or press Tab and use the arrow keys, to see how its number was made.</p>

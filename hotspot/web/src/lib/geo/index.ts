@@ -16,9 +16,9 @@ export const GREECE: Box = { west: 19, south: 34, east: 30, north: 42 }
 
 /** Plan section 9.5. Both boxes are the official Copernicus areas of interest (EMSR527 AOI01 "Evia", EMSR686 Aristino; pipeline/evidence). */
 export const PRESETS = [
-  { name: 'North Evia 2021', area: boxPolygon({ west: 22.966, south: 38.674, east: 23.509, north: 39.063 }) },
-  { name: 'Evros 2023', area: boxPolygon({ west: 25.536, south: 40.749, east: 26.317, north: 41.261 }) },
-  { name: 'All Greece', area: boxPolygon(ALL_GREECE) },
+  { id: 'north-evia', name: 'North Evia 2021', area: boxPolygon({ west: 22.966, south: 38.674, east: 23.509, north: 39.063 }) }, // id: the name in the share link
+  { id: 'evros', name: 'Evros 2023', area: boxPolygon({ west: 25.536, south: 40.749, east: 26.317, north: 41.261 }) },
+  { id: 'greece', name: 'All Greece', area: boxPolygon(ALL_GREECE) },
 ]
 
 // shortcut: flat-earth circle (1° latitude = 111.32 km), fine for radii up to a few hundred km; use a geodesic library if larger radii matter.
