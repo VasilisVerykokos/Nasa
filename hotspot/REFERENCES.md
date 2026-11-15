@@ -14,6 +14,8 @@ Every dataset, paper, library and service the project uses (plan, section 9.8).
 | Leaflet | The map on the website | BSD-2-Clause | https://leafletjs.com |
 | Leaflet-Geoman (free edition) | Drawing a polygon or rectangle on the map | MIT | https://geoman.io |
 | d3-scale-chromatic | The YlOrRd colour ramp of the calendar heatmap and year chart (ColorBrewer, Cynthia Brewer, Penn State, https://colorbrewer2.org; colour-blind safe) | ISC | https://github.com/d3/d3-scale-chromatic |
+| @fontsource/space-grotesk | Headings and the headline sentence on the website (600 and 700, self-hosted) | SIL Open Font License 1.1 (OFL) | https://fontsource.org/fonts/space-grotesk |
+| @fontsource/inter | Body text, tables and controls on the website (400 and 600, self-hosted) | SIL Open Font License 1.1 (OFL) | https://fontsource.org/fonts/inter |
 | marked 15.0.12 | Turns `web/content/method.md` into the text of the "Method and proof" view | MIT | https://marked.js.org |
 | PostgreSQL | The database that holds the hotspots and runs the four functions | PostgreSQL License | https://www.postgresql.org |
 | PostGIS | Map maths in the database: tests each hotspot against the drawn area | GPL-2.0-or-later | https://postgis.net |

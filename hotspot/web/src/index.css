@@ -1,13 +1,14 @@
 /* AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Page styles: type scale, spacing, controls and the two themes (WIREFRAME.md, decisions 9 and 10). */
 :root {
-  --bg: #fff;
+  --bg: #f2f3f5; /* the page */
+  --card: #fff; /* every block sits on one */
   --surface: #f7f4f1; /* buttons */
   --panel: #fbf0e7; /* the headline answer */
   --text: #1a1a1a;
   --muted: #575757;
   --accent: #b5400a;
   --error: #b00020;
-  --line: #e3ddd7;
+  --line: #e3e5e8;
   --line-strong: #857b72; /* input and button edges, 3:1 or more on the page */
   --link: #0645ad;
   --c1: #e66101; /* chart colours */
@@ -18,26 +19,30 @@
   --fs-body: 1rem;
   --fs-h3: 1.1875rem;
   --fs-h2: 1.25rem;
-  --fs-answer: 1.5rem;
+  --fs-answer: 1.75rem; /* 28px; 24px on a phone, see below */
+  --font-body: Inter, system-ui, sans-serif; /* self-hosted via @fontsource, font-display swap */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
   color-scheme: light dark; /* scrollbars and date pickers follow the theme */
-  font: 16px/1.5 system-ui, sans-serif;
+  font: 16px/1.5 var(--font-body);
   color: var(--text);
   background: var(--bg);
 }
 @media (prefers-color-scheme: dark) {
-  :root { --bg: #161616; --surface: #232323; --panel: #2b1f18; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #383838; --line-strong: #7d7d7d; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; }
+  :root { --bg: #121212; --card: #1c1c1c; --surface: #262626; --panel: #2b1f18; --text: #ececec; --muted: #b0b0b0; --accent: #ff8f52; --error: #ff7a8a; --line: #2c2c2c; --line-strong: #7d7d7d; --link: #8ab4ff; --c1: #f08a3c; --c2: #6ea4f0; }
 }
 body { margin: 0; background: var(--bg); }
 a { color: var(--link); text-underline-offset: 0.15em; }
 ::selection { background: color-mix(in srgb, var(--accent) 28%, transparent); }
+h1, h2, h3 { font-family: var(--font-display); }
 h1, h2, h3, h4 { line-height: 1.25; text-wrap: balance; }
+@media (max-width: 600px) { :root { --fs-answer: 1.5rem; } }
 p, li { text-wrap: pretty; }
 
 /* Header: brand, views and the data stamp on one line (they wrap on a phone). */
 header { display: flex; flex-wrap: wrap; align-items: center; gap: 0 24px; min-height: 56px; padding: 4px var(--space); border-bottom: 1px solid var(--line); }
-header h1 { margin: 0; font-size: 1.375rem; font-weight: 800; letter-spacing: 0.06em; color: var(--accent); }
+header h1 { margin: 0; font-size: 1.375rem; font-weight: 700; letter-spacing: 0.06em; color: inherit; display: inline-flex; align-items: center; gap: 0.5rem; }
 header nav a { display: inline-block; padding: 10px 0; color: inherit; }
-header nav a[aria-current] { font-weight: 700; }
+header nav a[aria-current] { font-weight: 600; }
 .data-stamp { margin: 0 0 0 auto; font-size: var(--fs-meta); color: var(--muted); }
 
 /* The calendar picture keeps its own white background in both themes: its colour ramps and hatches are made for it, and it is also the downloaded image. */
@@ -48,7 +53,12 @@ header nav a[aria-current] { font-weight: 700; }
   .layout > aside { position: sticky; top: 0; align-self: start; max-height: 100dvh; overflow-y: auto; padding-bottom: var(--space); }
 }
 aside h2 { font-size: var(--fs-h2); margin: 0 0 8px; }
-aside section + section { margin-top: 24px; }
+main > h2[tabindex] { margin: 0; } /* the area name sits on the page, above the cards */
+/* Cards: one per block, 16px apart, never nested. */
+aside, main:not(.page) { display: flex; flex-direction: column; gap: var(--space); min-width: 0; }
+aside > section, aside > details, main > section { padding: 20px 24px; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+@media (max-width: 600px) { aside > section, aside > details, main > section { padding: 16px; } }
+main > .headline { background: var(--panel); } /* the tinted answer is the card itself */
 .map { height: 360px; margin: 8px 0; }
 @media (max-width: 600px) { .map { height: 240px; } } /* a shorter map on a phone, so the answer comes sooner */
 .map-legend p { margin: 4px 0; font-size: var(--fs-meta); }
@@ -57,7 +67,7 @@ aside section + section { margin-top: 24px; }
 /* Controls */
 button, select, input:not([type="radio"], [type="checkbox"]) {
   min-height: 44px; box-sizing: border-box; font: inherit; color: var(--text);
-  border: 1px solid var(--line-strong); border-radius: 6px; background: var(--bg);
+  border: 1px solid var(--line-strong); border-radius: 6px; background: var(--card);
 }
 button { padding: 0 14px; background: var(--surface); cursor: pointer; }
 button:hover:not(:disabled) { border-color: var(--text); }
@@ -78,15 +88,12 @@ form label, .date-range label { display: inline-flex; align-items: center; gap: 
 /* Results: the answer leads, sections are spaced well apart, headings sit closer to what they name. */
 main h2 { margin: 0 0 12px; font-size: var(--fs-h2); font-weight: 700; }
 main h2:focus { outline: none; } /* focus is moved here by script only, to show the result */
-main section + section { margin-top: 48px; }
 main h3 { margin: 0 0 12px; font-size: var(--fs-h3); font-weight: 700; }
 main h4 { margin: 0 0 6px; font-size: var(--fs-body); font-weight: 600; }
-.headline { padding: 20px 24px; border-radius: 10px; background: var(--panel); }
-.headline .sentence { margin: 0; font-size: var(--fs-answer); line-height: 1.3; font-weight: 500; max-width: 34ch; }
+.headline .sentence { margin: 0; font-family: var(--font-display); font-size: var(--fs-answer); line-height: 1.2; font-weight: 700; max-width: 34ch; }
 .headline p + p { margin: 10px 0 0; }
 .headline .help { margin-top: 16px; }
-main section.so-far { margin-top: 24px; }
-.so-far .sentence { margin: 0; font-size: 1.125rem; font-weight: 500; }
+.so-far .sentence { margin: 0; font-size: 1.125rem; font-weight: 600; }
 .help, .hint, .note { font-size: var(--fs-meta); color: var(--muted); }
 .help, .note { margin: 8px 0 0; max-width: 68ch; }
 .hint { margin: 4px 0; }
@@ -108,7 +115,7 @@ main section.so-far { margin-top: 24px; }
 .heatmap svg { display: block; width: 100%; min-width: 560px; max-width: 640px; height: auto; margin-top: 8px; } /* 560: labels about 14 px */
 /* Soft fade at the right edge while more calendar is hidden; the text line above the box is the main cue. */
 .hm-fade { position: relative; }
-.hm-fade::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 32px; pointer-events: none; opacity: 0; background: linear-gradient(to right, transparent, var(--bg)); }
+.hm-fade::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 32px; pointer-events: none; opacity: 0; background: linear-gradient(to right, transparent, var(--card)); }
 .hm-fade[data-more="true"]::after { opacity: 1; }
 @media (prefers-reduced-motion: no-preference) { .hm-fade::after { transition: opacity 0.2s; } }
 .heatmap rect:focus { outline: none; } /* the SVG draws its own black frame around the focused cell */
@@ -139,7 +146,7 @@ details summary { padding: 10px 0; cursor: pointer; } /* tall enough to tap; sta
 .page { padding: var(--space); }
 /* Calendar tooltip: placed at the hovered or focused cell by CalendarHeatmap; it never takes the pointer, so hovering does not flicker. */
 .hm-inner { position: relative; min-width: 560px; max-width: 640px; } /* the same size limits as the picture inside it */
-.hm-tip { position: absolute; z-index: 2; box-sizing: border-box; padding: 6px 8px; font-size: 14px; line-height: 1.35; color: var(--text); background: var(--bg); border: 1px solid var(--text); border-radius: 4px; pointer-events: none; }
+.hm-tip { position: absolute; z-index: 2; box-sizing: border-box; padding: 6px 8px; font-size: 14px; line-height: 1.35; color: var(--text); background: var(--card); border: 1px solid var(--text); border-radius: 4px; pointer-events: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
 /* Code blocks and wide tables scroll inside their own box, never the page. */
 .method pre { overflow-x: auto; max-width: 100%; }

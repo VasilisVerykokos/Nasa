@@ -82,6 +82,7 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
   }
 
   return (
+    <>
     <section aria-labelledby="area-heading">
       <h2 id="area-heading">Area</h2>
       <div className="presets">
@@ -91,7 +92,8 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
       </div>
       <div ref={box} className="map" role="region" aria-label="Map. Draw a polygon or rectangle with the tools at the top left, or use the form below." />
       {children}
-      {/* Closed unless the address carries a point, so the answer comes sooner on a phone. */}
+    </section>
+    {/* Its own card. Closed unless the address carries a point, so the answer comes sooner on a phone. */}
       <details className="point" open={!!initial?.point}>
       <summary>Or type a point</summary>
       <form onSubmit={submitPoint} noValidate>
@@ -103,6 +105,6 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
         {error && <p role="alert" className="error">{error}</p>}
       </form>
       </details>
-    </section>
+    </>
   )
 }
