@@ -13,7 +13,7 @@ for (let y = 2001; y <= 2003; y++)
 
 it('shows the "N times" sentence, the two numbers under it, and the years of the normal', () => {
   const html = renderToStaticMarkup(<HeadlineCard rows={rows} label="North Evia 2021" year={2002} month={8} />)
-  expect(html).toContain('North Evia 2021: selected month')
+  expect(html).not.toContain('selected month')
   expect(html).toContain('August 2002 was 1.5 times the normal August here, the highest in 2 years.')
   expect(html).toContain('30 hotspots against a normal of 20.')
   expect(html).toContain('for that calendar month, 2001 to 2002.')
@@ -28,4 +28,11 @@ it('does not repeat the numbers when the normal is below 5', () => {
   const html = renderToStaticMarkup(<HeadlineCard rows={rows} label="Test" year={2002} month={3} />)
   expect(html).toContain('March 2002 had 1 hotspot here, against a normal of 1')
   expect(html.split('against a normal').length - 1).toBe(1)
+})
+
+it('picks the headline month from inside the shown years', () => {
+  // 2002 holds the highest August overall (30); with only 2003 shown the card falls back to the current month, not to 2002.
+  const html = renderToStaticMarkup(<HeadlineCard rows={rows} label="Test" fromYear={2001} toYear={2001} />)
+  expect(html).toContain('August 2001 was 0.5 times the normal August here, the 2nd highest in 2 years.')
+  expect(html).not.toContain('August 2002')
 })

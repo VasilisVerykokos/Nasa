@@ -61,10 +61,19 @@ describe('headline (must-have 4)', () => {
     expect(headline(rows, 2003, 8)).toBe('August 2003 was 1.0 times the normal August here, the 2nd highest in 3 years.')
   })
   it('normal = 0', () => {
-    expect(headline(rows, 2004, 1)).toBe('January 2004 had 7 hotspots here (normal: 0), the highest in 4 years.')
+    expect(headline(rows, 2004, 1)).toBe('January 2004 had 7 hotspots here, where a normal January has none; the highest in 4 years.')
   })
   it('normal below 5', () => {
     expect(headline(rows, 2004, 2)).toBe('February 2004 had 140 hotspots here, against a normal of 4, the highest in 4 years.')
+  })
+})
+
+describe('topMonths inside a date range', () => {
+  it('picks from the shown years only, but keeps the whole record for the rank', () => {
+    expect(topMonths(rows, 1)[0]).toMatchObject({ year: 2002, month: 8 })
+    const inRange = topMonths(rows, 1, 2003, 2004)[0]
+    expect(inRange).toMatchObject({ year: 2003, month: 8 })
+    expect(compare(rows, inRange.year, inRange.month).rank).toBe(2) // still ranked against all years
   })
 })
 
@@ -78,7 +87,7 @@ describe('thisMonthSoFar (must-have 12)', () => {
     const days = rows.map(r => (r.month === 3 ? { ...r, so_far: r.value / 3 } : r)) // normal March for the same days: 6 / 3 = 2
     expect(thisMonthSoFar(days)).toMatchObject({ normal: 2, ratio: null, sentence: 'March 2004 so far has 210 hotspots here, against a normal of 2.' })
     expect(thisMonthSoFar(days, true).sentence).toBe('March 2004 had 210 hotspots here, against a normal of 2.')
-    expect(thisMonthSoFar(rows.map(r => ({ ...r, so_far: 0 }))).sentence).toBe('March 2004 so far has 210 hotspots here (normal: 0).')
+    expect(thisMonthSoFar(rows.map(r => ({ ...r, so_far: 0 }))).sentence).toBe('March 2004 so far has 210 hotspots here, where a normal March has none.')
   })
 })
 

@@ -64,11 +64,11 @@ export function headline(rows: CalendarRow[], year: number, month: number): stri
   const name = MONTHS[month - 1]
   const when = `${name} ${year}${c.soFar ? ' so far' : ''}`
   const body =
-    c.normal === 0 ? `${when} ${c.soFar ? 'has' : 'had'} ${hotspots(c.value)} here (normal: 0)`
+    c.normal === 0 ? `${when} ${c.soFar ? 'has' : 'had'} ${hotspots(c.value)} here, where a normal ${name} has none`
     : c.ratio === null ? `${when} ${c.soFar ? 'has' : 'had'} ${hotspots(c.value)} here, against a normal of ${fmt(c.normal)}`
     : `${when} ${c.soFar ? 'is' : 'was'} ${c.ratio.toFixed(1)} times the normal ${name} here`
   const rank = c.rank === null ? '' : `, the ${c.rank === 1 ? '' : ordinal(c.rank) + ' '}highest in ${c.of} years`
-  return body + rank + '.'
+  return body + (c.normal === 0 ? rank.replace(',', ';') : rank) + '.'
 }
 
 /** Must-have 12: the latest month against the median of the same first days of that month in complete years
@@ -83,15 +83,15 @@ export function thisMonthSoFar(rows: CalendarRow[], finished = false) {
   const when = `${name} ${year}${finished ? '' : ' so far'}`
   const [has, is] = finished ? ['had', 'was'] : ['has', 'is']
   const sentence =
-    normal === 0 ? `${when} ${has} ${hotspots(c.value)} here (normal: 0).`
+    normal === 0 ? `${when} ${has} ${hotspots(c.value)} here, where a normal ${name} has none.`
     : ratio === null ? `${when} ${has} ${hotspots(c.value)} here, against a normal of ${fmt(normal)}.`
     : `${when} ${is} ${ratio.toFixed(1)} times the normal ${name} here.`
   return { ...c, normal, ratio, sentence }
 }
 
-/** Top months among finished months (the current month is never ranked). */
-export const topMonths = (rows: CalendarRow[], n = 5) =>
-  rows.filter(r => !isCurrent(rows, r)).sort((a, b) => b.value - a.value || key(a) - key(b)).slice(0, n)
+/** Top months among finished months (the current month is never ranked). `from`/`to` only limit which years can appear; ranks and normals still use the whole record. */
+export const topMonths = (rows: CalendarRow[], n = 5, from = -Infinity, to = Infinity) =>
+  rows.filter(r => !isCurrent(rows, r) && r.year >= from && r.year <= to).sort((a, b) => b.value - a.value || key(a) - key(b)).slice(0, n)
 
 /** Total per year, all years (partial ones included, for the calendar's total column). */
 export function yearTotals(rows: CalendarRow[]) {

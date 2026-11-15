@@ -10,7 +10,7 @@ For Person A. Sections in the order of the page. `{slot: file}` means the number
 
 1. What HOTSPOT does
 2. How the harmonization works
-3. The five proofs
+3. The proofs
 4. Limits
 5. What it can and cannot answer
 6. Why now
@@ -24,6 +24,8 @@ HOTSPOT puts two satellite fire records on one calendar for Greece, from Novembe
 Pick an area and you see every month as a coloured cell, the normal year beside it, and a plain sentence for any month you press.
 
 Every number can be opened to show how it was made.
+
+**The challenge.** HOTSPOT is our entry to the NASA Space Apps 2026 challenge "Harmonization of MODIS and VIIRS Hot Spots". NASA's older satellite instrument (MODIS) and its newer one (VIIRS) count fires differently, so a plain merge of their records jumps in 2012. The challenge asks for one record that can be compared across all years.
 
 HOTSPOT stands for Harmonized Observations of Thermal Sensors for Pyro-Occurrence Trends.
 
@@ -52,7 +54,7 @@ The unit of the whole record is the **NOAA-20-equivalent hotspot**: what NOAA-20
 
 **Where the estimate matters.** Comparing two months inside the MODIS years (August 2007 against August 2005) barely depends on the factor, because both are scaled by nearly the same number. The uncertainty matters when you compare across the join, for example 2007 against 2021.
 
-## 3. The five proofs
+## 3. The proofs
 
 A method that scales old counts needs evidence that it works. Each proof is a chart made by a script in the project, with a caption that says what to look for.
 

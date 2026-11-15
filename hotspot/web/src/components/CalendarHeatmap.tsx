@@ -1,5 +1,5 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Must-have 3: calendar heatmap (years × months) as a plain React SVG, so ExportBar can save it as an image. Words: web/content/ui-text.md.
-import { type KeyboardEvent, useState } from 'react'
+import { type KeyboardEvent, useRef, useState } from 'react'
 import { MONTH_NAMES, type Range, type View, cellColor, countColor, describeMonth, describeRaw, diffColor, fmtCount, rawOf, sensorOf } from '../lib/heatmap'
 import { type CalendarRow, completeYears, currentMonth, differenceFromNormal, normalFor, yearTotals } from '../lib/stats'
 import CalendarTable from './CalendarTable'
@@ -11,6 +11,7 @@ type Props = { rows: CalendarRow[]; label: string; meta: Record<string, unknown>
 const L = 52, CW = 26, CH = 16, G = 2, TW = 64, TOP = 58, W = L + 12 * CW + TW
 const KEYS: Record<string, [number, number]> = { ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1] }
 const VIEWS: Record<View, string> = { count: 'Hotspots', diff: 'Difference from normal', raw: 'Raw (sensors simply added)' }
+const TIP_W = 240 // tooltip width in pixels
 const clamp = (v: number, hi: number) => Math.max(0, Math.min(v, hi))
 const date = (v: unknown) => {
   const d = typeof v === 'string' ? new Date(v) : null
@@ -24,6 +25,8 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
   const [table, setTable] = useState(false)
   const [pos, setPos] = useState<[number, number]>([0, 0]) // the grid's single tab stop
   const [shown, setShown] = useState(false)
+  const [tip, setTip] = useState({ left: 0, top: 0, below: false }) // tooltip place, in pixels inside .hm-inner
+  const inner = useRef<HTMLDivElement>(null)
 
   const at = new Map(rows.map(r => [r.year * 12 + r.month, r]))
   const diff = new Map(differenceFromNormal(rows).map(d => [d.year * 12 + d.month, d.difference]))
@@ -73,7 +76,16 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
     e.preventDefault()
     document.getElementById(`hm-${clamp(pr + step[0], grid.length - 1)}-${clamp(pc + step[1], 12)}`)?.focus()
   }
-  const show = (r: number, c: number) => { setPos([r, c]); setShown(true) }
+  // Puts the tooltip at the cell, kept inside the visible part of the scroll box (and so inside the viewport) sideways, and below the cell when there is no room above it.
+  const show = (r: number, c: number, cell: Element) => {
+    setPos([r, c]); setShown(true)
+    const box = inner.current?.parentElement, base = inner.current?.getBoundingClientRect()
+    if (!box || !base) return
+    const b = cell.getBoundingClientRect(), w = Math.min(TIP_W, box.clientWidth - 8)
+    const below = b.top - base.top < 120 || b.top < 120 // no room above the cell, in the box or on screen
+    setTip({ left: Math.max(box.scrollLeft + 4, Math.min(b.left - base.left + b.width / 2 - w / 2, box.scrollLeft + box.clientWidth - w - 4)),
+      top: below ? b.bottom - base.top + 6 : b.top - base.top - 6, below })
+  }
 
   return (
     <section className="heatmap" aria-labelledby="heatmap-heading">
@@ -92,6 +104,7 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
       <div hidden={table}>
         <p className="hint hm-phone">Slide the box sideways for all months.</p>
         <div className="hm-scroll">
+        <div className="hm-inner" ref={inner}>
         <svg id="calendar-image" xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 ${W} ${H}`} width={W} height={H}
           fontFamily="system-ui, sans-serif" fontSize={11} onMouseLeave={() => setShown(false)}>
           <defs>
@@ -110,7 +123,7 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
           </defs>
           <rect width={W} height={H} fill="#fff" />
           <text x={0} y={16} fontSize={15} fontWeight="bold">{`${label} · ${VIEWS[view]}`}</text>
-          <text x={0} y={33} fill="#555">{`${{ count: 'Hotspots per month, NOAA-20 equivalent', diff: 'Difference from normal', raw: 'MODIS + S-NPP + NOAA-20 detections per month, not harmonized' }[view]}${through ? `. Data through ${through}.` : '.'}`}</text>
+          <text x={0} y={33} fill="#555">{`${{ count: 'Hotspots per month, NOAA-20 equivalent', diff: 'Difference from normal', raw: 'Detections per month, sensors simply added' }[view]}${through ? `. Data through ${through}.` : '.'}`}</text>
           <g aria-hidden="true" fill="#333">
             {MONTH_NAMES.map((m, i) => <text key={m} x={x(i) + (CW - G) / 2} y={TOP - 5} textAnchor="middle">{m.slice(0, 3)}</text>)}
             <text x={W - 2} y={TOP - 5} textAnchor="end">Year total</text>
@@ -123,7 +136,7 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
                 {row.cells.map((c, col) => (
                   <rect key={col} id={`hm-${r}-${col}`} role="gridcell" aria-label={c.name} tabIndex={r === pr && col === pc ? 0 : -1}
                     x={x(col)} y={y(r)} width={col === 12 ? TW - G : CW - G} height={CH - G}
-                    fill={c.none ? 'url(#hm-none)' : c.fill ?? '#fff'} onFocus={() => show(r, col)} onMouseEnter={() => show(r, col)} />
+                    fill={c.none ? 'url(#hm-none)' : c.fill ?? '#fff'} onFocus={e => show(r, col, e.currentTarget)} onMouseEnter={e => show(r, col, e.currentTarget)} onClick={e => show(r, col, e.currentTarget)} />
                 ))}
               </g>
             ))}
@@ -161,8 +174,12 @@ export default function CalendarHeatmap({ rows, label, meta, fromYear = -Infinit
             <text y={92}>{`Normal = the median of each calendar month, ${complete[0]} to ${complete.at(-1)}.`}</text>
           </g>
         </svg>
+        {shown && <div className="hm-tip" aria-hidden="true" style={{ left: tip.left, top: tip.top, width: Math.min(TIP_W, (inner.current?.parentElement?.clientWidth ?? TIP_W) - 8), transform: tip.below ? undefined : 'translateY(-100%)' }}>{grid[pr].cells[pc].text}</div>}
         </div>
-        <p className="hm-info" aria-live="polite">{shown ? `${grid[pr].cells[pc].text} Press another cell to compare.` : 'Point at a month or tab to the calendar to see its number and how it was worked out.'}</p>
+        </div>
+        <p className="hint hm-info">Point at a month, tap it, or press Tab and use the arrow keys, to see how its number was made.</p>
+        {/* The tooltip is hidden from screen readers; this line says the same text instead. */}
+        <p className="sr-only" aria-live="polite">{shown ? `${grid[pr].cells[pc].text} Press another cell to compare.` : ''}</p>
       </div>
     </section>
   )

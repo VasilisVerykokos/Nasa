@@ -14,7 +14,7 @@ import { Method, type Proofs } from './MethodPage'
 
 const all: Proofs = { factors, finding_augusts, proof1_yearly, proof2_blind_test, proof3_fires, proof4_effis, proof5_join, proof6_coincident, proof7_grid }
 const page = (p: Proofs) => renderToStaticMarkup(<Method proofs={p} env={{}} />)
-const TITLES = ['Proof 1.', 'Proof 2.', 'Proof 3. North Evia', 'Proof 3. Evros', 'Proof 4.', 'Proof 5.', 'Proof 6.', 'Proof 7.']
+const TITLES = ['Proof 1.', 'Proof 2.', 'Proof 3a. North Evia', 'Proof 3b. Evros', 'Proof 4.', 'Proof 5.', 'Proof 6.', 'Proof 7.']
 
 it('draws a chart, a caption and a table for every proof file', () => {
   const html = page(all)
@@ -23,6 +23,9 @@ it('draws a chart, a caption and a table for every proof file', () => {
   expect(html.match(/Show as table/g)).toHaveLength(TITLES.length)
   expect(html).toContain('peak falls inside it') // Evros: the 22 Aug peak lies between the 21 and 23 Aug maps
   expect(html).toContain('Limits</h2>') // the text of method.md is there
+  expect(html).toContain('Limits of proof 6') // attached to its proof
+  expect(html).toContain('3. The proofs</h2>')
+  expect(html).toContain('NASA Space Apps 2026 challenge')
   expect(html).not.toContain('{slot')
   expect(html).toContain('±26.3%') // the range slot, filled from proof2_blind_test.json
 })

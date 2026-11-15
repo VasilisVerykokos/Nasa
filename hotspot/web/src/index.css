@@ -64,3 +64,11 @@ header nav a[aria-current] { font-weight: 700; }
 .legend li { display: inline-flex; align-items: center; gap: 4px; }
 details summary { padding: 10px 0; cursor: pointer; } /* tall enough to tap; stays a list item so it keeps its triangle */
 .page { padding: var(--space); }
+/* Calendar tooltip: placed at the hovered or focused cell by CalendarHeatmap; it never takes the pointer, so hovering does not flicker. */
+.hm-inner { position: relative; min-width: 560px; max-width: 640px; } /* the same size limits as the picture inside it */
+.hm-tip { position: absolute; z-index: 2; box-sizing: border-box; padding: 6px 8px; font-size: 14px; line-height: 1.35; color: var(--text); background: var(--bg); border: 1px solid var(--text); border-radius: 4px; pointer-events: none; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.hint { color: var(--muted); margin: 4px 0; }
+/* Code blocks and wide tables scroll inside their own box, never the page. */
+.method pre { overflow-x: auto; max-width: 100%; }
+.method table { max-width: 100%; }

@@ -155,13 +155,14 @@ function charts(p: Proofs): ChartProps[] {
       series: [{ label: 'Real S-NPP hotspots', values: months.map((r: any) => r.real) },
         { label: 'Predicted from MODIS', values: months.map((r: any) => r.predicted) }] })
   }
-  for (const f of p.proof3_fires?.fires ?? []) {
+  const fires: any[] = p.proof3_fires?.fires ?? []
+  for (const [i, f] of fires.entries()) {
     const maps: any[] = f.maps
     const big = maps.reduce((a, m, i) => (i > 0 && m.ha_added > maps[a].ha_added ? i : a), 1)
     const [from, to] = [maps[big - 1].date, maps[big].date]
     const inside = f.peak_day > from && f.peak_day <= to
     const ha = new Map(maps.map(m => [m.date, m.ha]))
-    out.push({ title: `Proof 3. ${f.name}: hotspots per day against Copernicus burned area`,
+    out.push({ title: `Proof 3${fires.length > 1 ? 'abcdefgh'[i] : ''}. ${f.name}: hotspots per day against Copernicus burned area`,
       caption: `Hotspots peaked on ${day(f.peak_day)} (${n(f.peak_hotspots)}). The biggest growth between two maps, ${day(from)} to ${day(to)} (+${n(maps[big].ha_added)} ha), came with ${n(maps[big].hotspots_since_previous_map)} of the fire's ${n(f.total_hotspots)} hotspots${inside ? ', and the peak falls inside it' : ''}.`,
       x: f.days.map((d: any) => day(d.date)), every: f.days.length > 12 ? 3 : 2,
       series: [{ label: 'Harmonized hotspots per day', values: f.days.map((d: any) => d.hotspots), bar: true },
@@ -265,7 +266,7 @@ function Chart({ title, caption, x, series, every = 1, notes }: ChartProps) {
           </table>
         </div>
       </details>
-      {notes && <details><summary>Limits of this proof</summary><ul>{notes.map(t => <li key={t}>{t}</li>)}</ul></details>}
+      {notes && <details><summary>{`Limits of ${title.split('.')[0].toLowerCase()}`}</summary><ul>{notes.map(t => <li key={t}>{t}</li>)}</ul></details>}
     </figure>
   )
 }

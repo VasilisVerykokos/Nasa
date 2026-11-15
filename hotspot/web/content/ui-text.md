@@ -27,10 +27,12 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 | Hint under the map | Draw one shape. Drawing again replaces the old one. |
 | Map label for screen readers | Map. Draw a polygon or rectangle with the tools at the top left, or type a point below. |
 | Form heading | Or type a point |
-| Fields | Latitude · Longitude · Radius (km) |
-| Placeholders | 38.9 · 23.25 · 20 |
+| Fields | Latitude · Longitude · Radius (km). No placeholders: a grey example looks like a real value. |
+| Hint under the fields | For example latitude 38.9, longitude 23.25, radius 20 km. Draws a circle on the map. |
+| Area name after typing | The numbers as typed, for example "38.0, 23.25, radius 10 km". |
+| Preset button | Also clears the typed point. |
+| After "Use this point" | Focus moves to the result heading, so the result or the "outside" message is seen. |
 | Button | Use this point |
-| Hint under the button | Draws a circle on the map. No mouse needed. |
 | Error, latitude | Latitude must be a number from -90 to 90, for example 38.9. |
 | Error, longitude | Longitude must be a number from -180 to 180, for example 23.25. |
 | Error, radius | Radius must be more than 0 and at most 300 km. |
@@ -62,24 +64,24 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 
 | Where | Text |
 |---|---|
-| Small label above | {North Evia 2021}: selected month |
+| Small label above | None. The area name is already the heading above the card. |
 | Sentence | Made by `headline()` in `web/src/lib/stats`. Its three forms are below. |
 | Line under the sentence | {3,252} hotspots against a normal of {208}. Shown only after the "N times" form: the other two forms already give both numbers. |
-| Which month | Until a month can be clicked on the calendar, the card shows the area's highest month. |
+| Which month | Until a month can be clicked on the calendar, the card shows the area's highest month among the years in the date range (the whole record if no range is set). "Normal" and the rank still use the whole record. |
 | Help line | A hotspot is a spot a satellite saw as hot, usually a fire. Normal is the middle value (median) for that calendar month, 2001 to 2025. |
 
 The three forms the code makes, all correct as written:
 
 - "{August 2021} was {15.6} times the normal {August} here, the highest in {26} years."
 - Normal below 5: "{March 2005} had {8} hotspots here, against a normal of {2}." (never "4 times")
-- Normal 0: "{January 2010} had {3} hotspots here (normal: 0)."
+- Normal 0: "{January 2010} had {3} hotspots here, where a normal {January} has none; the highest in {26} years."
 
 ## This month so far (must-have 12)
 
 | Where | Text |
 |---|---|
 | Badge | So far |
-| Sentence | Made by `thisMonthSoFar()`, for example "November 2026 so far has 2 hotspots here, against a normal of 1." |
+| Sentence | Made by `thisMonthSoFar()`, for example "November 2026 so far has 2 hotspots here, against a normal of 1." (Normal 0: "... has 2 hotspots here, where a normal November has none.") |
 | Help line | Normal here is the median of the same first {12} days of the month, 2001 to 2025. The month is not finished, so its count can still rise, and it is not ranked. (The second sentence is left out when the "API failed" line shows.) |
 | API failed | The newest days could not be loaded. Showing {October 2026}, the latest complete month. |
 
@@ -92,6 +94,7 @@ The three forms the code makes, all correct as written:
 | Switch label | Show |
 | Options | Hotspots · Difference from normal |
 | Raw switch (should-have 1) | Raw counts, sensors simply added |
+| Raw view subtitle in the picture | Detections per month, sensors simply added. Data through {14 Nov 2026}. (Shortened so it fits the picture.) |
 | Raw switch hint | No scaling. Watch the jump in 2012, when VIIRS starts: the fires did not change, the instrument did. |
 | Calendar heading | Calendar, {2001} to {2026} |
 | Table button | Show as table / Show as calendar |
@@ -113,7 +116,8 @@ The three forms the code makes, all correct as written:
 | MODIS month (before Feb 2012) | {August 2007}: about {13,138} hotspots, an estimate (range {9,722} to {16,554}). Measured by MODIS: {3,052} detections, converted to VIIRS units. |
 | Provisional month | Add: Provisional: near-real-time data until NASA releases the final data. |
 | Difference view | {August 2021}: {+3,044} against the normal {August} of {208}. |
-| Last line | Press another cell to compare. |
+| Where it shows | A small box at the hovered, focused (arrow keys) or tapped cell, inside the calendar and the screen. Screen readers get the same text from a hidden line, plus "Press another cell to compare." |
+| Hint under the calendar | Point at a month, tap it, or press Tab and use the arrow keys, to see how its number was made. |
 
 The range is the blind-test error, now ±26% (decision log, Sat 17:52). Read it from `meta`; do not write it into the code.
 

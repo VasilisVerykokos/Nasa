@@ -3,18 +3,17 @@ import { type CalendarRow, compare, completeYears, currentMonth, headline, topMo
 
 const fmt = (v: number) => Math.round(v).toLocaleString('en-US')
 
-type Props = { rows: CalendarRow[]; label: string; year?: number; month?: number }
+type Props = { rows: CalendarRow[]; label: string; year?: number; month?: number; fromYear?: number; toYear?: number }
 
-export default function HeadlineCard({ rows, label, ...picked }: Props) {
-  // Until a month can be clicked on the calendar (should-have 3), the card shows the area's highest month.
-  const top = topMonths(rows, 1)[0] ?? currentMonth(rows)
+export default function HeadlineCard({ rows, fromYear, toYear, ...picked }: Props) {
+  // Until a month can be clicked on the calendar (should-have 3), the card shows the area's highest month among the shown years (the whole record if no range is set).
+  const top = topMonths(rows, 1, fromYear, toYear)[0] ?? currentMonth(rows)
   const year = picked.year ?? top.year
   const month = picked.month ?? top.month
   const c = compare(rows, year, month)
   const years = completeYears(rows)
   return (
     <section className="headline" aria-label="Selected month">
-      <p className="label">{`${label}: selected month`}</p>
       <p className="sentence">{headline(rows, year, month)}</p>
       {/* The two short forms of the sentence already give both numbers, so this line only follows the "N times" form. */}
       {c.ratio !== null && (

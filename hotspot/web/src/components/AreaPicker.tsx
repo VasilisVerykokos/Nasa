@@ -6,22 +6,23 @@ import 'leaflet/dist/leaflet.css'
 import '@geoman-io/leaflet-geoman-free/dist/leaflet-geoman.css'
 import { PRESETS, circle, type Polygon } from '../lib/geo'
 
-export type Selection = { area: Polygon; label: string }
+export type Selection = { area: Polygon; label: string; focus?: boolean } // focus: the typed-point form was submitted, so App moves focus to the result heading
+const EMPTY = { lat: '', lon: '', radius: '10' }
 
 /** onChange must be stable (a state setter), because the map is built once. */
 export default function AreaPicker({ onChange }: { onChange: (s: Selection) => void }) {
   const box = useRef<HTMLDivElement>(null)
   const map = useRef<L.Map | null>(null)
   const shape = useRef<L.Layer | null>(null)
-  const [point, setPoint] = useState({ lat: '', lon: '', radius: '10' })
+  const [point, setPoint] = useState(EMPTY)
   const [error, setError] = useState('')
 
   // One shape at a time: a new one replaces the old one.
-  const show = (area: Polygon, label: string, layer: L.Layer = L.geoJSON(area)) => {
+  const show = (area: Polygon, label: string, layer: L.Layer = L.geoJSON(area), focus = false) => {
     shape.current?.remove()
     shape.current = layer.addTo(map.current!)
     map.current!.fitBounds((layer as L.GeoJSON).getBounds(), { maxZoom: 11 })
-    onChange({ area, label })
+    onChange({ area, label, focus })
   }
 
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function AreaPicker({ onChange }: { onChange: (s: Selection) => v
     if (point.lon === '' || !(lon >= -180 && lon <= 180)) return setError('Longitude must be a number from -180 to 180.')
     if (!(radius > 0 && radius <= 300)) return setError('Radius must be more than 0 and at most 300 km.')
     setError('')
-    show(circle(lat, lon, radius), `${lat}, ${lon}, radius ${radius} km`)
+    show(circle(lat, lon, radius), `${point.lat.trim()}, ${point.lon.trim()}, radius ${point.radius.trim()} km`, undefined, true) // typed text, so "38.0" stays "38.0"
   }
 
   return (
@@ -55,15 +56,16 @@ export default function AreaPicker({ onChange }: { onChange: (s: Selection) => v
       <h2 id="area-heading">Area</h2>
       <div className="presets">
         {PRESETS.map(p => (
-          <button key={p.name} type="button" onClick={() => show(p.area, p.name)}>{p.name}</button>
+          <button key={p.name} type="button" onClick={() => { show(p.area, p.name); setPoint(EMPTY); setError('') }}>{p.name}</button>
         ))}
       </div>
       <div ref={box} className="map" role="region" aria-label="Map. Draw a polygon or rectangle with the tools at the top left, or use the form below." />
       <form onSubmit={submitPoint} noValidate>
         <h3>Or type a point</h3>
-        <label>Latitude <input inputMode="decimal" value={point.lat} onChange={e => setPoint({ ...point, lat: e.target.value })} placeholder="38.9" /></label>
-        <label>Longitude <input inputMode="decimal" value={point.lon} onChange={e => setPoint({ ...point, lon: e.target.value })} placeholder="23.25" /></label>
-        <label>Radius (km) <input inputMode="decimal" value={point.radius} onChange={e => setPoint({ ...point, radius: e.target.value })} /></label>
+        <label>Latitude <input inputMode="decimal" value={point.lat} onChange={e => setPoint({ ...point, lat: e.target.value })} aria-describedby="point-hint" /></label>
+        <label>Longitude <input inputMode="decimal" value={point.lon} onChange={e => setPoint({ ...point, lon: e.target.value })} aria-describedby="point-hint" /></label>
+        <label>Radius (km) <input aria-describedby="point-hint" inputMode="decimal" value={point.radius} onChange={e => setPoint({ ...point, radius: e.target.value })} /></label>
+        <p className="hint" id="point-hint">For example latitude 38.9, longitude 23.25, radius 20 km. Draws a circle on the map.</p>
         <button type="submit">Use this point</button>
         {error && <p role="alert" className="error">{error}</p>}
       </form>

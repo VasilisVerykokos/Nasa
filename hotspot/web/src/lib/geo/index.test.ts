@@ -23,6 +23,10 @@ describe('outsideGreece', () => {
     expect(outsideGreece(circle(41.9, 12.5, 20))).toBe(true)
     expect(outsideGreece(circle(30.04, 31.24, 20))).toBe(true)
   })
+  it('accepts open sea just south of Crete and the far east Aegean', () => {
+    expect(outsideGreece(circle(34.5, 25, 5))).toBe(false)
+    expect(outsideGreece(circle(36, 29.5, 5))).toBe(false)
+  })
   it('accepts a shape that only overlaps the edge', () => {
     expect(outsideGreece(circle(40, 19.5, 20))).toBe(false)
   })

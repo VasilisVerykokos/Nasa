@@ -1,5 +1,5 @@
 // AI note: written with Claude Code (Claude Opus 5.5), reviewed by the team. Page skeleton: map column on the left, results on the right (WIREFRAME.md).
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { fetchCalendar } from './api/calendar'
 import { fetchMeta } from './api/meta'
 import AreaPicker, { type Selection } from './components/AreaPicker'
@@ -38,6 +38,9 @@ export default function App() {
   useEffect(() => {
     fetchMeta().then(values => setMeta({ values, at: Date.now() })).catch(() => setMeta({ values: {}, at: Date.now() }))
   }, [])
+  const heading = useRef<HTMLHeadingElement>(null)
+  // After the point form is submitted, move to the result heading so the result (or the "outside" message) is seen.
+  useEffect(() => { if (selection?.focus) heading.current?.focus() }, [selection])
   const outside = selection !== null && outsideGreece(selection.area)
   const result = answer?.for === selection ? answer : 'loading' // an answer for an older area counts as still loading
 
@@ -64,7 +67,7 @@ export default function App() {
       {method ? <main className="page"><MethodPage /></main> :<div className="layout">
         <aside aria-label="Area and dates"><AreaPicker onChange={setSelection} /><DateRange through={meta ? recordEnd(meta.values) : null} onChange={setRange} /></aside>
         <main aria-live="polite">
-          {selection && <h2>{selection.label}</h2>}
+          {selection && <h2 ref={heading} tabIndex={-1}>{selection.label}</h2>}
           {outside ? <OutsideGreece />
             : result === 'loading' ? <p>Loading the calendar…</p>
             : 'error' in result ? (result.unreachable
@@ -73,7 +76,7 @@ export default function App() {
             : result.rows.length === 0 ? <p>The database has no hotspots yet.</p>
             : result.rows.every(r => r.value === 0) ? <NoHotspots />
             : <>
-                <HeadlineCard rows={result.rows} label={selection?.label ?? ''} />
+                <HeadlineCard rows={result.rows} label={selection?.label ?? ''} {...(range ? yearsOf(range) : {})} />
                 <ThisMonthCard rows={result.rows} meta={meta?.values ?? {}} />
                 <CalendarHeatmap rows={result.rows} label={selection?.label ?? ''} meta={meta?.values ?? {}} {...(range ? yearsOf(range) : {})} />
                 <Rankings rows={result.rows} />
