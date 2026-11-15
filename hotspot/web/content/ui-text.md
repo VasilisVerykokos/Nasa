@@ -121,7 +121,7 @@ The three forms the code makes, all correct as written:
 | Normal row | Normal |
 | Partial year mark | {2026}* |
 | Note under the calendar | * {2026} is a partial year, left out of yearly rankings. Normal = the median of each calendar month, 2001 to 2025. |
-| Scroll cue (above the calendar) | Scroll sideways for September to December and the year totals. Shown only while the calendar box is narrower than the calendar (a phone). A soft fade on the box's right edge also shows while more is hidden and goes away at the end; the text is the main cue, the fade is extra. (The year column does not stay in place: the calendar is one picture, so it can be saved as an image. Pinning it would need a second picture.) |
+| Scroll cue (above the calendar) | Scroll sideways for September to December and the year totals. Shown only while the calendar box is narrower than the calendar (a phone). No fade or shadow on the box's right edge (removed 15 Nov, in both themes); the text is the only cue. (The year column does not stay in place: the calendar is one picture, so it can be saved as an image. Pinning it would need a second picture.) |
 | Legend, counts | Hotspots per month (square-root scale) |
 | Legend, difference | Below normal · Normal · Above normal |
 | Legend, patterns | Estimated before 2012 · No data · Provisional · This month so far |

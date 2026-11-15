@@ -127,11 +127,6 @@ main h4 { margin: 0 0 6px; font-size: var(--fs-body); font-weight: 600; }
 .calendar caption { text-align: left; color: var(--muted); font-size: var(--fs-meta); }
 .hm-scroll { overflow-x: auto; } /* on a phone the calendar slides inside this box; the page itself never scrolls sideways */
 .heatmap svg { display: block; width: 100%; min-width: 560px; max-width: 640px; height: auto; margin-top: 8px; } /* 560: labels about 14 px */
-/* Soft fade at the right edge while more calendar is hidden; the text line above the box is the main cue. */
-.hm-fade { position: relative; }
-.hm-fade::after { content: ''; position: absolute; top: 0; right: 0; bottom: 0; width: 32px; pointer-events: none; opacity: 0; background: linear-gradient(to right, transparent, var(--card)); }
-.hm-fade[data-more="true"]::after { opacity: 1; }
-@media (prefers-reduced-motion: no-preference) { .hm-fade::after { transition: opacity 0.2s; } }
 .heatmap rect:focus { outline: none; } /* the SVG draws its own black frame around the focused cell */
 .switch { border: 0; padding: 0; margin: 0 0 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 0 20px; }
 .switch legend { float: left; margin-right: 4px; font-weight: 600; }

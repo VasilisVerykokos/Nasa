@@ -52,7 +52,8 @@ export default function AreaPicker({ onChange, initial, points, outlines, childr
       if (a) { a.title = name; a.setAttribute('aria-label', name) }
     }
     m.on('pm:create', e => show({ area: (e.layer as L.Polygon).toGeoJSON().geometry as Place['area'], label: 'Drawn area' }, e.layer))
-    show(initial ?? { area: PRESETS[0].area, label: PRESETS[0].name, preset: PRESETS[0].id })
+    const first = PRESETS.find(p => p.id === 'greece') ?? PRESETS[0] // the page opens on All Greece
+    show(initial ?? { area: first.area, label: first.name, preset: first.id })
     return () => { m.remove(); map.current = null; shape.current = null }
   }, []) // build the map once
 
