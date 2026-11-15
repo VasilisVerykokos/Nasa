@@ -55,16 +55,16 @@ describe('compare', () => {
 
 describe('headline (must-have 4)', () => {
   it('N times normal, highest', () => {
-    expect(headline(rows, 2002, 8)).toBe('August 2002 was 3.0 times the normal August here, the highest in 3 years.')
+    expect(headline(rows, 2002, 8)).toBe('August 2002 was 3.0 times the normal August here, the highest August in 3 years.')
   })
   it('N times normal, 2nd highest', () => {
-    expect(headline(rows, 2003, 8)).toBe('August 2003 was 1.0 times the normal August here, the 2nd highest in 3 years.')
+    expect(headline(rows, 2003, 8)).toBe('August 2003 was 1.0 times the normal August here, the 2nd highest August in 3 years.')
   })
   it('normal = 0', () => {
-    expect(headline(rows, 2004, 1)).toBe('January 2004 had 7 hotspots here, where a normal January has none; the highest in 4 years.')
+    expect(headline(rows, 2004, 1)).toBe('January 2004 had 7 hotspots here, where a normal January has none; the highest January in 4 years.')
   })
   it('normal below 5', () => {
-    expect(headline(rows, 2004, 2)).toBe('February 2004 had 140 hotspots here, against a normal of 4, the highest in 4 years.')
+    expect(headline(rows, 2004, 2)).toBe('February 2004 had 140 hotspots here, against a normal of 4, the highest February in 4 years.')
   })
 })
 

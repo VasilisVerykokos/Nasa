@@ -72,9 +72,9 @@ Rules for all text: plain English, short sentences, no jargon. "Hotspot" is expl
 
 The three forms the code makes, all correct as written:
 
-- "{August 2021} was {15.6} times the normal {August} here, the highest in {26} years."
+- "{August 2021} was {15.6} times the normal {August} here, the highest {August} in {26} years."
 - Normal below 5: "{March 2005} had {8} hotspots here, against a normal of {2}." (never "4 times")
-- Normal 0: "{January 2010} had {3} hotspots here, where a normal {January} has none; the highest in {26} years."
+- Normal 0: "{January 2010} had {3} hotspots here, where a normal {January} has none; the highest {January} in {26} years."
 
 ## This month so far (must-have 12)
 
@@ -160,3 +160,28 @@ Accessible name of each cell, so a screen reader needs no tooltip: "{August 2021
 | Shape too complex | Comes from the database and is already written for people ("The area has 812 corner points; the limit is 500..."). Show it as it is. |
 
 **CODE:** `App.tsx` shows "Could not load the calendar: {error}". The plan (section 9.5) says never a raw error: use the "Database unreachable" message for network failures and keep the database's own message only for the shape limits.
+
+## Trend (should-have 2, `YearTrend.tsx`, not mounted yet)
+
+| Where | Text |
+|---|---|
+| Heading | Hotspots per year |
+| Sentence, no trend | No clear trend in yearly fire activity here from {2001} to {2025}. |
+| Sentence, trend | Yearly fire activity here {rose / fell} by about {N} hotspots per year from {2001} to {2025} (Mann-Kendall test with Sen's slope, 5% level). Years before 2012 are estimates. |
+| Note under the chart | Hatched bars (before 2012) are estimates converted from MODIS; the line on each shows the range from the blind test ({-26% to +26%}). Point at a bar to see its number. |
+| Bar on hover | {2011}: about {N} hotspots, an estimate (range {low} to {high}) |
+| Button | Show as table · Show as chart |
+
+Live (15 Nov, 02:15): All Greece and North Evia both get "No clear trend ... from 2001 to 2025."
+
+## Seasonal chart (should-have 4, `SeasonChart.tsx`, not mounted yet)
+
+| Where | Text |
+|---|---|
+| Heading | Normal year against {2021} |
+| Year list label | Year (complete years only; the default is the one with the most hotspots) |
+| Legend | {2021} (orange, solid) · Normal (median {2001} to {2025}) (blue, dashed) |
+| Hint | Point at a month, tap it, or press Tab, to see its numbers. |
+| On hover or focus | {August}: {2021} {N} hotspots, normal {N} |
+| Table caption | Hotspots per month in {2021} and in a normal year (median of {2001} to {2025}). |
+| Button | Show as table · Show as chart |

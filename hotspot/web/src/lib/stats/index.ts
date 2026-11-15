@@ -58,7 +58,7 @@ const fmt = (v: number) => v.toLocaleString('en-US', { maximumFractionDigits: v 
 const ordinal = (n: number) => n + (n % 100 >= 11 && n % 100 <= 13 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] ?? 'th')
 const hotspots = (v: number) => `${fmt(v)} hotspot${v === 1 ? '' : 's'}`
 
-/** Must-have 4: "August 2021 was N times the normal August here, the highest in 26 years." */
+/** Must-have 4: "August 2021 was N times the normal August here, the highest August in 26 years." */
 export function headline(rows: CalendarRow[], year: number, month: number): string {
   const c = compare(rows, year, month)
   const name = MONTHS[month - 1]
@@ -67,7 +67,7 @@ export function headline(rows: CalendarRow[], year: number, month: number): stri
     c.normal === 0 ? `${when} ${c.soFar ? 'has' : 'had'} ${hotspots(c.value)} here, where a normal ${name} has none`
     : c.ratio === null ? `${when} ${c.soFar ? 'has' : 'had'} ${hotspots(c.value)} here, against a normal of ${fmt(c.normal)}`
     : `${when} ${c.soFar ? 'is' : 'was'} ${c.ratio.toFixed(1)} times the normal ${name} here`
-  const rank = c.rank === null ? '' : `, the ${c.rank === 1 ? '' : ordinal(c.rank) + ' '}highest in ${c.of} years`
+  const rank = c.rank === null ? '' : `, the ${c.rank === 1 ? '' : ordinal(c.rank) + ' '}highest ${name} in ${c.of} years`
   return body + (c.normal === 0 ? rank.replace(',', ';') : rank) + '.'
 }
 
