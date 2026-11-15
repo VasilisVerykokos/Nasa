@@ -2,7 +2,7 @@
 
 # HOTSPOT: testing checklist and feedback log
 
-**Live site:** https://vasilisverykokos.github.io/Nasa/
+**Live site:** https://hotspots.gr/
 **When:** Saturday 21:00 (first round), Sunday morning (second round), Sunday 12:00 to 13:00 (final check before submitting).
 **Who:** Person B tests and writes everything down. Person A fixes. Stuck for 30 minutes means ask.
 

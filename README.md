@@ -4,8 +4,8 @@
 
 **HOTSPOT joins NASA's two satellite fire records, MODIS (from November 2000) and VIIRS (from 2012), into one consistent record for Greece, on a single scale. Pick any area and a date range and see how much it burned, month by month, against its normal year.**
 
-- Live: **https://vasilisverykokos.github.io/Nasa/**
-- How it works and the proofs: **https://vasilisverykokos.github.io/Nasa/#method**
+- Live: **https://hotspots.gr/**
+- How it works and the proofs: **https://hotspots.gr/#method**
 
 Entry for the NASA Space Apps Challenge 2026, challenge *Harmonization of MODIS and VIIRS Hot Spots*. HOTSPOT stands for *Harmonized Observations of Thermal Sensors for Pyro-Occurrence Trends*.
 

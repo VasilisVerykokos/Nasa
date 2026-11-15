@@ -17,7 +17,7 @@ HOW TO USE THIS DRAFT
 
 **NASA has watched fires from space since 2000 with two different instruments, MODIS and VIIRS. VIIRS sees far more fire than MODIS, so a simple fire record jumps in 2012, when VIIRS starts, even where nothing changed on the ground. HOTSPOT removes that jump. It gives every vegetation-fire detection over Greece a measured weight, so 26 years read on one scale. Pick any area, by drawing it or typing a point, and see a calendar of fire activity, month by month since November 2000, compared with the normal for each month. Every number traces back to NASA's detections, and we tested the method on years it never saw.**
 
-- **Live app:** https://vasilisverykokos.github.io/Nasa/
+- **Live app:** https://hotspots.gr/
 - **Code (Apache-2.0):** https://github.com/VasilisVerykokos/Nasa
 - **30-second video:** [FILL: public link]
 
